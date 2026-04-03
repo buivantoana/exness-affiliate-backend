@@ -1,0 +1,1121 @@
+TÀI LIỆU YÊU CẦU KỸ THUẬT
+Hệ Thống Affiliate Landing Page — Exness
+Technical Requirements Document (TRD)
+Phiên bản
+1.0
+Ngày tạo
+01/04/2025
+Loại dự án
+Web Application — Affiliate Marketing System
+Thời gian dự kiến
+~9.5 ngày làm việc
+1. TỔNG QUAN DỰ ÁN
+Xây dựng hệ thống web cho affiliate Exness, hoạt động trên nhiều domain, hỗ trợ nhiều campaign quảng cáo, có admin panel để cấu hình link và ngôn ngữ.
+Tech Stack Yêu Cầu
+Thành phần
+Công nghệ
+Ghi chú
+Backend
+Node.js + Express hoặc Fastify
+REST API, redirect logic
+Frontend
+React 18 + Vite (build SPA)
+Không dùng Next.js
+Database
+SQLite hoặc JSON file
+Không cần PostgreSQL/MySQL
+Deploy
+VPS Linux + PM2 + Nginx
+Reverse proxy multi-domain
+Auth
+JWT (HS256)
+Chỉ cho admin panel
+KHÔNG cần: Login user, payment system, email system, database phức tạp.
+Kiến Trúc Tổng Thể
+Một VPS duy nhất, nhiều domain trỏ về cùng IP, Nginx làm reverse proxy, server Node.js tự phân biệt domain qua Host header:
+domain1.com ──┐
+domain2.com ──┼──► Nginx :80 ──► Node.js :3000
+domain3.com ──┘
+Node.js xử lý:
+  /          → Static files (React build)
+  /api/*     → Business logic
+  /go/*      → Affiliate redirects
+  /*         → index.html (SPA fallback)
+2. CẤU TRÚC THƯ MỤC
+project/
+├── server/
+│   ├── index.js              ← Entry point
+│   ├── routes/
+│   │   ├── api.js            ← /api/* routes (public)
+│   │   ├── admin.js          ← /api/admin/* routes
+│   │   └── redirect.js       ← /go/* routes
+│   ├── middleware/
+│   │   └── auth.js           ← JWT verify middleware
+│   └── db/
+│       ├── index.js          ← DB read/write wrapper
+│       └── data.json         ← Storage (tự tạo)
+├── client/                   ← React app (Vite)
+│   ├── src/
+│   │   ├── pages/
+│   │   │   ├── LandingPage.jsx
+│   │   │   ├── ReviewPage.jsx
+│   │   │   ├── BotCheckPage.jsx
+│   │   │   └── AdminPage.jsx
+│   │   ├── components/
+│   │   └── hooks/
+│   │       ├── useLinks.js
+│   │       └── useLanguage.js
+│   └── public/
+├── nginx.conf
+└── ecosystem.config.js       ← PM2 config
+3. DATABASE SCHEMA
+Dùng JSON file hoặc SQLite. Cấu trúc data như sau:
+Domain Config Object
+Field
+Type
+Mô tả
+defaultLanguage
+string
+en | vi | ar | ja | th | zh | id
+botCheckRedirectUrl
+string
+URL redirect sau khi pass bot check
+registerLink
+string
+Affiliate link chính
+signInLink
+string
+Link nút Sign In (fallback: registerLink)
+tryDemoLink
+string
+Link nút Try Demo (fallback: registerLink)
+liveChatLink
+string
+Link nút Live Chat
+tradingLink
+string
+Link menu Trading
+marketsLink
+string
+Link menu Markets
+platformsLink
+string
+Link menu Platforms
+toolsLink
+string
+Link menu Tools
+companyLink
+string
+Link menu Company
+partnersLink
+string
+Link menu Partners
+metatrader5Link
+string
+Link MetaTrader 5
+exnessTerminalLink
+string
+Link Exness Terminal
+exnessTradeAppLink
+string
+Link Exness Trade App
+clientProtectionLink
+string
+Link Client Protection
+whyExnessLink
+string
+Link Why Exness
+appDownloadLink
+string
+Link tải app (App Store/Google Play)
+subPaths
+string[]
+VD: ["abc", "xyz"] — paths hiển thị landing page
+subPathConfigs
+object
+Config riêng cho từng subpath
+createdAt
+string
+ISO timestamp
+updatedAt
+string
+ISO timestamp
+Sub-Path Config (subPathConfigs["abc"])
+Field
+Mô tả
+defaultLanguage
+Ngôn ngữ riêng cho subpath này
+registerLink
+Affiliate link riêng (override domain link)
+appDownloadLink
+App download link riêng
+Analytics Object
+Lưu trong data.json, cấu trúc: clicks[domain][key][date] = count
+"clicks": {
+  "domain1.com": {
+    "/go/register":        { "2025-04-01": 42, "total": 127 },
+    "abc/go/register":     { "2025-04-01": 18, "total": 55 },
+    "abc/go/demo":         { "2025-04-01": 7,  "total": 21 }
+  }
+}
+4. API ENDPOINTS
+4.1 Public APIs (không cần auth)
+  GET /api/links  
+Trả về tất cả affiliate URLs cho domain + subpath hiện tại.
+Query param: ?subpath=abc (optional)
+Logic xử lý:
+Đọc Host header → xác định domain
+Lấy config của domain từ DB
+Nếu có ?subpath=abc → merge subPathConfig lên trên domain config
+Các link nào trống → fallback về registerLink
+Response:
+{ registerLink, signInLink, tryDemoLink, liveChatLink, tradingLink,
+  marketsLink, platformsLink, toolsLink, companyLink, partnersLink,
+  metatrader5Link, exnessTerminalLink, exnessTradeAppLink,
+  clientProtectionLink, whyExnessLink, appDownloadLink,
+  botCheckRedirectUrl, defaultLanguage, domain, subpath }
+  GET /api/sub-paths  
+Trả về danh sách sub-paths được phép hiển thị landing page.
+Response: { "subPaths": ["abc", "xyz", "vn"] }
+  GET /api/default-language  
+Query param: ?subpath=abc (optional)
+Response: { "defaultLanguage": "vi" }
+4.2 Redirect Endpoints (/go/*)
+  GET /go/:type  
+Các type hợp lệ:
+Type
+Nút tương ứng
+Config field
+register
+Nút Register
+registerLink
+signin
+Nút Sign In
+signInLink
+demo
+Nút Try Demo
+tryDemoLink
+livechat
+Nút Live Chat
+liveChatLink
+trading
+Menu Trading
+tradingLink
+markets
+Menu Markets
+marketsLink
+platforms
+Menu Platforms
+platformsLink
+tools
+Menu Tools
+toolsLink
+company
+Menu Company
+companyLink
+partners
+Menu Partners
+partnersLink
+metatrader5
+Link MetaTrader 5
+metatrader5Link
+exness-terminal
+Link Exness Terminal
+exnessTerminalLink
+exness-trade-app
+Link Trade App
+exnessTradeAppLink
+client-protection
+Link Client Protection
+clientProtectionLink
+why-exness
+Link Why Exness
+whyExnessLink
+app-download
+Nút Install App
+appDownloadLink
+Logic xử lý:
+Đọc domain từ Host header
+Map type → link tương ứng trong config
+Merge subpath config nếu có ?subpath=abc
+Ghi analytics: tăng counter domain/subpath+route/date
+302 Redirect đến link thật
+4.3 Admin APIs (yêu cầu Bearer JWT)
+Method
+Endpoint
+Mô tả
+POST
+/api/admin/login
+Đăng nhập, trả về JWT token
+POST
+/api/admin/logout
+Đăng xuất
+GET
+/api/admin/status
+Kiểm tra token còn hợp lệ không
+GET
+/api/admin/current-domain
+Config đầy đủ của domain hiện tại
+GET
+/api/admin/domains
+Tóm tắt tất cả domains đã config
+PUT
+/api/admin/domains/:domain
+Cập nhật toàn bộ config cho domain
+GET
+/api/admin/sub-pages
+List sub-page configs của domain
+POST
+/api/admin/sub-pages
+Tạo config sub-page mới
+PUT
+/api/admin/sub-pages/:path
+Cập nhật config sub-page
+DELETE
+/api/admin/sub-pages/:path
+Xoá sub-page
+GET
+/api/admin/analytics
+Thống kê click theo route
+Chi tiết POST /api/admin/login:
+Body:     { "username": "admin", "password": "..." }
+Success:  { "success": true, "token": "eyJ..." }
+Fail:     { "success": false, "error": "Invalid credentials" }
+Token TTL: 24 giờ
+Chi tiết PUT /api/admin/domains/:domain:
+Body: toàn bộ object config (xem schema section 3)
+Response: { "success": true, "domain": "...", "config": {...} }
+Chi tiết GET /api/admin/analytics:
+Response: {
+  "domain": "domain1.com",
+  "clicks": {
+    "/go/register":    { "2025-04-01": 42, "total": 127 },
+    "abc/go/register": { "2025-04-01": 18, "total": 55 }
+  }
+}
+5. FRONTEND — REACT APP
+5.1 Kiến Trúc Cốt Lõi — ReviewPage + LandingPage
+Đây là logic trung tâm của toàn bộ hệ thống, quyết định tại sao Google Ads hoạt động được. ReviewPage và LandingPage KHÔNG phải 2 lựa chọn thay thế nhau — chúng luôn tồn tại song song trên CÙNG 1 domain, phục vụ 2 mục đích khác nhau.
+Yêu cầu kỹ thuật của Google Ads: Final URL và Display URL phải cùng domain. Vì vậy không thể dùng 2 domain khác nhau cho review page và landing page. Giải pháp: dùng subpath — domain.com/ là review, domain.com/abc là landing.
+Route
+Component
+Ai thấy
+Mục đích
+domain.com/
+ReviewPage
+Google bot + user — tất cả
+Bridge page: tạo trust, trông như site review độc lập. Google crawl thấy nội dung sạch, uy tín
+domain.com/abc
+LandingPage
+User thật click từ Google Ad
+High-converting page: hero video, CTA nổi bật, urgency. Config riêng cho từng campaign
+domain.com/xyz
+LandingPage
+User thật click từ Google Ad
+Campaign khác — link affiliate khác, ngôn ngữ khác, có thể layout khác
+domain.com/verify
+BotCheckPage
+Ai cũng thấy
+Filter bot — chỉ người thật mới pass qua
+5.2 Luồng Google Ads Thực Tế
+Đây là cách toàn bộ hệ thống vận hành trong thực tế khi chạy Google Ads:
+SETUP TRONG GOOGLE ADS:
+  Final URL:    domain.com/abc          ← trang user thật vào
+  Display URL:  domain.com/ExnessReview  ← hiển thị trong ad
+LUỒNG GOOGLE BOT (crawl để chấm Quality Score):
+  Google crawl domain.com/              ← ReviewPage
+  → thấy nội dung editorial sạch, uy tín
+  → Quality Score cao → CPC thấp
+LUỒNG USER THẬT (click ad):
+  User click Google Ad
+  → vào domain.com/abc                  ← LandingPage
+  → thấy hero video, CTA nổi bật
+  → click "Open Account"
+  → /go/register?subpath=abc
+  → 302 redirect → affiliate link thật
+NHIỀU CAMPAIGN TRÊN 1 DOMAIN:
+  Campaign Gold   → domain.com/gold     → link gold affiliate
+  Campaign Forex  → domain.com/forex    → link forex affiliate
+  Campaign VN     → domain.com/vn       → tiếng Việt, link VN
+5.3 Routes
+Path
+Component
+Mô tả
+/
+ReviewPage
+LUÔN là ReviewPage — không đổi. Google crawl thấy trang này
+/verify
+BotCheckPage
+Bot check — fake captcha, pass rồi mới vào landing
+/*
+CatchAllPage
+Nếu path trong subPaths list → LandingPage. Nếu không → 404
+ReviewPage tại / là cố định, không config được. LandingPage chỉ xuất hiện tại các subpath được whitelist trong admin. Đây là thiết kế bảo vệ — nếu Google crawl / thì luôn thấy ReviewPage sạch.
+Admin panel KHÔNG dùng React — là file admin.html tĩnh riêng, gọi API bằng fetch thuần.
+5.4 CatchAllPage — Logic Quan Trọng Nhất
+Đây là trái tim của hệ thống. Logic:
+Lấy segment đầu tiên của URL: "/abc" → "abc"
+Gọi GET /api/sub-paths → lấy danh sách ["abc", "xyz"]
+Nếu segment có trong list → render <LandingPage/>
+Nếu không → render <NotFoundPage/> (404)
+function CatchAllPage() {
+  const segment = location.pathname.split("/").filter(Boolean)[0]
+  const { data } = useQuery("/api/sub-paths", { staleTime: 60000 })
+  if (!data) return <LoadingSpinner/>
+  if (data.subPaths.includes(segment)) return <LandingPage/>
+  return <NotFoundPage/>
+}
+Yêu cầu cache: staleTime: 60000 — không gọi API mỗi lần render.
+5.5 Hook useLinks()
+Hook này cung cấp tất cả affiliate links và hàm navTo() cho mọi component. Tất cả nút trên landing page đều dùng hook này, KHÔNG hardcode link.
+function useLinks() {
+  const segment = getCurrentSegment() // "abc" hoặc null
+  const query = segment ? `?subpath=${segment}` : ""
+  const { data } = useQuery(`/api/links${query}`, { staleTime: 60000 })
+  function navTo(type) {
+    const link = data?.[`${type}Link`] || data?.registerLink || "/"
+    window.location.href = link
+  }
+  return { ...data, navTo }
+}
+5.6 Hook useLanguage()
+Lưu ngôn ngữ vào localStorage theo key riêng cho từng domain + subpath. Fetch ngôn ngữ mặc định từ server khi lần đầu vào.
+Storage key: `language_${hostname}_${segment}`
+VD:           "language_domain1.com_abc"
+5.7 BotCheckPage
+Giao diện giả dạng reCAPTCHA của Google. Flow:
+Hiển thị checkbox "I'm not a robot"
+User click → trạng thái "verifying..." + spinner (2 giây)
+Chuyển sang "Verification successful! Redirecting..."
+Redirect đến botCheckRedirectUrl từ /api/links
+Yêu cầu visual:
+Nền gradient tối (giống trang Exness)
+Logo Exness thay vì logo Google
+Checkbox + loading spinner + checkmark animation
+Nút Privacy, Terms, "Protected by Exness"
+5.8 LandingPage — Các Sections Theo Thứ Tự
+#
+Section
+Mô tả
+Hiển thị
+1
+AppBanner
+Fixed top, có nút close
+Mobile only
+2
+Navbar
+Sticky, logo, nav links, Register/Sign in, hamburger
+All
+3
+HeroSection
+Video background, headline, 2 CTAs, trust badges
+All
+4
+ResourcesSection
+Dark BG, 6 features, phone mockup, app badges
+All
+5
+TradingAssetsSection
+Table desktop / cards mobile, 5 instruments
+All
+6
+PlatformsSection
+2 cột: ảnh + 3 platform links
+All
+7
+SecuritySection
+2 cột: text + ảnh
+All
+8
+PodcastSection
+Dark BG, headline, description, CTA button
+All
+9
+NewsSection
+3 bài viết grid (2 cột mobile)
+All
+10
+SecurityCTASection
+Dark card + disclaimer text x3
+All
+11
+Footer
+8 cột links, social icons, legal text, PCI DSS
+All
+12
+StickyRegisterBtn
+Fixed bottom, full width
+Mobile only
+13
+LiveChatButton
+Fixed bottom-right, yellow circle
+All
+Tất cả nút trong mọi section đều gọi navTo() từ useLinks() hook. KHÔNG hardcode bất kỳ URL nào trong component.
+5.9 ReviewPage — Các Sections Theo Thứ Tự
+ReviewPage trông như trang đánh giá broker độc lập — tạo trust cao hơn LandingPage quảng cáo thông thường. User đọc review → thấy uy tín → click CTA. Đây là bridge page strategy phổ biến trong affiliate marketing.
+#
+Section
+Mô tả
+Ghi chú
+1
+Breadcrumb
+Home / Brokers / Exness
+Tăng trust, trông như site thật
+2
+HeroReview
+Logo broker + tên + rating sao + CTA button Open Account
+CTA màu vàng nổi bật
+3
+StickyNavTabs
+Scroll spy — Expert Assessment / Trust / Accounts / FAQ
+Sticky khi scroll
+4
+ExpertAssessment
+Text nhận xét + Score breakdown bars + Pros/Cons 2 cột
+Score bar: Trust, Fees, Platforms...
+5
+TrustAndSafety
+Text mô tả + Regulatory badges grid (tick/cross)
+CySEC, FCA, FSA, FSCA...
+6
+TradingInstruments
+Badge grid tick/cross: Forex, Commodities, Crypto...
+Giống regulatory badges
+7
+AccountTypes
+5 cards: Standard Cent, Standard, Pro, Zero, Raw Spread
+Card Standard có badge Most Popular
+8
+CommissionsAndFees
+4 metric cards ($0 fee, spread) + bullet list
+Account/inactivity/deposit fee + spread
+9
+TradingPlatforms
+Tick list: MT4, MT5, Terminal, App + Special Features grid
+Special: instant withdrawal, VPS...
+10
+DepositWithdrawal
+Tick list phương thức + Customer Support tick list
+2 cột layout
+11
+Conclusion
+Text kết luận + CTA box nền vàng nhạt
+Open Account CTA lần 2
+12
+FAQ
+Accordion 5 câu hỏi phổ biến
+Click mở/đóng từng câu
+13
+RiskDisclaimer
+Footer text cảnh báo rủi ro bắt buộc
+Không có → trông không hợp lệ
+CTA Open Account xuất hiện ít nhất 3 lần: HeroReview (đầu) + Conclusion (giữa) + StickyBottom trên mobile. Tất cả đều gọi navTo("register") từ useLinks() hook.
+5.10 Đa Ngôn Ngữ
+Code
+Ngôn ngữ
+RTL?
+en
+English
+Không
+vi
+Vietnamese
+Không
+ar
+Arabic
+CÓ — set dir="rtl" trên root element
+ja
+Japanese
+Không
+th
+Thai
+Không
+zh
+Chinese
+Không
+id
+Indonesian
+Không
+Cả ReviewPage và LandingPage đều phải hỗ trợ đủ 7 ngôn ngữ. Text lấy từ translation object, KHÔNG hardcode string trong JSX.
+5.11 Sub-Path = Campaign
+Mỗi sub-path tương ứng với 1 campaign Google Ads. Config trong admin cho phép mỗi sub-path có affiliate link riêng, ngôn ngữ riêng, và landing page HTML riêng (nếu dùng swap file):
+Sub-path
+Campaign
+Link Affiliate
+Ngôn ngữ
+Landing Page
+/gold
+Gold trading campaign
+link-gold-tracking
+en
+public/domain.com/gold.html (optional)
+/forex
+Forex VN campaign
+link-forex-tracking
+vi
+public/domain.com/index.html (default)
+/th
+Thailand campaign
+link-th-tracking
+th
+public/domain.com/th.html (optional)
+/arab
+Middle East campaign
+link-arab-tracking
+ar
+public/domain.com/arab.html — RTL
+Tất cả sub-path đều dùng chung ReviewPage tại / để Google thấy — chỉ khác nhau ở LandingPage và affiliate link khi user click vào từ ad.
+6. ADMIN PANEL (admin.html)
+File HTML tĩnh, không dùng React, gọi API bằng fetch thuần. Truy cập tại: domain.com/admin.html
+6.1 Auth Flow
+Load trang → kiểm tra token trong localStorage
+Gọi GET /api/admin/status
+isAdmin: true → hiển thị dashboard
+isAdmin: false → hiển thị login form
+6.2 Các Card Trong Dashboard
+Card 1 — Domain Settings:
+Dropdown chọn Default Language
+Input Bot Check Redirect URL
+Card 2 — Affiliate Links:
+Input "Main Link" → khi điền → tự fill vào tất cả link bên dưới
+Input riêng App Download Link
+Accordion "Advanced" → input từng link riêng (sign in, demo, livechat...)
+Card 3 — Sub-Paths:
+Input thêm sub-path mới + button Add
+List các sub-path, mỗi item có:
+Nút expand → mở form config riêng (language, link, app link)
+Nút "Save /abc"
+Nút "Remove"
+Button: Save All Changes → gọi PUT /api/admin/domains/:domain
+Card 4 — Analytics:
+Grid hiển thị tổng click theo route
+Nút Refresh để load lại
+7. SECURITY
+Yêu cầu
+Chi tiết
+JWT
+Algorithm: HS256, Expiry: 24h, Secret từ env var SECRET_KEY
+Password
+Hash bằng bcrypt (salt=10) hoặc crypto.createHmac. Không lưu plain text
+CORS
+Development: * | Production: chỉ allow domain chính
+Rate Limiting
+/api/admin/login: tối đa 5 requests/phút per IP (nice to have)
+Env vars
+Không hardcode SECRET_KEY, ADMIN_PASS trong source code
+8. DEPLOYMENT
+8.1 Biến Môi Trường
+Biến
+Mặc định
+Mô tả
+PORT
+3000
+Port Node.js lắng nghe
+ADMIN_USER
+admin
+Username đăng nhập admin
+ADMIN_PASS
+(bắt buộc)
+Password — ĐỔI NGAY KHI DEPLOY
+SECRET_KEY
+(bắt buộc)
+JWT signing key — random 64 chars
+NODE_ENV
+production
+production | development
+8.2 Nginx Config
+server {
+    listen 80;
+    server_name _;  # Bắt tất cả domain
+    gzip on;
+    gzip_types text/html application/javascript text/css;
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_set_header Host              $host;
+        proxy_set_header X-Forwarded-Host  $host;
+        proxy_set_header X-Real-IP         $remote_addr;
+    }
+}
+8.3 PM2 Config (ecosystem.config.js)
+module.exports = {
+  apps: [{
+    name: 'exness-backend',
+    script: 'server/index.js',
+    instances: 1,
+    env_production: {
+      NODE_ENV: 'production',
+      PORT: 3000,
+    }
+  }]
+}
+8.4 Build & Run
+# Bước 1: Build React app
+cd client && npm install && npm run build
+# Copy dist/ vào server/public/
+# Bước 2: Chạy server
+cd .. && npm install
+pm2 start ecosystem.config.js --env production
+pm2 startup && pm2 save
+9. THỜI GIAN & PHÂN CHIA CÔNG VIỆC
+Task
+Ước tính
+Ghi chú
+Backend server + API
+2 ngày
+Express, routes, DB, JWT
+Admin HTML page
+1 ngày
+HTML thuần, fetch API
+React Landing Page (responsive)
+3 ngày
+13 sections, mobile-first
+Review Page
+1 ngày
+Blog style, FAQ accordion
+Bot Check Page
+0.5 ngày
+Fake reCAPTCHA UI
+Multi-language (7 ngôn ngữ)
+0.5 ngày
+Translation object, RTL
+Deploy + Nginx config
+0.5 ngày
+PM2, SSL, domain setup
+Test + Bug fix
+1 ngày
+Test toàn bộ checklist
+TỔNG CỘNG
+~9.5 ngày
+10. CHECKLIST NGHIỆM THU
+Dev phải demo đầy đủ TẤT CẢ các mục sau trước khi bàn giao:
+Frontend & Routing
+domain.com/ hiển thị landing page đúng
+domain.com/abc hiển thị landing page (khi abc trong subPaths)
+domain.com/xyz hiển thị 404 (khi xyz KHÔNG trong subPaths)
+domain.com/verify hiển thị bot check page
+Sau khi click checkbox trên /verify → redirect đúng URL đã config
+Affiliate Links
+Nút Register → redirect đến affiliate link đã config
+Nút Register tại domain.com/abc → dùng link riêng của subpath abc
+Tất cả nút (Sign in, Demo, Chat...) đều redirect đúng link
+Đổi link trong admin → nút trên landing page redirect ngay đến link mới
+Link trống → fallback về registerLink
+Admin Panel
+Admin login/logout hoạt động đúng
+Admin thêm sub-path → ngay lập tức có hiệu lực (không cần restart)
+Admin xoá sub-path → URL đó trả về 404
+Analytics ghi nhận click đúng domain + subpath
+Config của domain1.com không ảnh hưởng domain2.com
+UX & Performance
+Language selector lưu vào localStorage đúng key theo domain+subpath
+Nhiều domain cùng 1 server → config hoàn toàn độc lập nhau
+Responsive mobile (< 768px): sticky CTA, hamburger menu, app banner
+Trang load < 3 giây trên mobile 4G
+Arabic layout: dir="rtl" hoạt động đúng
+LCP < 2.5s đo bằng Lighthouse (xem Section 11)
+CLS < 0.1 — không có layout shift khi load
+Video hero không load trên mobile nếu chưa vào viewport
+GTM & Tracking
+Nhập GTM Container ID trong admin → cả 2 đoạn script (head + body) tự inject ngay
+Nhập GA4 Measurement ID trong admin → inject đúng cú pháp
+Xoá GTM ID trong admin → cả 2 đoạn script biến mất khỏi trang
+Đổi GTM ID khác → script cũ bị remove, script mới được inject
+GTM load không ảnh hưởng LCP (async/defer)
+ReviewPage & LandingPage
+domain.com/ luôn hiển thị ReviewPage — không đổi dù config thế nào
+domain.com/abc hiển thị LandingPage (khi abc có trong subPaths)
+domain.com/xyz hiển thị LandingPage với link affiliate và ngôn ngữ riêng của xyz
+Google bot crawl domain.com/ → thấy ReviewPage sạch, không thấy LandingPage
+User click Google Ad → vào domain.com/abc → thấy LandingPage đầy đủ
+ReviewPage có đủ 13 sections: breadcrumb, hero rating, sticky nav, score bars, pros/cons, regulatory badges, account types, fees, platforms, conclusion, FAQ, disclaimer
+CTA "Open Account" xuất hiện ít nhất 3 lần trên ReviewPage (hero + conclusion + sticky bottom mobile)
+ReviewPage và LandingPage đều hỗ trợ 7 ngôn ngữ
+Arabic: dir="rtl" hoạt động đúng trên cả 2 loại trang
+Multi-Domain Landing Page
+domain1.com có file index.html riêng → server serve đúng file đó
+domain2.com không có file riêng → fallback về index.html mặc định
+Upload file index.html mới vào public/domain2.com/ → có hiệu lực ngay, không cần restart
+API /api/links vẫn trả đúng config của domain khi dùng file HTML riêng
+/go/register?subpath=abc vẫn redirect đúng affiliate link
+IP / Country Blocking
+Traffic từ RU (Nga) → nhận response block đúng action đã config
+Traffic từ CY (Cyprus) → nhận response block đúng action đã config
+Traffic từ quốc gia khác → vào trang bình thường
+Thêm/xoá country code trong admin → có hiệu lực ngay
+Block action "redirect" → chuyển đúng URL đã config
+Block action "403" → trả trang thông báo sạch, không lộ thông tin
+IP localhost/dev không bị block khi test
+11. LANDING PAGE SPEED — CORE WEB VITALS
+Google Ads tính Quality Score dựa phần lớn vào tốc độ trang. Score cao → CPC thấp hơn 30–50%. Đây là yêu cầu bắt buộc, không phải nice-to-have.
+Metric
+Target
+Ý nghĩa
+LCP (Largest Contentful Paint)
+< 2.5s
+Thời gian phần tử lớn nhất hiển thị
+CLS (Cumulative Layout Shift)
+< 0.1
+Trang không bị giật/nhảy layout khi load
+FID / INP
+< 200ms
+Thời gian phản hồi khi user tương tác
+TTFB (Time to First Byte)
+< 600ms
+Server response time
+11.1 Lazy Load Ảnh
+Tất cả ảnh nằm dưới fold (dưới màn hình đầu tiên) phải dùng lazy loading:
+<img src="news1.webp" loading="lazy" decoding="async" alt="..."/>
+Ảnh hero (above fold) KHÔNG lazy load — phải load ngay để tối ưu LCP:
+<img src="hero.webp" loading="eager" fetchpriority="high" alt="..."/>
+Tất cả ảnh phải được convert sang định dạng WebP. Kích thước tối đa:
+Vị trí
+Kích thước tối đa
+Ghi chú
+Hero image (desktop)
+120KB
+WebP, quality 80
+Hero image (mobile)
+60KB
+Ảnh riêng cho mobile
+News card images
+40KB
+WebP, lazy load
+Logo, icons
+5KB
+SVG ưu tiên hơn PNG
+11.2 Video Hero
+Video background ở hero section là nguyên nhân phổ biến nhất khiến LCP tệ. Yêu cầu:
+Không autoplay video trên mobile — thay bằng ảnh tĩnh (poster frame)
+Desktop: dùng thuộc tính preload="none", chỉ load khi IntersectionObserver thấy viewport
+Luôn có thuộc tính poster để hiển thị frame đầu trong khi video chưa load
+Video phải được compress xuống dưới 2MB
+// Đúng cách:
+<video autoplay muted loop playsinline
+  preload="none"
+  poster="/hero-poster.webp"
+  id="hero-video">
+  <source src="/hero.mp4" type="video/mp4"/>
+</video>
+// Chỉ load video khi vào viewport:
+const observer = new IntersectionObserver(entries => {
+  if (entries[0].isIntersecting) {
+    document.getElementById("hero-video").load()
+    observer.disconnect()
+  }
+})
+observer.observe(document.getElementById("hero-video"))
+11.3 Preconnect & Preload Trong <head>
+Thêm các tag sau vào <head> của index.html để browser chuẩn bị kết nối trước:
+<!-- Preconnect đến CDN Exness -->
+<link rel="preconnect" href="https://d33vw3iu5hs0zi.cloudfront.net"/>
+<link rel="dns-prefetch" href="https://d33vw3iu5hs0zi.cloudfront.net"/>
+<!-- Preconnect đến Google Fonts nếu dùng -->
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<!-- Preload hero image (LCP element) -->
+<link rel="preload" as="image" href="/hero-poster.webp"
+      fetchpriority="high"/>
+11.4 Các Tối Ưu Khác
+Tối ưu
+Cách thực hiện
+Minify JS/CSS
+Vite tự động khi build production (npm run build)
+Code splitting
+Dùng React.lazy() cho các page không cần load ngay
+Font display swap
+Thêm font-display: swap vào CSS font-face
+Avoid render-blocking
+Không dùng <script> không có async/defer trong <head>
+Cache static assets
+Nginx: cache JS/CSS/images 1 năm (có hash trong tên file)
+Gzip compression
+Bật gzip on trong nginx.conf
+Đo kết quả bằng: PageSpeed Insights (pagespeed.web.dev) — test URL sau khi deploy lên production, không test localhost.
+12. GOOGLE TAG MANAGER & GA4 SUPPORT
+Mục tiêu: Marketing team tự thêm/xoá GTM và GA4 qua Admin Panel mà KHÔNG cần dev đụng tay vào code, không cần deploy lại.
+Quan trọng: Google yêu cầu cài 2 đoạn code riêng biệt cho GTM — một trong <head> và một ngay sau thẻ <body>. Dev phải xử lý đủ cả 2 vị trí.
+12.1 Google Yêu Cầu 2 Đoạn Code
+Theo hướng dẫn chính thức của Google Tag Manager (xem ảnh install screen):
+Đoạn 1 — Dán vào trong thẻ <head>, càng cao càng tốt:
+<!-- Google Tag Manager -->
+<script>
+(function(w,d,s,l,i){
+  w[l]=w[l]||[];
+  w[l].push({"gtm.start": new Date().getTime(), event:"gtm.js"});
+  var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),
+  dl=l!="dataLayer"?"&l="+l:"";
+  j.async=true;
+  j.src="https://www.googletagmanager.com/gtm.js?id="+i+dl;
+  f.parentNode.insertBefore(j,f);
+})(window,document,"script","dataLayer","GTM-XXXXXXX");
+</script>
+<!-- End Google Tag Manager -->
+Đoạn 2 — Dán ngay sau thẻ <body> mở:
+<!-- Google Tag Manager (noscript) -->
+<noscript>
+  <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
+    height="0" width="0"
+    style="display:none;visibility:hidden">
+  </iframe>
+</noscript>
+<!-- End Google Tag Manager (noscript) -->
+Lưu ý: "GTM-XXXXXXX" trong cả 2 đoạn phải được thay bằng Container ID thật từ config. Dev phải đảm bảo ĐỒNG BỘ cả 2 vị trí khi inject.
+12.2 Thêm Vào Database Schema
+"gtmContainerId":   "GTM-XXXXXXX",   // null = không inject
+"ga4MeasurementId": "G-XXXXXXXXXX",  // null = không inject
+12.3 Logic Inject — Frontend React
+API /api/links trả thêm 2 field gtmContainerId và ga4MeasurementId. React app đọc và inject đúng 2 vị trí:
+Inject vào <head> (dùng React Helmet hoặc useEffect + document.head):
+useEffect(() => {
+  if (!links.gtmContainerId) return
+  // Đoạn 1: inject vào <head>
+  const script = document.createElement("script")
+  script.id = "gtm-head"
+  script.innerHTML = `
+    (function(w,d,s,l,i){w[l]=w[l]||[];
+    w[l].push({"gtm.start":new Date().getTime(),event:"gtm.js"});
+    var f=d.getElementsByTagName(s)[0],j=d.createElement(s),
+    dl=l!="dataLayer"?"&l="+l:"";j.async=true;
+    j.src="https://www.googletagmanager.com/gtm.js?id="+i+dl;
+    f.parentNode.insertBefore(j,f);
+    })(window,document,"script","dataLayer","${links.gtmContainerId}");`
+  document.head.appendChild(script)
+  // Đoạn 2: inject noscript vào đầu <body>
+  const noscript = document.createElement("noscript")
+  noscript.id = "gtm-body"
+  noscript.innerHTML = `
+    <iframe
+      src="https://www.googletagmanager.com/ns.html?id=${links.gtmContainerId}"
+      height="0" width="0"
+      style="display:none;visibility:hidden">
+    </iframe>`
+  document.body.insertBefore(noscript, document.body.firstChild)
+  // Cleanup khi unmount
+  return () => {
+    document.getElementById("gtm-head")?.remove()
+    document.getElementById("gtm-body")?.remove()
+  }
+}, [links.gtmContainerId])
+Inject GA4 (độc lập với GTM):
+useEffect(() => {
+  if (!links.ga4MeasurementId) return
+  const s = document.createElement("script")
+  s.id = "ga4-script"
+  s.src = `https://www.googletagmanager.com/gtag/js?id=${links.ga4MeasurementId}`
+  s.async = true
+  document.head.appendChild(s)
+  window.dataLayer = window.dataLayer || []
+  window.gtag = function(){ dataLayer.push(arguments) }
+  gtag("js", new Date())
+  gtag("config", links.ga4MeasurementId)
+  return () => document.getElementById("ga4-script")?.remove()
+}, [links.ga4MeasurementId])
+12.4 Giao Diện Admin — Card "Tracking & Analytics"
+Marketing team thao tác tại đây, không cần hỏi dev:
+Field
+Placeholder
+Mô tả
+GTM Container ID
+GTM-XXXXXXX
+Lấy từ Google Tag Manager → Admin → Container ID
+GA4 Measurement ID
+G-XXXXXXXXXX
+Lấy từ GA4 → Admin → Data Streams → Measurement ID
+Hướng dẫn lấy GTM Container ID:
+Vào tagmanager.google.com
+Chọn Container → Admin
+Thấy "GTM-XXXXXXX" → copy paste vào admin panel
+Save → 2 đoạn script tự động xuất hiện trên trang, không cần làm gì thêm
+Hành động
+Kết quả
+Điền GTM-XXXXXXX → Save
+Cả 2 đoạn script (head + body) tự inject ngay
+Xoá GTM ID → Save
+Cả 2 đoạn script biến mất khỏi trang
+Đổi GTM ID khác → Save
+Script cũ bị remove, script mới được inject
+Để trống
+Không có script nào được inject
+Marketing chỉ cần làm 1 việc: copy Container ID từ Google Tag Manager → paste vào admin → Save. Không cần biết code, không cần liên hệ dev.
+13. MULTI-DOMAIN LANDING PAGE — SWAP FILE
+Thay vì build hệ thống theme dynamic phức tạp, mỗi domain được serve một file index.html riêng. File HTML mới được tạo bằng AI (Claude/ChatGPT) trong vài phút — đổi màu, font, tên brand — rồi upload lên server. Không cần dev, không cần deploy lại code.
+Nguyên tắc: Dev chỉ làm 1 lần — server hỗ trợ serve file theo domain. Sau đó marketing tự tạo landing page mới bằng AI và upload, hoàn toàn độc lập với dev.
+13.1 Cấu Trúc Thư Mục
+server/public/
+├── index.html              ← landing page mặc định (fallback)
+├── domain1.com/
+│   └── index.html          ← landing page riêng cho domain1.com
+├── domain2.com/
+│   └── index.html          ← landing page riêng cho domain2.com
+└── domain3.com/
+    └── index.html          ← landing page riêng cho domain3.com
+13.2 Logic Server — Ưu Tiên File Theo Domain
+Dev bổ sung logic sau vào server.js khi serve static files:
+function serveIndex(req, res) {
+  const domain   = getHostname(req)
+  const specific = path.join(PUBLIC_DIR, domain, "index.html")
+  const fallback = path.join(PUBLIC_DIR, "index.html")
+  const file = fs.existsSync(specific) ? specific : fallback
+  res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" })
+  fs.createReadStream(file).pipe(res)
+}
+Tất cả API endpoints (/api/links, /go/*, /api/sub-paths...) vẫn hoạt động bình thường với mọi domain — không cần thay đổi gì thêm.
+13.3 Quy Trình Tạo Landing Page Mới Bằng AI
+Bước
+Hành động
+Thời gian
+1
+Mở Claude hoặc ChatGPT, upload file index.html gốc
+1 phút
+2
+Prompt: "đổi màu primary sang #22C55E, font sang Raleway, tên brand sang FXMarketPro"
+30 giây
+3
+AI trả về file HTML hoàn chỉnh với theme mới
+30 giây
+4
+Kiểm tra nhanh trên browser (mở file local)
+2 phút
+5
+Upload lên server vào thư mục public/domain2.com/index.html
+1 phút
+6
+Truy cập domain2.com — landing page mới xuất hiện ngay
+Ngay lập tức
+13.4 Những Gì Có Thể Thay Đổi Bằng AI
+Thay đổi
+Ví dụ prompt cho AI
+Màu sắc
+"Đổi màu primary từ #FFDE02 sang #22C55E, accent từ #1E3A5F sang #064E3B"
+Font chữ
+"Đổi font từ Outfit sang Montserrat cho toàn bộ trang"
+Tên thương hiệu
+"Đổi tất cả chỗ có chữ TradeOxPress thành FXMarketPro"
+Headline hero
+"Đổi headline thành: Trade Gold & Oil with Zero Fees"
+Thứ tự sections
+"Chuyển section TradingAssets lên trước section Resources"
+Ẩn/hiện section
+"Bỏ section Podcast, giữ nguyên các section còn lại"
+Ngôn ngữ nội dung
+"Dịch toàn bộ nội dung sang tiếng Thái"
+13.5 Yêu Cầu Kỹ Thuật Với Dev
+Dev chỉ cần làm đúng 1 việc — server ưu tiên serve file theo domain:
+Nếu tồn tại public/{domain}/index.html → serve file đó
+Nếu không → fallback về public/index.html
+API /api/links vẫn inject đúng affiliate link cho domain tương ứng
+File index.html của mỗi domain là HTML tĩnh, tự gọi /api/links khi load
+Không cần admin upload UI, không cần theme engine, không cần CSS variables. Chỉ cần FTP/SCP/SFTP upload file là xong.
+13.6 Upload File Lên Server
+Marketing upload file bằng 1 trong các cách sau (không cần dev):
+Cách
+Tool
+Độ khó
+FTP/SFTP
+FileZilla (miễn phí)
+Dễ — drag & drop
+SCP command
+Terminal
+Trung bình
+Admin panel
+Thêm nút Upload HTML vào admin (optional)
+Dev làm 1 lần
+Nên có (optional): Dev thêm nút "Upload Landing Page" vào Admin Panel — cho phép upload file HTML trực tiếp qua browser vào đúng thư mục public/{domain}/. Marketing không cần biết FTP.
+14. IP / COUNTRY BLOCKING
+Traffic từ một số quốc gia không phù hợp với campaign (Nga, Cyprus...) hoặc là bot/competitor crawl. Cần chặn ở tầng backend trước khi vào landing page.
+14.1 Thêm Vào Database Schema
+"blockedCountries":  ["RU", "CY", "BY"],
+"blockedIPs":        ["185.220.101.45"],
+"blockAction":       "redirect",
+// blockAction: "redirect" | "403" | "drop"
+"blockRedirectUrl":  "https://google.com"
+14.2 Country Code Cần Block
+Quốc gia
+Code
+Lý do
+Nga
+RU
+Exness không phục vụ, traffic không hợp lệ
+Cyprus (Síp)
+CY
+Nhiều broker/competitor datacenter tại đây
+Belarus
+BY
+Cùng nhóm hạn chế với Nga
+Iran
+IR
+Exness không phục vụ
+Triều Tiên
+KP
+Exness không phục vụ
+14.3 Logic Backend (Node.js)
+Thêm middleware vào server.js, chạy TRƯỚC khi serve static files:
+const GEOIP_API = "http://ip-api.com/json"  // 1000 req/phút miễn phí
+function getClientIP(req) {
+  return req.headers["cf-connecting-ip"]          // Cloudflare
+      || req.headers["x-forwarded-for"]?.split(",")[0].trim()
+      || req.headers["x-real-ip"]
+      || req.socket.remoteAddress
+}
+async function blockMiddleware(req, res, db, domain) {
+  const cfg = getDomainConfig(db, domain)
+  const blockedCountries = cfg.blockedCountries || []
+  const blockedIPs       = cfg.blockedIPs || []
+  // Không block các route API và redirect
+  const { pathname } = new URL(req.url, "http://x")
+  if (pathname.startsWith("/api") || pathname.startsWith("/go")) return false
+  const ip = getClientIP(req)
+  // 1. Check IP tĩnh trước (nhanh, không cần API call)
+  if (blockedIPs.includes(ip)) return doBlock(res, cfg)
+  // 2. Check country qua API
+  if (blockedCountries.length > 0 && ip !== "127.0.0.1") {
+    try {
+      const r = await fetch(`${GEOIP_API}/${ip}?fields=countryCode`)
+      const { countryCode } = await r.json()
+      if (blockedCountries.includes(countryCode)) return doBlock(res, cfg)
+    } catch { /* API lỗi → cho qua */ }
+  }
+  return false
+}
+function doBlock(res, cfg) {
+  if (cfg.blockAction === "redirect" && cfg.blockRedirectUrl) {
+    res.writeHead(302, { Location: cfg.blockRedirectUrl })
+    res.end()
+  } else if (cfg.blockAction === "drop") {
+    res.writeHead(444); res.end()
+  } else {
+    res.writeHead(403, { "Content-Type": "text/html" })
+    res.end("<h1>Access Restricted</h1><p>Not available in your region.</p>")
+  }
+  return true  // đã xử lý, không chạy tiếp
+}
+14.4 Cách Thay Thế: Nginx GeoIP2 (Nhanh Hơn)
+Nếu VPS cài được module GeoIP2 cho Nginx — block ở tầng network, không tốn request API:
+# nginx.conf — trong http block:
+geoip2 /usr/share/GeoIP/GeoLite2-Country.mmdb {
+    $geoip2_country_code country iso_code;
+}
+map $geoip2_country_code $blocked {
+    default  0;
+    RU       1;
+    CY       1;
+    BY       1;
+}
+server {
+    if ($blocked) { return 302 https://google.com; }
+    ...
+}
+Khuyến nghị: Dùng Nginx GeoIP2 nếu tự quản lý VPS. Dùng ip-api.com nếu không cài được module Nginx. Nếu dùng Cloudflare → config WAF rule trên dashboard, không cần code.
+14.5 Giao Diện Admin
+Thêm Card "Traffic Blocking" trong admin.html:
+Input
+Mô tả
+Blocked Countries
+Multi-select hoặc input text cách nhau bằng dấu phẩy: RU, CY, BY
+Blocked IPs
+Textarea, mỗi IP một dòng
+Block Action
+Dropdown: Redirect (302) | Block (403) | Drop (444)
+Redirect URL
+URL khi action là Redirect, VD: https://google.com
+Hết tài liệu — Version 1.5 — 01/04/2025

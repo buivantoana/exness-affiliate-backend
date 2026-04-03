@@ -1,0 +1,45 @@
+{
+  "domains": {
+    "localhost": {
+      "defaultLanguage": "en",
+      "botCheckRedirectUrl": "https://www.exness.com/",
+      "registerLink": "https://www.exness.com/a/demo-register",
+      "signInLink": "",
+      "tryDemoLink": "",
+      "liveChatLink": "",
+      "tradingLink": "",
+      "marketsLink": "",
+      "platformsLink": "",
+      "toolsLink": "",
+      "companyLink": "",
+      "partnersLink": "",
+      "metatrader5Link": "",
+      "exnessTerminalLink": "",
+      "exnessTradeAppLink": "",
+      "clientProtectionLink": "",
+      "whyExnessLink": "",
+      "appDownloadLink": "",
+      "subPaths": [
+        "abc"
+      ],
+      "subPathConfigs": {
+        "abc": {
+          "defaultLanguage": "vi",
+          "registerLink": "https://www.exness.com/a/campaign-abc",
+          "appDownloadLink": "https://www.exness.com/app"
+        }
+      },
+      "blockedCountries": [
+        "RU",
+        "CY",
+        "BY"
+      ],
+      "blockedIPs": [],
+      "blockAction": "redirect",
+      "blockRedirectUrl": "https://www.google.com/",
+      "createdAt": "2026-04-03T00:00:00.000Z",
+      "updatedAt": "2026-04-03T00:00:00.000Z"
+    }
+  },
+  "clicks": {}
+}
