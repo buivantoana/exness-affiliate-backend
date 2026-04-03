@@ -174,7 +174,16 @@ export async function upsertDomainConfig(domain, config) {
   const now = new Date().toISOString();
   const saved = await queueWrite((data) => {
     const existing = data.domains[key] || null;
-    const nextConfig = buildConfig(config);
+    
+    // ⭐ MERGE thay vì replace hoàn toàn
+    const nextConfig = buildConfig({
+      ...(existing || {}),  // giữ lại config cũ
+      ...config,            // ghi đè bằng config mới
+      // Đảm bảo không mất subPaths nếu không được gửi lên
+      subPaths: config.subPaths !== undefined ? config.subPaths : (existing?.subPaths || []),
+      subPathConfigs: config.subPathConfigs !== undefined ? config.subPathConfigs : (existing?.subPathConfigs || {})
+    });
+    
     nextConfig.createdAt = existing?.createdAt || now;
     nextConfig.updatedAt = now;
     data.domains[key] = nextConfig;

@@ -2,32 +2,28 @@
   "domains": {
     "localhost": {
       "defaultLanguage": "en",
-      "botCheckRedirectUrl": "https://www.exness.com/",
-      "registerLink": "https://www.exness.com/a/demo-register",
-      "signInLink": "",
-      "tryDemoLink": "",
-      "liveChatLink": "",
-      "tradingLink": "",
-      "marketsLink": "",
-      "platformsLink": "",
-      "toolsLink": "",
-      "companyLink": "",
-      "partnersLink": "",
-      "metatrader5Link": "",
-      "exnessTerminalLink": "",
-      "exnessTradeAppLink": "",
-      "clientProtectionLink": "",
-      "whyExnessLink": "",
+      "botCheckRedirectUrl": "https://www.exness.com/32",
+      "registerLink": "https://www.tiktok.com4",
+      "signInLink": "https://www.tiktok.com/messages?lang=vi-VN",
+      "tryDemoLink": "https://www.tiktok.com/messages?lang=vi-VN",
+      "liveChatLink": "https://www.tiktok.com",
+      "tradingLink": "https://www.tiktok.com/messages?lang=vi-VN",
+      "marketsLink": "https://www.tiktok.com/messages?lang=vi-VN",
+      "platformsLink": "https://www.tiktok.com/messages?lang=vi-VN",
+      "toolsLink": "https://www.tiktok.com/messages?lang=vi-VN",
+      "companyLink": "https://www.tiktok.com/messages?lang=vi-VN",
+      "partnersLink": "https://www.tiktok.com/messages?lang=vi-VN",
+      "metatrader5Link": "https://www.tiktok.com/messages?lang=vi-VN",
+      "exnessTerminalLink": "https://www.tiktok.com/messages?lang=vi-VN",
+      "exnessTradeAppLink": "https://www.tiktok.com/messages?lang=vi-VN",
+      "clientProtectionLink": "https://www.tiktok.com/messages?lang=vi-VN",
+      "whyExnessLink": "https://www.tiktok.com/messages?lang=vi-VN",
       "appDownloadLink": "",
       "subPaths": [
-        "abc"
+        "rể"
       ],
       "subPathConfigs": {
-        "abc": {
-          "defaultLanguage": "vi",
-          "registerLink": "https://www.exness.com/a/campaign-abc",
-          "appDownloadLink": "https://www.exness.com/app"
-        }
+        "rể": {}
       },
       "blockedCountries": [
         "RU",
@@ -38,8 +34,17 @@
       "blockAction": "redirect",
       "blockRedirectUrl": "https://www.google.com/",
       "createdAt": "2026-04-03T00:00:00.000Z",
-      "updatedAt": "2026-04-03T00:00:00.000Z"
+      "updatedAt": "2026-04-03T08:28:01.429Z",
+      "gtmContainerId": "",
+      "ga4MeasurementId": ""
     }
   },
-  "clicks": {}
+  "clicks": {
+    "localhost": {
+      "/go/demo": {
+        "total": 1,
+        "2026-04-03": 1
+      }
+    }
+  }
 }
