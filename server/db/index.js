@@ -241,17 +241,17 @@ export async function upsertSubPathConfig(domain, subPath, subPathConfig = {}) {
 }
 
 export async function getResolvedConfig(domain, subPath) {
-  const config = await getDomainConfig(domain);
+  const config = await getOrCreateDomainConfig(domain);
   return config ? mergeDomainConfig(config, subPath) : null;
 }
 
 export async function listSubPaths(domain) {
-  const config = await getDomainConfig(domain);
+  const config = await getOrCreateDomainConfig(domain);
   return config?.subPaths || [];
 }
 
 export async function listSubPathConfigs(domain) {
-  const config = await getDomainConfig(domain);
+  const config = await getOrCreateDomainConfig(domain);
   return clone(config?.subPathConfigs || {});
 }
 
@@ -289,4 +289,50 @@ export function normalizeHost(host) {
 
 export function normalizePathSegment(value) {
   return sanitizeSubPath(value);
+}
+
+// server/db/index.js - Thêm vào cuối file, trước export
+
+export async function getOrCreateDomainConfig(domain) {
+  let config = await getDomainConfig(domain);
+  
+  if (!config) {
+    console.log(`✨ Auto-creating config for domain: ${domain}`);
+    
+    const defaultConfig = {
+      defaultLanguage: "en",
+      botCheckRedirectUrl: "",
+      registerLink: "",
+      signInLink: "",
+      tryDemoLink: "",
+      liveChatLink: "",
+      tradingLink: "",
+      marketsLink: "",
+      platformsLink: "",
+      toolsLink: "",
+      companyLink: "",
+      partnersLink: "",
+      metatrader5Link: "",
+      exnessTerminalLink: "",
+      exnessTradeAppLink: "",
+      clientProtectionLink: "",
+      whyExnessLink: "",
+      appDownloadLink: "",
+      gtmContainerId: "",
+      ga4MeasurementId: "",
+      subPaths: [],
+      subPathConfigs: {},
+      blockedCountries: [],
+      blockedIPs: [],
+      blockAction: "403",
+      blockRedirectUrl: "",
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+    
+    await upsertDomainConfig(domain, defaultConfig);
+    config = await getDomainConfig(domain);
+  }
+  
+  return config;
 }
