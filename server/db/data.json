@@ -19,6 +19,8 @@
       "clientProtectionLink": "https://www.tiktok.com/messages?lang=vi-VN",
       "whyExnessLink": "https://www.tiktok.com/messages?lang=vi-VN",
       "appDownloadLink": "",
+      "gtmContainerId": "",
+      "ga4MeasurementId": "",
       "subPaths": [
         "rể"
       ],
@@ -31,12 +33,48 @@
         "BY"
       ],
       "blockedIPs": [],
+      "blockedCIDR": [
+        "3.0.0.0/8",
+        "52.0.0.0/8",
+        "54.0.0.0/8",
+        "34.0.0.0/8",
+        "35.0.0.0/8",
+        "104.196.0.0/14",
+        "20.0.0.0/8",
+        "40.0.0.0/8",
+        "188.166.0.0/16",
+        "167.99.0.0/16",
+        "143.198.0.0/16",
+        "159.89.0.0/16",
+        "45.33.0.0/17",
+        "139.162.0.0/16",
+        "198.199.0.0/16",
+        "185.220.100.0/22"
+      ],
+      "blockedASNs": [
+        "AS16509",
+        "AS15169",
+        "AS8075",
+        "AS14061",
+        "AS63949",
+        "AS24940",
+        "AS16276",
+        "AS12876",
+        "AS20473",
+        "AS60068",
+        "AS394711"
+      ],
+      "badReferrers": [
+        "xm.com",
+        "icmarkets.com",
+        "pepperstone.com"
+      ],
       "blockAction": "redirect",
       "blockRedirectUrl": "https://www.google.com/",
       "createdAt": "2026-04-03T00:00:00.000Z",
-      "updatedAt": "2026-04-03T08:28:01.429Z",
-      "gtmContainerId": "",
-      "ga4MeasurementId": ""
+      "updatedAt": "2026-04-05T02:12:39.788Z",
+      "suspiciousAction": "blog",
+      "suspiciousRedirectUrl": ""
     }
   },
   "clicks": {
@@ -44,6 +82,10 @@
       "/go/demo": {
         "total": 1,
         "2026-04-03": 1
+      },
+      "/go/register": {
+        "total": 4,
+        "2026-04-05": 4
       }
     }
   }

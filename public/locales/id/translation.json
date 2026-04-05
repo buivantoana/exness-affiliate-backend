@@ -1,0 +1,447 @@
+{
+  "topbar": {
+    "text": "Penawaran terbatas: Spread 0% pada akun Gold — berakhir dalam",
+    "cta": "Klaim sekarang →"
+  },
+  "nav1": {
+    "signIn": "Masuk",
+    "openAccount": "Buka Akun"
+  },
+  "live": {
+    "text": "{{viewers}} trader online sekarang · {{openers}} akun dibuka hari ini · Lebih dari 16.000.000 trader aktif di seluruh dunia"
+  },
+  "hero1": {
+    "tag1": "✓ Diatur oleh FCA",
+    "tag2": "0% Komisi",
+    "tag3": "Sejak 2008",
+    "title1": "Trading Emas & Forex",
+    "title2": "dengan",
+    "titleHighlight": "Spread Nol",
+    "sub": "Bergabung dengan 16 juta trader di seluruh dunia. Penarikan instan, spread mulai dari 0.3 pip pada XAUUSD, leverage hingga 1:2000. Mulai hanya dengan $10.",
+    "cta1": "Buka Akun Gratis →",
+    "cta2": "Coba Demo Dulu",
+    "note": "Tanpa kartu kredit · Penarikan diproses dalam hitungan detik",
+    "trust1": "🏆 Broker Terbaik Asia 2025",
+    "trust2": "🛡 6 Lisensi Regulasi",
+    "trust3": "⚡ Penarikan Instan",
+    "trust4": "📱 Aplikasi iOS & Android"
+  },
+  "metrics": {
+    "m1val": "$10",
+    "m1lbl": "Deposit Minimum",
+    "m1sub": "Tanpa biaya tersembunyi",
+    "m2val": "<3 detik",
+    "m2lbl": "Kecepatan Penarikan",
+    "m2sub": "Tercepat di industri",
+    "m3val": "1:2000",
+    "m3lbl": "Leverage Maksimal",
+    "m3sub": "Fleksibel per akun",
+    "m4val": "0.3",
+    "m4lbl": "Spread Emas (pip)",
+    "m4sub": "XAUUSD paling ketat"
+  },
+  "marquee": {
+    "i1": "Spread XAUUSD 0.3 pip",
+    "i2": "Penarikan instan 24/7",
+    "i3": "Diatur FCA sejak 2008",
+    "i4": "Lebih dari 16 juta trader di seluruh dunia",
+    "i5": "5 jenis akun",
+    "i6": "Standard tanpa komisi",
+    "i7": "MT4 + MT5 + Web Terminal",
+    "i8": "Perlindungan saldo negatif"
+  },
+  "why": {
+    "eyebrow": "Mengapa trader memilih kami",
+    "title": "Kondisi trading tak tertandingi",
+    "c1title": "Penarikan instan",
+    "c1text": "Dana diproses dalam hitungan detik, bukan hari. Tersedia 24/7 melalui transfer bank, e-wallet, atau kripto. Tidak ada biaya penarikan.",
+    "c1stat": "<3 detik",
+    "c1lbl": "Waktu pemrosesan rata-rata",
+    "c2title": "Spread paling ketat",
+    "c2text": "Spread XAUUSD mulai dari 0.3 pip. EUR/USD mulai dari 0.3 pip. Tersedia akun Zero Spread. Tanpa requote, tanpa slippage.",
+    "c2stat": "0.3",
+    "c2lbl": "Spread XAUUSD (pip)",
+    "c3title": "Keamanan maksimal",
+    "c3text": "Diatur oleh FCA, CySEC, FSCA dan 3 regulator lainnya. Dana klien dipisahkan. Perlindungan saldo negatif di semua akun.",
+    "c3stat": "6",
+    "c3lbl": "Lisensi regulasi",
+    "c4title": "Leverage fleksibel",
+    "c4text": "Leverage dapat disesuaikan dari 1:1 hingga 1:2000 pada instrumen tertentu. Sesuaikan sesuai toleransi risiko Anda kapan saja.",
+    "c4stat": "1:2000",
+    "c4lbl": "Leverage maksimal",
+    "c5title": "Dukungan global 24/7",
+    "c5text": "Dukungan dalam 14 bahasa melalui live chat, telepon, dan email. Waktu respons rata-rata kurang dari 30 detik pada live chat.",
+    "c5stat": "14",
+    "c5lbl": "Bahasa yang didukung",
+    "c6title": "Trading di mana saja",
+    "c6text": "Aplikasi iOS dan Android dengan fitur lengkap. Tersedia juga di MT4, MT5, dan Exness Web Terminal. Sinkronisasi antar perangkat mulus.",
+    "c6stat": "16J+",
+    "c6lbl": "Trader aktif"
+  },
+  "instruments1": {
+    "eyebrow": "Pasar",
+    "title": "Trading 200+ instrumen",
+    "sub": "Akses pasar global dari satu akun. Emas, minyak, mata uang, saham, kripto dan lainnya.",
+    "i1name": "Emas",
+    "i1count": "XAUUSD · 0.3 pip",
+    "i2name": "Forex",
+    "i2count": "100+ pasangan",
+    "i3name": "Indeks",
+    "i3count": "S&P, Nasdaq, DAX",
+    "i4name": "Minyak & Energi",
+    "i4count": "WTI · Brent",
+    "i5name": "Kripto",
+    "i5count": "BTC · ETH · dan lainnya"
+  },
+  "accounts1": {
+    "eyebrow": "Jenis Akun",
+    "title": "Pilih akun Anda",
+    "sub": "Lima jenis akun yang dirancang untuk setiap level — dari pemula hingga trader profesional.",
+    "a1badge": "UNTUK PEMULA",
+    "a1name": "Standard Cent",
+    "a1desc": "Trading dengan micro-lot. Risiko lebih rendah. Cocok untuk belajar dengan uang sungguhan.",
+    "a2badge": "★ PALING POPULER",
+    "a2name": "Standard",
+    "a2desc": "Tanpa deposit minimum. Spread ketat, tanpa komisi. Akun serba guna terbaik.",
+    "a3badge": "UNTUK PROFESIONAL",
+    "a3name": "Pro",
+    "a3desc": "Spread mulai dari 0.1 pip. Order tanpa batas. Eksekusi instan. Untuk trader serius.",
+    "specDeposit": "Deposit minimum",
+    "specSpread": "Spread mulai dari",
+    "specComm": "Komisi",
+    "none": "Tidak ada",
+    "openBtn": "Buka Akun Gratis →"
+  },
+  "steps": {
+    "eyebrow": "Cara Memulai",
+    "title": "3 langkah untuk mulai trading",
+    "sub": "Dari registrasi hingga trading live dalam waktu kurang dari 10 menit. Tidak perlu pengalaman.",
+    "s1title": "Buat akun gratis",
+    "s1text": "Masukkan email dan nomor telepon. Tidak perlu deposit untuk registrasi. Hanya butuh kurang dari 2 menit.",
+    "s1cta": "Daftar sekarang →",
+    "s2title": "Verifikasi identitas",
+    "s2text": "Unggah dokumen identitas. Disetujui dalam 5–30 menit. Diperlukan untuk penarikan.",
+    "s3title": "Deposit & trading",
+    "s3text": "Deposit mulai dari $10 via bank, e-wallet, atau kripto. Buka trade pertama Anda segera."
+  },
+  "testimonials1": {
+    "eyebrow": "Apa kata para trader",
+    "title": "Dipercaya jutaan orang",
+    "reviews": "/ 5 · 12.400 ulasan",
+    "t1text": "\"Penarikan selesai dalam 3 detik — saya waktu sendiri. Spread emas adalah yang paling ketat yang pernah saya gunakan dari 5 broker lain. Ini sekarang menjadi platform utama saya.\"",
+    "t1name": "Ahmad S.",
+    "t1meta": "Jakarta, Indonesia · Trader 3 tahun",
+    "t2text": "\"Akun Standard Cent memungkinkan saya belajar dengan uang sungguhan tanpa risiko besar. Dukungan bahasa Thai sangat baik. Setelah 3 bulan saya pindah ke akun Standard — tidak akan kembali.\"",
+    "t2name": "Kawin P.",
+    "t2meta": "Bangkok, Thailand · Trader 1 tahun",
+    "t3text": "\"Akun bebas swap dan antarmuka bahasa Arab membuat Exness sempurna untuk trader di Timur Tengah. Aplikasi mobile cepat dan andal — saya trading dari mana saja.\"",
+    "t3name": "Mohammed R.",
+    "t3meta": "Dubai, UAE · Trader 5 tahun",
+    "t4text": "\"Sudah trading 5 tahun di banyak platform. Exness memiliki kecepatan eksekusi terbaik yang pernah saya alami. Spread emas benar-benar tak terkalahkan, terutama selama sesi Asia.\"",
+    "t4name": "Rahul P.",
+    "t4meta": "Mumbai, India · Trader 5 tahun"
+  },
+  "platforms1": {
+    "eyebrow": "Platform",
+    "title": "Trading sesuai cara Anda",
+    "p1name": "MetaTrader 4",
+    "p1desc": "Klasik · Expert Advisors",
+    "p2name": "MetaTrader 5",
+    "p2desc": "Generasi baru · Lebih banyak pasar",
+    "p3name": "Exness Terminal",
+    "p3desc": "Berbasis web · Tanpa instalasi",
+    "p4name": "Aplikasi Exness",
+    "p4desc": "iOS & Android",
+    "b1": "Spread Terendah 2025",
+    "b2": "Diatur oleh FCA",
+    "b3": "Penarikan Instan",
+    "b4": "Tanpa Biaya Penarikan",
+    "b5": "Dana Terpisah",
+    "b6": "Trading Mobile"
+  },
+  "finalCta": {
+    "tag": "Penawaran waktu terbatas",
+    "title1": "Mulai trading dengan hanya",
+    "titleHighlight": "$10",
+    "title2": "hari ini",
+    "sub": "Bergabung dengan 16 juta trader. Buka akun dalam 2 menit — tidak perlu deposit untuk registrasi.",
+    "btn": "Buka Akun Gratis →",
+    "f1": "Tanpa kartu kredit",
+    "f2": "Demo gratis tersedia",
+    "f3": "Teregulasi & aman",
+    "f4": "Penarikan instan"
+  },
+  "disclaimer1": "Trading CFD melibatkan risiko kehilangan modal yang signifikan. 74–89% akun investor ritel mengalami kerugian saat trading CFD dengan penyedia ini. Harap pertimbangkan apakah Anda mampu menanggung risiko tinggi kehilangan uang Anda. Halaman ini dioperasikan oleh mitra afiliasi independen dan tidak berafiliasi dengan Exness Group Ltd. Semua merek dagang adalah milik pemiliknya masing-masing.",
+  "sticky1": {
+    "title": "Exness — Buka akun gratis",
+    "sub": "Mulai dari $10 · Penarikan instan",
+    "btn": "Mulai Sekarang →"
+  },
+    "nav": {
+      "brokers": "Broker",
+      "compare": "Bandingkan",
+      "education": "Pendidikan"
+    },
+    "breadcrumb": {
+      "home": "Beranda",
+      "brokers": "Broker",
+      "current": "Review Exness 2025"
+    },
+    "urgency": {
+      "viewing": "orang sedang melihat",
+      "opened": "akun dibuka hari ini"
+    },
+    "hero": {
+      "title": "Review Exness 2025",
+      "sub": "Temukan pengalaman trading yang canggih",
+      "overall": "Rating Keseluruhan",
+      "regulated": "✓ Diatur oleh FCA",
+      "updated": "Diperbarui April 2025 · Dinilai oleh tim ahli",
+      "minDeposit": "Setoran Minimum",
+      "withdrawal": "Penarikan",
+      "instant": "Instannya",
+      "maxLeverage": "Leverage Maksimum",
+      "licenses": "Lisensi",
+      "openAccount": "Buka Akun",
+      "tryDemo": "Coba Gratis"
+    },
+    "stickyNav": {
+      "findBroker": "Cari Broker",
+      "expertAssessment": "Penilaian Ahli",
+      "trustSafety": "Kepercayaan & Keamanan",
+      "accountTypes": "Jenis Akun",
+      "compare": "Bandingkan",
+      "reviews": "Ulasan",
+      "faq": "Pertanyaan Umum"
+    },
+    "quiz": {
+      "title": "Temukan broker yang cocok untuk Anda",
+      "sub": "Jawab 3 pertanyaan cepat untuk rekomendasi personal",
+      "step": "Langkah",
+      "of": "dari",
+      "next": "Berikutnya",
+      "seeResult": "Lihat Hasil",
+      "popular": "Paling Populer",
+      "topPriority": "Prioritas Utama",
+      "q1": "Apa yang ingin Anda tradingkan utamanya?",
+      "q2": "Pengalaman trading Anda?",
+      "q3": "Apa yang paling penting bagi Anda?",
+      "optGold": "Emas (XAUUSD) & Komoditas",
+      "optForex": "Forex (EUR/USD, GBP/USD...)",
+      "optCrypto": "Kripto & Indeks",
+      "optBeginner": "Pemula — kurang dari 1 tahun",
+      "optIntermediate": "Menengah — 1 hingga 3 tahun",
+      "optAdvanced": "Mahir — lebih dari 3 tahun",
+      "optSpreads": "Spread rendah — biaya termurah",
+      "optWithdrawals": "Penarikan cepat — akses dana instan",
+      "optLeverage": "Leverage tinggi — maksimalkan posisi",
+      "resultTitle": "Rekomendasi kami berdasarkan profil Anda",
+      "resultText": "Berdasarkan jawaban Anda, Exness adalah pilihan terbaik. Exness menyediakan spread XAUUSD terendah (0.3 pip), penarikan instan dalam 3 detik, dan leverage hingga 1:2000 — semua dengan setoran minimum $10. 87% trader dengan profil serupa memilih Exness.",
+      "openAccount": "Buka Akun Exness"
+    },
+    "expert": {
+      "title": "Penilaian Ahli",
+      "text1": "Saat mencari broker yang menggabungkan inovasi, keandalan, dan fitur ramah trader, Exness menonjol sebagai pilihan istimewa. Dengan penekanan pada transparansi dan kemudahan pengguna, Exness memenuhi kebutuhan trader di semua level.",
+      "text2": "Exness ideal untuk trader pemula maupun berpengalaman, menyediakan tools canggih dan spread kompetitif. Tanpa komisi semakin menambah nilai.",
+      "verdict": "Putusan Kami",
+      "verdictText": "Terbaik untuk trader yang memprioritaskan spread rendah, penarikan instan, dan leverage fleksibel. Kurang cocok bagi yang mencari edukasi terstruktur atau bonus selamat datang.",
+      "scoreBreakdown": "Rincian Skor",
+      "advantages": "Kelebihan",
+      "disadvantages": "Kekurangan",
+      "adv1": "Lima jenis akun",
+      "adv2": "Setoran minimum $10",
+      "adv3": "Spread rendah stabil",
+      "adv4": "Lebih dari 70 server MT",
+      "adv5": "Tanpa biaya overnight",
+      "dis1": "Edukasi terbatas",
+      "dis2": "Tidak ada bonus selamat datang"
+    },
+    "scores": {
+      "trust": "Kepercayaan & Keamanan",
+      "fees": "Biaya & Spread",
+      "platforms": "Platform",
+      "mobile": "Aplikasi Mobile",
+      "support": "Dukungan",
+      "education": "Edukasi"
+    },
+    "trust": {
+      "title": "Kepercayaan dan Keamanan",
+      "text1": "Exness beroperasi sebagai broker yang teregulasi, menjamin lingkungan trading yang aman. Broker memisahkan rekening klien dari dana operasional.",
+      "text2": "Exness menerapkan prosedur AML dan KYC yang ketat untuk verifikasi identitas dan mencegah aktivitas ilegal.",
+      "regulatory": "Kepatuhan Regulasi",
+      "instruments": "Instrumen Trading",
+      "segregated": "Dana Klien Dipisahkan",
+      "segregatedText": "Dana klien selalu disimpan terpisah dari dana operasional broker — dana Anda terlindungi setiap saat."
+    },
+    "instruments": {
+      "forex": "Forex",
+      "commodities": "Komoditas",
+      "indices": "Indeks",
+      "stocks": "Saham",
+      "crypto": "Kripto",
+      "etfs": "ETF",
+      "bonds": "Obligasi",
+      "options": "Opsi"
+    },
+    "accounts": {
+      "title": "Jenis Akun",
+      "sub": "Exness menyediakan lima jenis akun berbeda untuk memenuhi kebutuhan trader yang beragam.",
+      "popular": "Paling Populer",
+      "cent": "Standard Cent",
+      "centDesc": "Untuk pemula, trading dengan volume kecil menggunakan lot cent. Sempurna untuk menguji strategi.",
+      "standard": "Standard",
+      "standardDesc": "Cocok untuk trader baru dan berpengalaman, tanpa persyaratan setoran minimum.",
+      "pro": "Pro",
+      "proDesc": "Untuk trader berpengalaman — order tanpa batas dan spread mulai 0.1 pip.",
+      "zero": "Zero",
+      "zeroDesc": "Spread nol pada instrumen utama 95% waktu trading.",
+      "raw": "Raw Spread",
+      "rawDesc": "Spread sangat rendah dan stabil dengan komisi tetap per lot."
+    },
+    "fees": {
+      "title": "Komisi dan Biaya",
+      "account": "Biaya Akun",
+      "inactivity": "Biaya tidak aktif",
+      "deposit": "Biaya deposit",
+      "eurusd": "Spread EUR/USD",
+      "note": "Tidak ada biaya akun, tidak aktif, atau deposit. Kurs konversi mengikuti pasar saat transaksi."
+    },
+    "features": {
+      "title": "Fitur Khusus",
+      "instant": "Penarikan Instan",
+      "swapFree": "Trading Bebas Swap",
+      "social": "Social Trading",
+      "vps": "Hosting VPS",
+      "negative": "Perlindungan Saldo Negatif",
+      "copy": "Copy Trading"
+    },
+    "compare": {
+      "title": "Exness vs Kompetitor",
+      "sub": "Lihat perbandingan Exness dengan broker forex terkemuka lainnya",
+      "feature": "Fitur",
+      "minDeposit": "Setoran Minimum",
+      "eurusdSpread": "Spread EUR/USD",
+      "xauusdSpread": "Spread XAUUSD",
+      "maxLeverage": "Leverage Maksimum",
+      "withdrawalSpeed": "Kecepatan Penarikan",
+      "regulation": "Regulasi",
+      "swapFree": "Bebas Swap",
+      "mt5": "MT5",
+      "instant": "Instan",
+      "allAccounts": "✓ Semua Akun",
+      "islamicOnly": "Hanya Islami",
+      "no": "✕ Tidak",
+      "yes": "✓ Ya",
+      "openAccount": "Buka Akun Exness"
+    },
+    "testimonials": {
+      "title": "Ulasan dari Trader",
+      "sub": "Ulasan terverifikasi dari trader asli",
+      "t1name": "Ahmad S.",
+      "t1location": "Jakarta, Indonesia · 3 tahun trading · 2 hari lalu",
+      "t1text": "Penarikan diproses dalam 5 detik. Spread emas adalah yang terendah yang pernah saya lihat. Exness adalah platform trading utama saya dan saya rekomendasikan ke semua orang.",
+      "t2name": "Kawin P.",
+      "t2location": "Bangkok, Thailand · 1 tahun trading · 5 hari lalu",
+      "t2text": "Akun Standard Cent sempurna untuk pemula. Dukungan 24/7 dalam bahasa Thai, sangat responsif. Exness adalah broker terbaik untuk Asia Tenggara.",
+      "t3name": "Mohammed R.",
+      "t3location": "Dubai, UAE · 5 tahun trading · 1 minggu lalu",
+      "t3text": "Akun bebas swap dan dukungan bahasa Arab membuat Exness ideal untuk trader Muslim. Platform cepat dan penarikan benar-benar instan.",
+      "t4name": "Rahul P.",
+      "t4location": "Mumbai, India · 2 tahun trading · 3 hari lalu",
+      "t4text": "Sudah menggunakan Exness selama 2 tahun. Pilihan leverage dan spread tak tertandingi. Dukungan pelanggan 24/7 dan sangat membantu."
+    },
+    "platforms": {
+      "title": "Platform Trading",
+      "mt4": "MetaTrader 4 (MT4)",
+      "mt4Desc": "Platform klasik dengan tools charting canggih",
+      "mt5": "MetaTrader 5 (MT5)",
+      "mt5Desc": "Generasi berikutnya dengan fitur lebih advanced",
+      "terminal": "Exness Terminal",
+      "terminalDesc": "Platform berbasis web dengan antarmuka modern",
+      "appDesc": "Trading mobile di iOS dan Android"
+    },
+    "payment": {
+      "title": "Deposit dan Penarikan",
+      "methods": "Transfer bank, kartu kredit/debit, e-wallet",
+      "noFees": "Tidak ada biaya deposit atau penarikan dari Exness",
+      "instant": "Diproses instan untuk sebagian besar metode",
+      "minDeposit": "Setoran minimum mulai dari $10 USD"
+    },
+    "support": {
+      "title": "Dukungan Pelanggan",
+      "chat": "Dukungan 24/7 via telepon, live chat, email",
+      "languages": "Dukungan dalam 14 bahasa",
+      "managers": "Account manager khusus untuk klien premium"
+    },
+    "conclusion": {
+      "title": "Kesimpulan",
+      "text1": "Exness adalah broker yang andal dan inovatif, menyediakan pengalaman trading yang lengkap. Dengan spread kompetitif, berbagai jenis akun, dan regulasi kuat, ini adalah pilihan bagus untuk trader di semua level.",
+      "text2": "Penekanan platform pada keamanan, transparansi, dan pengalaman pengguna menjadikannya salah satu broker paling terpercaya di industri.",
+      "ctaTitle": "Mulai trading dengan salah satu broker paling terpercaya",
+      "openAccount": "Buka Akun"
+    },
+    "faq": {
+      "title": "Pertanyaan yang Sering Diajukan",
+      "q1": "Apakah trading dengan Exness aman?",
+      "a1": "Ya. Exness diatur oleh 6 otoritas keuangan besar termasuk FCA (Inggris) dan CySEC (EU). Dana klien disimpan terpisah dari dana perusahaan. Broker telah beroperasi sejak 2008 tanpa masalah regulasi besar.",
+      "q2": "Berapa setoran minimum?",
+      "a2": "Tergantung jenis akun. Akun Standard dan Standard Cent tidak memerlukan setoran minimum. Akun Pro memerlukan setoran minimum, sementara Zero dan Raw Spread bisa berbeda tergantung wilayah. Namun, kebanyakan trader mulai hanya dengan $10.",
+      "q3": "Apakah Exness memungut biaya penarikan?",
+      "a3": "Tidak. Exness tidak memungut biaya penarikan apa pun. Sebagian besar penarikan diproses instan — biasanya dalam hitungan detik. Menggunakan kurs pasar saat transaksi, tanpa biaya tersembunyi.",
+      "q4": "Platform apa yang disediakan Exness?",
+      "a4": "Exness menyediakan MetaTrader 4 (MT4), MetaTrader 5 (MT5), Exness Terminal berbasis web, dan aplikasi Exness Trade untuk iOS dan Android. MT5 adalah pilihan paling advanced.",
+      "q5": "Apakah Exness menyediakan akun demo?",
+      "a5": "Ya. Exness menyediakan akun demo gratis tanpa batas waktu di semua platform. Memungkinkan latihan strategi tanpa risiko sebelum trading dengan uang sungguhan."
+    },
+    "disclaimer": {
+      "title": "Peringatan Risiko:",
+      "text": "Trading CFD memiliki risiko kehilangan modal yang signifikan. 74-89% akun investor ritel mengalami kerugian saat trading CFD dengan penyedia ini. Anda harus mempertimbangkan apakah Anda mampu menerima risiko tinggi kehilangan uang. Review ini hanya bersifat informatif dan bukan merupakan saran keuangan. ExpertReview adalah situs review independen dan tidak berafiliasi dengan Exness Group."
+    },
+    "sticky": {
+      "title": "Exness — Mulai dari $10",
+      "sub": "Penarikan Instan · 6 Lisensi",
+      "btn": "Buka Akun"
+    },
+    "botcheck": {
+      "title": "Verifikasi keamanan",
+      "subtitle": "Dilindungi oleh ExTradeFX",
+      "label": "Saya bukan robot",
+      "sublabel": {
+        "idle": "Klik untuk memverifikasi identitas Anda",
+        "checking1": "Menganalisis sidik jari browser…",
+        "checking2": "Memeriksa pola interaksi…",
+        "checking3": "Memverifikasi token sesi…",
+        "checking4": "Hampir selesai…"
+      },
+      "status": {
+        "idle": "Menunggu verifikasi…",
+        "checking": "Memverifikasi…",
+        "done": "Telah diverifikasi sebagai manusia — akses diberikan"
+      },
+      "redirect": {
+        "prefix": "Mengalihkan dalam",
+        "suffix": "…"
+      },
+      "footer": {
+        "privacy": "Privasi",
+        "terms": "Syarat",
+        "help": "Bantuan",
+        "brand": "Dilindungi oleh ExTradeFX"
+      },
+      "pageNote": "Pemeriksaan keamanan ini mengonfirmasi bahwa Anda adalah orang asli. Koneksi Anda dienkripsi dan aman."
+    },
+    "notFound": {
+      "title": "Halaman tidak ditemukan",
+      "sub": "Halaman yang Anda cari tidak ada atau telah dipindahkan. Periksa URL atau kembali ke beranda.",
+      "cta": {
+        "home": "Kembali ke beranda →",
+        "openAccount": "Buka akun"
+      },
+      "quickLinks": {
+        "trading": "Instrumen trading",
+        "accounts": "Jenis akun",
+        "platforms": "Platform",
+        "support": "Dukungan"
+      }
+    }
+  }

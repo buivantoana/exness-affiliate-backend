@@ -1,0 +1,1784 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1.0,maximum-scale=1"
+    />
+    <meta name="robots" content="index,follow" />
+    <title>FX Review Daily — Forex Broker Reviews & Analysis 2025</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=DM+Sans:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      :root {
+        --navy: #0a0f1e;
+        --navy2: #111827;
+        --navy3: #1f2937;
+        --navy4: #374151;
+        --yellow: #ffde02;
+        --yellow2: #ffe94d;
+        --yellow3: rgba(255, 222, 2, 0.1);
+        --green: #1d9e75;
+        --green2: #4ade80;
+        --blue2: #93c5fd;
+        --amber: #ef9f27;
+        --white: #ffffff;
+        --dim: rgba(255, 255, 255, 0.65);
+        --dimmer: rgba(255, 255, 255, 0.35);
+        --dimmest: rgba(255, 255, 255, 0.18);
+        --border: rgba(255, 255, 255, 0.08);
+        --border2: rgba(255, 255, 255, 0.12);
+        --font: "Outfit", sans-serif;
+        --body: "DM Sans", sans-serif;
+        --radius: 8px;
+        --radius-lg: 14px;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: var(--body);
+        background: var(--navy);
+        color: var(--white);
+        font-size: 15px;
+        line-height: 1.7;
+        overflow-x: hidden;
+      }
+      h1,
+      h2,
+      h3,
+      h4 {
+        font-family: var(--font);
+        font-weight: 800;
+        line-height: 1.15;
+      }
+      h1 {
+        font-size: clamp(26px, 5vw, 48px);
+      }
+      h2 {
+        font-size: clamp(18px, 3vw, 28px);
+      }
+      h3 {
+        font-size: clamp(15px, 2vw, 18px);
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      /* ── TOPBAR ── */
+      .topbar {
+        background: var(--yellow);
+        padding: 9px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+      .topbar-text {
+        font-size: 12px;
+        font-weight: 700;
+        font-family: var(--font);
+        color: var(--navy);
+      }
+      .topbar-cta {
+        background: var(--navy);
+        color: var(--yellow);
+        padding: 4px 14px;
+        border-radius: 100px;
+        font-size: 11px;
+        font-weight: 700;
+        font-family: var(--font);
+        cursor: pointer;
+        white-space: nowrap;
+      }
+
+      /* ── NAVBAR ── */
+      .navbar {
+        background: rgba(10, 15, 30, 0.95);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+        padding: 0 24px;
+        height: 58px;
+        display: flex;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+      .navbar-inner {
+        max-width: 1100px;
+        margin: 0 auto;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+      .nav-logo {
+        font-family: var(--font);
+        font-weight: 800;
+        font-size: 18px;
+        color: var(--white);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-shrink: 0;
+      }
+      .nav-logo-mark {
+        background: var(--yellow);
+        color: var(--navy);
+        width: 30px;
+        height: 30px;
+        border-radius: 7px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: 800;
+      }
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        margin-left: 24px;
+        flex: 1;
+      }
+      .nav-link {
+        font-size: 13px;
+        font-weight: 500;
+        font-family: var(--font);
+        color: var(--dim);
+        padding: 6px 12px;
+        border-radius: 6px;
+        transition: color 0.2s, background 0.2s;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+      .nav-link:hover {
+        color: var(--white);
+        background: rgba(255, 255, 255, 0.06);
+      }
+      .nav-link.active {
+        color: var(--yellow);
+      }
+      .nav-cta {
+        margin-left: auto;
+        background: var(--yellow);
+        color: var(--navy);
+        padding: 9px 22px;
+        border-radius: var(--radius);
+        font-size: 13px;
+        font-weight: 700;
+        font-family: var(--font);
+        cursor: pointer;
+        border: none;
+        transition: background 0.2s, transform 0.15s;
+        white-space: nowrap;
+      }
+      .nav-cta:hover {
+        background: var(--yellow2);
+        transform: translateY(-1px);
+      }
+
+      /* ── HERO SECTION ── */
+      .blog-hero {
+        padding: 72px 24px 56px;
+        position: relative;
+        overflow: hidden;
+        text-align: center;
+      }
+      .blog-hero::before {
+        content: "";
+        position: absolute;
+        top: -150px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 700px;
+        height: 700px;
+        background: radial-gradient(
+          circle,
+          rgba(255, 222, 2, 0.055) 0%,
+          transparent 65%
+        );
+        pointer-events: none;
+      }
+      .hero-inner {
+        max-width: 700px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+      .hero-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(255, 222, 2, 0.1);
+        border: 1px solid rgba(255, 222, 2, 0.2);
+        border-radius: 100px;
+        padding: 5px 14px;
+        font-size: 11px;
+        font-weight: 700;
+        font-family: var(--font);
+        color: var(--yellow);
+        letter-spacing: 0.5px;
+        margin-bottom: 22px;
+      }
+      .hero-title {
+        margin-bottom: 16px;
+      }
+      .hero-title span {
+        color: var(--yellow);
+      }
+      .hero-sub {
+        font-size: 16px;
+        color: var(--dim);
+        max-width: 520px;
+        margin: 0 auto 28px;
+      }
+      .hero-search {
+        display: flex;
+        gap: 0;
+        max-width: 480px;
+        margin: 0 auto;
+      }
+      .hero-search input {
+        flex: 1;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid var(--border2);
+        border-right: none;
+        border-radius: var(--radius) 0 0 var(--radius);
+        padding: 13px 18px;
+        font-size: 14px;
+        color: var(--white);
+        font-family: var(--body);
+        outline: none;
+        transition: border-color 0.2s;
+      }
+      .hero-search input::placeholder {
+        color: var(--dimmer);
+      }
+      .hero-search input:focus {
+        border-color: rgba(255, 222, 2, 0.35);
+      }
+      .hero-search button {
+        background: var(--yellow);
+        color: var(--navy);
+        border: none;
+        padding: 13px 22px;
+        border-radius: 0 var(--radius) var(--radius) 0;
+        font-size: 13px;
+        font-weight: 700;
+        font-family: var(--font);
+        cursor: pointer;
+        white-space: nowrap;
+        transition: background 0.2s;
+      }
+      .hero-search button:hover {
+        background: var(--yellow2);
+      }
+
+      /* ── STATS STRIP ── */
+      .stats-strip {
+        background: var(--navy2);
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+        padding: 20px 24px;
+      }
+      .stats-inner {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+        flex-wrap: wrap;
+      }
+      .stat-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0 32px;
+        border-right: 1px solid var(--border);
+      }
+      .stat-item:last-child {
+        border: none;
+      }
+      .stat-val {
+        font-size: 22px;
+        font-weight: 800;
+        font-family: var(--font);
+        color: var(--yellow);
+        line-height: 1;
+      }
+      .stat-lbl {
+        font-size: 11px;
+        color: var(--dimmer);
+        margin-top: 4px;
+        font-family: var(--font);
+      }
+
+      /* ── CATEGORY TABS ── */
+      .cat-wrap {
+        padding: 28px 24px 0;
+        border-bottom: 1px solid var(--border);
+      }
+      .cat-inner {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: flex;
+        gap: 4px;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+      .cat-inner::-webkit-scrollbar {
+        display: none;
+      }
+      .cat-tab {
+        font-size: 13px;
+        font-weight: 600;
+        font-family: var(--font);
+        color: var(--dim);
+        padding: 10px 18px;
+        border-radius: var(--radius) var(--radius) 0 0;
+        cursor: pointer;
+        white-space: nowrap;
+        border: 1px solid transparent;
+        border-bottom: none;
+        transition: all 0.2s;
+        flex-shrink: 0;
+      }
+      .cat-tab:hover {
+        color: var(--white);
+        background: rgba(255, 255, 255, 0.04);
+      }
+      .cat-tab.active {
+        color: var(--yellow);
+        background: var(--navy2);
+        border-color: var(--border);
+        border-bottom-color: var(--navy2);
+        position: relative;
+        top: 1px;
+      }
+
+      /* ── MAIN LAYOUT ── */
+      .main-wrap {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 44px 24px 80px;
+        display: grid;
+        grid-template-columns: 1fr 320px;
+        gap: 40px;
+      }
+
+      /* ── FEATURED ARTICLE ── */
+      .featured-article {
+        background: var(--navy2);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        margin-bottom: 32px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        transition: border-color 0.3s;
+      }
+      .featured-article:hover {
+        border-color: rgba(255, 222, 2, 0.25);
+      }
+      .featured-img {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 222, 2, 0.08) 0%,
+          rgba(29, 158, 117, 0.08) 100%
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px;
+        min-height: 240px;
+      }
+      .featured-img-inner {
+        text-align: center;
+      }
+      .featured-img-icon {
+        font-size: 56px;
+        display: block;
+        margin-bottom: 12px;
+      }
+      .featured-img-label {
+        font-size: 12px;
+        font-weight: 700;
+        font-family: var(--font);
+        color: var(--dim);
+        letter-spacing: 0.5px;
+      }
+      .featured-body {
+        padding: 32px 28px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .article-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        background: rgba(255, 222, 2, 0.12);
+        border: 1px solid rgba(255, 222, 2, 0.2);
+        color: var(--yellow);
+        font-size: 10px;
+        font-weight: 700;
+        font-family: var(--font);
+        padding: 3px 10px;
+        border-radius: 100px;
+        letter-spacing: 0.4px;
+        margin-bottom: 14px;
+      }
+      .featured-body h2 {
+        font-size: clamp(18px, 2.5vw, 24px);
+        margin-bottom: 10px;
+        cursor: pointer;
+        transition: color 0.2s;
+      }
+      .featured-body h2:hover {
+        color: var(--yellow);
+      }
+      .article-meta {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 12px;
+        color: var(--dimmer);
+        margin-bottom: 14px;
+        font-family: var(--font);
+        flex-wrap: wrap;
+      }
+      .meta-dot {
+        width: 3px;
+        height: 3px;
+        border-radius: 50%;
+        background: var(--dimmest);
+        flex-shrink: 0;
+      }
+      .article-excerpt {
+        font-size: 14px;
+        color: var(--dim);
+        line-height: 1.75;
+        margin-bottom: 20px;
+      }
+      .read-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: var(--yellow);
+        color: var(--navy);
+        padding: 10px 22px;
+        border-radius: var(--radius);
+        font-size: 13px;
+        font-weight: 700;
+        font-family: var(--font);
+        cursor: pointer;
+        transition: background 0.2s, transform 0.15s;
+        border: none;
+        width: fit-content;
+      }
+      .read-btn:hover {
+        background: var(--yellow2);
+        transform: translateY(-1px);
+      }
+      .read-btn-ghost {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--dim);
+        padding: 10px 0;
+        font-size: 13px;
+        font-weight: 600;
+        font-family: var(--font);
+        cursor: pointer;
+        transition: color 0.2s;
+        border: none;
+        background: transparent;
+      }
+      .read-btn-ghost:hover {
+        color: var(--white);
+      }
+
+      /* ── ARTICLE GRID ── */
+      .section-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+      .section-title {
+        font-size: 16px;
+        font-weight: 700;
+        font-family: var(--font);
+        color: var(--white);
+      }
+      .see-all {
+        font-size: 12px;
+        color: var(--yellow);
+        font-family: var(--font);
+        cursor: pointer;
+        font-weight: 600;
+      }
+      .article-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-bottom: 40px;
+      }
+      .article-card {
+        background: var(--navy2);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        transition: border-color 0.25s, transform 0.25s;
+        cursor: pointer;
+      }
+      .article-card:hover {
+        border-color: rgba(255, 222, 2, 0.2);
+        transform: translateY(-3px);
+      }
+      .card-thumb {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.03) 0%,
+          rgba(255, 255, 255, 0.01) 100%
+        );
+        padding: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-bottom: 1px solid var(--border);
+        height: 120px;
+      }
+      .card-thumb-icon {
+        font-size: 38px;
+      }
+      .card-body {
+        padding: 18px;
+      }
+      .card-body h3 {
+        font-size: 15px;
+        margin-bottom: 8px;
+        transition: color 0.2s;
+        line-height: 1.35;
+      }
+      .article-card:hover .card-body h3 {
+        color: var(--yellow);
+      }
+      .card-meta {
+        font-size: 11px;
+        color: var(--dimmer);
+        font-family: var(--font);
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .card-excerpt {
+        font-size: 13px;
+        color: var(--dim);
+        line-height: 1.65;
+        margin-bottom: 14px;
+      }
+      .card-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: 12px;
+        border-top: 1px solid var(--border);
+      }
+      .card-tags {
+        display: flex;
+        gap: 5px;
+        flex-wrap: wrap;
+      }
+      .tag {
+        font-size: 10px;
+        font-weight: 700;
+        font-family: var(--font);
+        padding: 3px 8px;
+        border-radius: 100px;
+        letter-spacing: 0.3px;
+      }
+      .tag-green {
+        background: rgba(29, 158, 117, 0.2);
+        color: #4ade80;
+        border: 1px solid rgba(29, 158, 117, 0.25);
+      }
+      .tag-yellow {
+        background: rgba(255, 222, 2, 0.12);
+        color: var(--yellow);
+        border: 1px solid rgba(255, 222, 2, 0.2);
+      }
+      .tag-blue {
+        background: rgba(24, 95, 165, 0.25);
+        color: #93c5fd;
+        border: 1px solid rgba(24, 95, 165, 0.3);
+      }
+      .tag-amber {
+        background: rgba(239, 159, 39, 0.15);
+        color: #fbbf24;
+        border: 1px solid rgba(239, 159, 39, 0.2);
+      }
+      .read-time {
+        font-size: 11px;
+        color: var(--dimmer);
+        font-family: var(--font);
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        flex-shrink: 0;
+      }
+
+      /* ── LIST ARTICLES ── */
+      .article-list {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        margin-bottom: 40px;
+      }
+      .list-item {
+        background: var(--navy2);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 18px 20px;
+        display: flex;
+        gap: 16px;
+        align-items: flex-start;
+        transition: border-color 0.25s;
+        cursor: pointer;
+      }
+      .list-item:hover {
+        border-color: rgba(255, 222, 2, 0.2);
+      }
+      .list-num {
+        font-size: 20px;
+        font-weight: 800;
+        font-family: var(--font);
+        color: rgba(255, 222, 2, 0.2);
+        flex-shrink: 0;
+        line-height: 1;
+        min-width: 28px;
+      }
+      .list-content h3 {
+        font-size: 15px;
+        margin-bottom: 6px;
+        transition: color 0.2s;
+        line-height: 1.35;
+      }
+      .list-item:hover .list-content h3 {
+        color: var(--yellow);
+      }
+      .list-excerpt {
+        font-size: 13px;
+        color: var(--dim);
+        line-height: 1.6;
+      }
+      .list-meta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 8px;
+        font-size: 11px;
+        color: var(--dimmer);
+        font-family: var(--font);
+        flex-wrap: wrap;
+      }
+
+      /* ── SIDEBAR ── */
+      .sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+      .sidebar-card {
+        background: var(--navy2);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+      }
+      .sidebar-header {
+        padding: 16px 20px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .sidebar-header-title {
+        font-size: 13px;
+        font-weight: 700;
+        font-family: var(--font);
+        color: var(--white);
+      }
+      .sidebar-header-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--yellow);
+        flex-shrink: 0;
+      }
+      .sidebar-body {
+        padding: 16px 20px;
+      }
+
+      /* Broker rating widget */
+      .broker-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--border);
+      }
+      .broker-item:last-child {
+        border: none;
+        padding-bottom: 0;
+      }
+      .broker-rank {
+        font-size: 13px;
+        font-weight: 800;
+        font-family: var(--font);
+        color: var(--dimmer);
+        min-width: 20px;
+      }
+      .broker-rank.top {
+        color: var(--yellow);
+      }
+      .broker-name {
+        font-size: 13px;
+        font-weight: 700;
+        font-family: var(--font);
+        color: var(--white);
+        flex: 1;
+      }
+      .broker-score {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .stars {
+        display: flex;
+        gap: 2px;
+      }
+      .star {
+        width: 10px;
+        height: 10px;
+        background: var(--amber);
+        clip-path: polygon(
+          50% 0,
+          61% 35%,
+          98% 35%,
+          68% 57%,
+          79% 91%,
+          50% 70%,
+          21% 91%,
+          32% 57%,
+          2% 35%,
+          39% 35%
+        );
+      }
+      .star.half {
+        background: linear-gradient(
+          90deg,
+          var(--amber) 50%,
+          rgba(255, 255, 255, 0.15) 50%
+        );
+      }
+      .star.empty {
+        background: rgba(255, 255, 255, 0.12);
+      }
+      .score-num {
+        font-size: 12px;
+        font-weight: 700;
+        font-family: var(--font);
+        color: var(--dim);
+      }
+
+      /* CTA sidebar card */
+      .sidebar-cta {
+        background: var(--yellow3);
+        border: 1px solid rgba(255, 222, 2, 0.18);
+        border-radius: var(--radius-lg);
+        padding: 22px;
+      }
+      .sidebar-cta-title {
+        font-size: 16px;
+        font-weight: 800;
+        font-family: var(--font);
+        color: var(--white);
+        margin-bottom: 8px;
+      }
+      .sidebar-cta-sub {
+        font-size: 13px;
+        color: var(--dim);
+        margin-bottom: 16px;
+        line-height: 1.6;
+      }
+      .sidebar-cta-btn {
+        width: 100%;
+        background: var(--yellow);
+        color: var(--navy);
+        border: none;
+        padding: 12px;
+        border-radius: var(--radius);
+        font-size: 14px;
+        font-weight: 700;
+        font-family: var(--font);
+        cursor: pointer;
+        transition: background 0.2s;
+        text-align: center;
+        display: block;
+      }
+      .sidebar-cta-btn:hover {
+        background: var(--yellow2);
+      }
+      .sidebar-cta-note {
+        font-size: 11px;
+        color: var(--dimmer);
+        text-align: center;
+        margin-top: 8px;
+        font-family: var(--font);
+      }
+
+      /* Trending list */
+      .trending-item {
+        display: flex;
+        gap: 10px;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--border);
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .trending-item:last-child {
+        border: none;
+        padding-bottom: 0;
+      }
+      .trending-item:hover .trending-title {
+        color: var(--yellow);
+      }
+      .trending-num {
+        font-size: 18px;
+        font-weight: 800;
+        font-family: var(--font);
+        color: rgba(255, 222, 2, 0.15);
+        line-height: 1;
+        flex-shrink: 0;
+        min-width: 22px;
+      }
+      .trending-title {
+        font-size: 13px;
+        font-weight: 600;
+        font-family: var(--font);
+        color: var(--dim);
+        line-height: 1.4;
+        transition: color 0.2s;
+      }
+      .trending-meta {
+        font-size: 10px;
+        color: var(--dimmer);
+        margin-top: 3px;
+        font-family: var(--font);
+      }
+
+      /* Newsletter */
+      .newsletter-input {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid var(--border2);
+        border-radius: var(--radius);
+        padding: 10px 14px;
+        font-size: 13px;
+        color: var(--white);
+        font-family: var(--body);
+        outline: none;
+        margin-bottom: 8px;
+        transition: border-color 0.2s;
+      }
+      .newsletter-input::placeholder {
+        color: var(--dimmer);
+      }
+      .newsletter-input:focus {
+        border-color: rgba(255, 222, 2, 0.3);
+      }
+      .newsletter-btn {
+        width: 100%;
+        background: var(--yellow);
+        color: var(--navy);
+        border: none;
+        padding: 11px;
+        border-radius: var(--radius);
+        font-size: 13px;
+        font-weight: 700;
+        font-family: var(--font);
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .newsletter-btn:hover {
+        background: var(--yellow2);
+      }
+
+      /* ── PAGINATION ── */
+      .pagination {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 32px 0 0;
+      }
+      .page-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--dim);
+        font-size: 13px;
+        font-weight: 600;
+        font-family: var(--font);
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .page-btn:hover {
+        border-color: rgba(255, 222, 2, 0.3);
+        color: var(--white);
+      }
+      .page-btn.active {
+        background: var(--yellow);
+        border-color: var(--yellow);
+        color: var(--navy);
+      }
+      .page-btn.arrow {
+        font-size: 16px;
+        color: var(--dimmer);
+      }
+
+      /* ── DISCLAIMER ── */
+      .disclaimer {
+        background: var(--navy);
+        border-top: 1px solid var(--border);
+        padding: 22px 24px;
+      }
+      .disclaimer-inner {
+        max-width: 1100px;
+        margin: 0 auto;
+        font-size: 11px;
+        color: var(--dimmer);
+        line-height: 1.7;
+      }
+
+      /* ── FOOTER ── */
+      footer {
+        background: var(--navy2);
+        border-top: 1px solid var(--border);
+        padding: 48px 24px 28px;
+      }
+      .footer-inner {
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+      .footer-top {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 40px;
+        margin-bottom: 36px;
+      }
+      .footer-brand p {
+        font-size: 13px;
+        color: var(--dimmer);
+        margin-top: 10px;
+        line-height: 1.7;
+        max-width: 260px;
+      }
+      .footer-col-title {
+        font-size: 12px;
+        font-weight: 700;
+        font-family: var(--font);
+        color: var(--dim);
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+        margin-bottom: 14px;
+      }
+      .footer-links {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .footer-links a {
+        font-size: 13px;
+        color: var(--dimmer);
+        transition: color 0.2s;
+        cursor: pointer;
+      }
+      .footer-links a:hover {
+        color: var(--white);
+      }
+      .footer-bottom {
+        border-top: 1px solid var(--border);
+        padding-top: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .footer-copy {
+        font-size: 12px;
+        color: var(--dimmer);
+      }
+      .footer-badges {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .footer-badge {
+        font-size: 10px;
+        font-weight: 700;
+        font-family: var(--font);
+        padding: 4px 10px;
+        border-radius: 100px;
+        border: 1px solid var(--border);
+        color: var(--dimmer);
+      }
+
+      /* ── ANIMATIONS ── */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(18px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .fade-up {
+        opacity: 0;
+        animation: fadeUp 0.55s ease forwards;
+      }
+      .d1 {
+        animation-delay: 0.05s;
+      }
+      .d2 {
+        animation-delay: 0.12s;
+      }
+      .d3 {
+        animation-delay: 0.2s;
+      }
+
+      /* ── RESPONSIVE ── */
+      @media (max-width: 900px) {
+        .main-wrap {
+          grid-template-columns: 1fr;
+        }
+        .sidebar {
+          display: none;
+        }
+        .featured-article {
+          grid-template-columns: 1fr;
+        }
+        .featured-img {
+          display: none;
+        }
+        .footer-top {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      @media (max-width: 640px) {
+        .article-grid {
+          grid-template-columns: 1fr;
+        }
+        .footer-top {
+          grid-template-columns: 1fr;
+        }
+        .nav-links {
+          display: none;
+        }
+        .hero-search {
+          flex-direction: column;
+        }
+        .hero-search input {
+          border-right: 1px solid var(--border2);
+          border-radius: var(--radius);
+          margin-bottom: 6px;
+        }
+        .hero-search button {
+          border-radius: var(--radius);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <span class="topbar-text"
+        >📊 Independent broker reviews · No paid placements · 100%
+        editorial</span
+      >
+      <div class="topbar-cta" onclick="window.location='/go/register'">
+        Trade with Exness →
+      </div>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+      <div class="navbar-inner">
+        <div class="nav-logo">
+          <div class="nav-logo-mark">FX</div>
+          FX Review Daily
+        </div>
+        <div class="nav-links">
+          <span class="nav-link active">Home</span>
+          <span class="nav-link">Reviews</span>
+          <span class="nav-link">Comparisons</span>
+          <span class="nav-link">Guides</span>
+          <span class="nav-link">Spreads & Fees</span>
+        </div>
+        <button class="nav-cta" onclick="window.location='/go/register'">
+          Open Account
+        </button>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="blog-hero">
+      <div class="hero-inner">
+        <div class="hero-eyebrow fade-up d1">
+          ✦ 200+ broker reviews since 2020
+        </div>
+        <h1 class="fade-up d2">
+          Forex Broker Reviews<br /><span>You Can Trust</span>
+        </h1>
+        <p class="hero-sub fade-up d3">
+          Independent analysis, real spreads data, and honest verdicts. No paid
+          rankings — ever.
+        </p>
+        <div class="hero-search fade-up d3">
+          <input type="text" placeholder="Search reviews, brokers, guides…" />
+          <button>Search</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS STRIP -->
+    <div class="stats-strip">
+      <div class="stats-inner">
+        <div class="stat-item">
+          <span class="stat-val">214</span>
+          <span class="stat-lbl">Brokers reviewed</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-val">1.2M</span>
+          <span class="stat-lbl">Monthly readers</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-val">5yr</span>
+          <span class="stat-lbl">Publishing since 2020</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-val">100%</span>
+          <span class="stat-lbl">Editorial independence</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CATEGORY TABS -->
+    <div class="cat-wrap">
+      <div class="cat-inner">
+        <span class="cat-tab active">All</span>
+        <span class="cat-tab">Reviews</span>
+        <span class="cat-tab">Comparisons</span>
+        <span class="cat-tab">How-to Guides</span>
+        <span class="cat-tab">Spreads & Fees</span>
+        <span class="cat-tab">Regulation</span>
+        <span class="cat-tab">Platforms</span>
+        <span class="cat-tab">Crypto Trading</span>
+      </div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main-wrap">
+      <main>
+        <!-- FEATURED -->
+        <article class="featured-article fade-up">
+          <div class="featured-img">
+            <div class="featured-img-inner">
+              <span class="featured-img-icon">📊</span>
+              <span class="featured-img-label">EDITOR'S PICK</span>
+            </div>
+          </div>
+          <div class="featured-body">
+            <span class="article-badge">★ Featured review</span>
+            <h2 onclick="window.location='/blog/exness-review'">
+              Exness Review 2025: Pros, Cons & Full Verdict
+            </h2>
+            <div class="article-meta">
+              <span>By FX Review Team</span>
+              <span class="meta-dot"></span>
+              <span>April 5, 2025</span>
+              <span class="meta-dot"></span>
+              <span>8 min read</span>
+              <span class="meta-dot"></span>
+              <span style="color: var(--green2)">⬆ Updated 2025</span>
+            </div>
+            <p class="article-excerpt">
+              Exness has established itself as one of the most trusted forex
+              brokers globally. With over $4.8 trillion in monthly trading
+              volume and regulation from 6 major authorities including FCA and
+              CySEC, we dive deep into whether it lives up to the hype for
+              traders in 2025.
+            </p>
+            <div
+              style="
+                display: flex;
+                gap: 10px;
+                align-items: center;
+                flex-wrap: wrap;
+              "
+            >
+              <button
+                class="read-btn"
+                onclick="window.location='/blog/exness-review'"
+              >
+                Read Full Review →
+              </button>
+              <button class="read-btn-ghost">Save for later ♡</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- ARTICLE GRID -->
+        <div class="section-header">
+          <span class="section-title">Latest reviews</span>
+          <span class="see-all">See all →</span>
+        </div>
+        <div class="article-grid">
+          <article class="article-card">
+            <div class="card-thumb">
+              <span class="card-thumb-icon">⚔️</span>
+            </div>
+            <div class="card-body">
+              <h3>Exness vs XM: Which Broker Wins in 2025?</h3>
+              <div class="card-meta">
+                <span>Sarah Chen</span>
+                <span class="meta-dot"></span>
+                <span>Apr 4, 2025</span>
+              </div>
+              <p class="card-excerpt">
+                We compare spreads, leverage, withdrawal speed, regulation, and
+                platform features head-to-head to settle the debate.
+              </p>
+              <div class="card-footer">
+                <div class="card-tags">
+                  <span class="tag tag-yellow">Comparison</span>
+                  <span class="tag tag-blue">Regulation</span>
+                </div>
+                <span class="read-time">⏱ 7 min</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="article-card">
+            <div
+              class="card-thumb"
+              style="
+                background: linear-gradient(
+                  135deg,
+                  rgba(29, 158, 117, 0.08) 0%,
+                  rgba(29, 158, 117, 0.04) 100%
+                );
+              "
+            >
+              <span class="card-thumb-icon">📋</span>
+            </div>
+            <div class="card-body">
+              <h3>How to Open an Exness Account: Step-by-Step 2025</h3>
+              <div class="card-meta">
+                <span>Mike Johnson</span>
+                <span class="meta-dot"></span>
+                <span>Apr 3, 2025</span>
+              </div>
+              <p class="card-excerpt">
+                From registration to first deposit in under 5 minutes. We walk
+                through every screen with screenshots.
+              </p>
+              <div class="card-footer">
+                <div class="card-tags">
+                  <span class="tag tag-green">Guide</span>
+                </div>
+                <span class="read-time">⏱ 6 min</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="article-card">
+            <div
+              class="card-thumb"
+              style="
+                background: linear-gradient(
+                  135deg,
+                  rgba(239, 159, 39, 0.08) 0%,
+                  rgba(239, 159, 39, 0.03) 100%
+                );
+              "
+            >
+              <span class="card-thumb-icon">💰</span>
+            </div>
+            <div class="card-body">
+              <h3>Exness Spreads & Fees Explained: All Account Types</h3>
+              <div class="card-meta">
+                <span>Alex Rivera</span>
+                <span class="meta-dot"></span>
+                <span>Apr 2, 2025</span>
+              </div>
+              <p class="card-excerpt">
+                We tested actual live spreads during Asian, London, and NY
+                sessions across all 5 Exness account types.
+              </p>
+              <div class="card-footer">
+                <div class="card-tags">
+                  <span class="tag tag-amber">Spreads</span>
+                  <span class="tag tag-yellow">Analysis</span>
+                </div>
+                <span class="read-time">⏱ 9 min</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="article-card">
+            <div
+              class="card-thumb"
+              style="
+                background: linear-gradient(
+                  135deg,
+                  rgba(24, 95, 165, 0.1) 0%,
+                  rgba(24, 95, 165, 0.04) 100%
+                );
+              "
+            >
+              <span class="card-thumb-icon">🛡️</span>
+            </div>
+            <div class="card-body">
+              <h3>Is Exness Safe? Regulation & Security Deep Dive</h3>
+              <div class="card-meta">
+                <span>FX Review Team</span>
+                <span class="meta-dot"></span>
+                <span>Apr 1, 2025</span>
+              </div>
+              <p class="card-excerpt">
+                FCA, CySEC, FSCA — what do these licenses actually mean for your
+                money? We break it down plainly.
+              </p>
+              <div class="card-footer">
+                <div class="card-tags">
+                  <span class="tag tag-blue">Regulation</span>
+                  <span class="tag tag-green">Safety</span>
+                </div>
+                <span class="read-time">⏱ 5 min</span>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- LIST ARTICLES -->
+        <div class="section-header">
+          <span class="section-title">Most read this week</span>
+          <span class="see-all">View all →</span>
+        </div>
+        <div class="article-list">
+          <div class="list-item">
+            <span class="list-num">01</span>
+            <div class="list-content">
+              <h3>Exness Withdrawal Methods: Complete 2025 Guide</h3>
+              <p class="list-excerpt">
+                Bank transfer, e-wallets, crypto — every method tested for speed
+                and fees. TL;DR: it's genuinely instant.
+              </p>
+              <div class="list-meta">
+                <span>Tom Walsh</span>
+                <span class="meta-dot"></span>
+                <span>Mar 31, 2025</span>
+                <span class="meta-dot"></span>
+                <span class="tag tag-green">Guide</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="list-item">
+            <span class="list-num">02</span>
+            <div class="list-content">
+              <h3>MetaTrader 5 vs Exness Terminal: Which Should You Use?</h3>
+              <p class="list-excerpt">
+                MT5 has more tools, but Exness Terminal loads faster with no
+                install required. Both on the same account.
+              </p>
+              <div class="list-meta">
+                <span>Priya Nair</span>
+                <span class="meta-dot"></span>
+                <span>Mar 29, 2025</span>
+                <span class="meta-dot"></span>
+                <span class="tag tag-blue">Platforms</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="list-item">
+            <span class="list-num">03</span>
+            <div class="list-content">
+              <h3>Trading Gold (XAUUSD) on Exness: Spreads, Leverage & Tips</h3>
+              <p class="list-excerpt">
+                XAUUSD spread from 0.3 pip on Standard Cent. We look at the best
+                account type and timing for gold trading.
+              </p>
+              <div class="list-meta">
+                <span>FX Review Team</span>
+                <span class="meta-dot"></span>
+                <span>Mar 27, 2025</span>
+                <span class="meta-dot"></span>
+                <span class="tag tag-amber">Gold</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="list-item">
+            <span class="list-num">04</span>
+            <div class="list-content">
+              <h3>Exness Standard vs Pro Account: Which Is Right for You?</h3>
+              <p class="list-excerpt">
+                Both are commission-free. The Pro account offers tighter spreads
+                and instant execution for active traders.
+              </p>
+              <div class="list-meta">
+                <span>Chris Park</span>
+                <span class="meta-dot"></span>
+                <span>Mar 25, 2025</span>
+                <span class="meta-dot"></span>
+                <span class="tag tag-yellow">Comparison</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PAGINATION -->
+        <div class="pagination">
+          <button class="page-btn arrow">‹</button>
+          <button class="page-btn active">1</button>
+          <button class="page-btn">2</button>
+          <button class="page-btn">3</button>
+          <button class="page-btn">…</button>
+          <button class="page-btn">12</button>
+          <button class="page-btn arrow">›</button>
+        </div>
+      </main>
+
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <!-- CTA card -->
+        <div class="sidebar-cta">
+          <div class="sidebar-cta-title">Ready to trade?</div>
+          <p class="sidebar-cta-sub">
+            Open an Exness account in under 2 minutes. Start from $10, withdraw
+            instantly.
+          </p>
+          <button
+            class="sidebar-cta-btn"
+            onclick="window.location='/go/register'"
+          >
+            Open Free Account →
+          </button>
+          <div class="sidebar-cta-note">
+            No credit card · Instant withdrawal · FCA regulated
+          </div>
+        </div>
+
+        <!-- Top brokers -->
+        <div class="sidebar-card">
+          <div class="sidebar-header">
+            <span class="sidebar-header-dot"></span>
+            <span class="sidebar-header-title">Top brokers 2025</span>
+          </div>
+          <div class="sidebar-body">
+            <div class="broker-item">
+              <span class="broker-rank top">1</span>
+              <span class="broker-name">Exness</span>
+              <div class="broker-score">
+                <div class="stars">
+                  <div class="star"></div>
+                  <div class="star"></div>
+                  <div class="star"></div>
+                  <div class="star"></div>
+                  <div class="star"></div>
+                </div>
+                <span class="score-num">4.9</span>
+              </div>
+            </div>
+            <div class="broker-item">
+              <span class="broker-rank">2</span>
+              <span class="broker-name">IC Markets</span>
+              <div class="broker-score">
+                <div class="stars">
+                  <div class="star"></div>
+                  <div class="star"></div>
+                  <div class="star"></div>
+                  <div class="star"></div>
+                  <div class="star half"></div>
+                </div>
+                <span class="score-num">4.7</span>
+              </div>
+            </div>
+            <div class="broker-item">
+              <span class="broker-rank">3</span>
+              <span class="broker-name">XM Group</span>
+              <div class="broker-score">
+                <div class="stars">
+                  <div class="star"></div>
+                  <div class="star"></div>
+                  <div class="star"></div>
+                  <div class="star"></div>
+                  <div class="star empty"></div>
+                </div>
+                <span class="score-num">4.5</span>
+              </div>
+            </div>
+            <div class="broker-item">
+              <span class="broker-rank">4</span>
+              <span class="broker-name">Pepperstone</span>
+              <div class="broker-score">
+                <div class="stars">
+                  <div class="star"></div>
+                  <div class="star"></div>
+                  <div class="star"></div>
+                  <div class="star"></div>
+                  <div class="star empty"></div>
+                </div>
+                <span class="score-num">4.4</span>
+              </div>
+            </div>
+            <div class="broker-item">
+              <span class="broker-rank">5</span>
+              <span class="broker-name">IG Markets</span>
+              <div class="broker-score">
+                <div class="stars">
+                  <div class="star"></div>
+                  <div class="star"></div>
+                  <div class="star"></div>
+                  <div class="star half"></div>
+                  <div class="star empty"></div>
+                </div>
+                <span class="score-num">4.3</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trending -->
+        <div class="sidebar-card">
+          <div class="sidebar-header">
+            <span class="sidebar-header-dot" style="background: #4ade80"></span>
+            <span class="sidebar-header-title">Trending now</span>
+          </div>
+          <div
+            class="sidebar-body"
+            style="padding-top: 8px; padding-bottom: 8px"
+          >
+            <div class="trending-item">
+              <span class="trending-num">01</span>
+              <div>
+                <div class="trending-title">Exness vs IC Markets 2025</div>
+                <div class="trending-meta">3,241 reads today</div>
+              </div>
+            </div>
+            <div class="trending-item">
+              <span class="trending-num">02</span>
+              <div>
+                <div class="trending-title">Best zero-spread brokers</div>
+                <div class="trending-meta">2,187 reads today</div>
+              </div>
+            </div>
+            <div class="trending-item">
+              <span class="trending-num">03</span>
+              <div>
+                <div class="trending-title">Exness Pro account review</div>
+                <div class="trending-meta">1,945 reads today</div>
+              </div>
+            </div>
+            <div class="trending-item">
+              <span class="trending-num">04</span>
+              <div>
+                <div class="trending-title">XAUUSD leverage explained</div>
+                <div class="trending-meta">1,402 reads today</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Newsletter -->
+        <div class="sidebar-card">
+          <div class="sidebar-header">
+            <span class="sidebar-header-dot" style="background: #93c5fd"></span>
+            <span class="sidebar-header-title">Weekly digest</span>
+          </div>
+          <div class="sidebar-body">
+            <p
+              style="
+                font-size: 13px;
+                color: var(--dim);
+                margin-bottom: 14px;
+                line-height: 1.6;
+              "
+            >
+              Get our best broker reviews and market insights every Monday. No
+              spam, unsubscribe anytime.
+            </p>
+            <input
+              class="newsletter-input"
+              type="email"
+              placeholder="your@email.com"
+            />
+            <button class="newsletter-btn">Subscribe →</button>
+            <p
+              style="
+                font-size: 10px;
+                color: var(--dimmer);
+                margin-top: 8px;
+                text-align: center;
+              "
+            >
+              Join 24,000+ traders. Free forever.
+            </p>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- DISCLAIMER -->
+    <div class="disclaimer">
+      <div class="disclaimer-inner">
+        <strong>Editorial policy:</strong> FX Review Daily earns commission when
+        you open an account via our links. This never influences our ratings or
+        reviews — editorial decisions are made independently.
+        <strong>Risk warning:</strong> Trading CFDs involves significant risk of
+        loss. 74–89% of retail investor accounts lose money. Please consider
+        whether you can afford to take the high risk of losing your money. This
+        is not financial advice.
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-top">
+          <div class="footer-brand">
+            <div class="nav-logo">
+              <div class="nav-logo-mark">FX</div>
+              FX Review Daily
+            </div>
+            <p>
+              Independent forex broker reviews and trading guides since 2020.
+              Our mission: honest, data-driven analysis you can trade with
+              confidence.
+            </p>
+          </div>
+          <div>
+            <div class="footer-col-title">Reviews</div>
+            <div class="footer-links">
+              <a>Exness Review</a>
+              <a>IC Markets Review</a>
+              <a>XM Group Review</a>
+              <a>Pepperstone Review</a>
+              <a>IG Markets Review</a>
+            </div>
+          </div>
+          <div>
+            <div class="footer-col-title">Guides</div>
+            <div class="footer-links">
+              <a>How to Open Account</a>
+              <a>Best Spreads Brokers</a>
+              <a>Leverage Explained</a>
+              <a>MT4 vs MT5</a>
+              <a>Crypto Trading</a>
+            </div>
+          </div>
+          <div>
+            <div class="footer-col-title">Company</div>
+            <div class="footer-links">
+              <a>About Us</a>
+              <a>Editorial Policy</a>
+              <a>Advertise</a>
+              <a>Privacy Policy</a>
+              <a>Contact</a>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span class="footer-copy"
+            >© 2025 FX Review Daily. Independent broker reviews. Not financial
+            advice.</span
+          >
+          <div class="footer-badges">
+            <span class="footer-badge">FCA Compliant</span>
+            <span class="footer-badge">GDPR Ready</span>
+            <span class="footer-badge">Ad-free editorial</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      var obs = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) {
+              e.target.style.opacity = "1";
+              e.target.style.transform = "translateY(0)";
+              obs.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.08 }
+      );
+      document
+        .querySelectorAll(".article-card,.list-item,.featured-article")
+        .forEach(function (el) {
+          el.style.opacity = "0";
+          el.style.transform = "translateY(14px)";
+          el.style.transition = "opacity .5s ease, transform .5s ease";
+          obs.observe(el);
+        });
+      document.querySelectorAll(".cat-tab").forEach(function (tab) {
+        tab.onclick = function () {
+          document.querySelectorAll(".cat-tab").forEach(function (t) {
+            t.classList.remove("active");
+          });
+          tab.classList.add("active");
+        };
+      });
+      document
+        .querySelectorAll(".page-btn:not(.arrow)")
+        .forEach(function (btn) {
+          btn.onclick = function () {
+            document
+              .querySelectorAll(".page-btn:not(.arrow)")
+              .forEach(function (b) {
+                b.classList.remove("active");
+              });
+            btn.classList.add("active");
+          };
+        });
+    </script>
+  </body>
+</html>

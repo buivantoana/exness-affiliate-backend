@@ -20,6 +20,7 @@ const LINK_FIELDS = [
   "whyExnessLink",
   "appDownloadLink"
 ];
+// server/db/index.js - Thêm vào DEFAULT_DOMAIN_CONFIG
 
 const DEFAULT_DOMAIN_CONFIG = {
   defaultLanguage: "en",
@@ -40,16 +41,33 @@ const DEFAULT_DOMAIN_CONFIG = {
   clientProtectionLink: "",
   whyExnessLink: "",
   appDownloadLink: "",
+  gtmContainerId: "",
+  ga4MeasurementId: "",
   subPaths: [],
   subPathConfigs: {},
-  blockedCountries: [],
+
+  // ⭐ THÊM CÁC FIELD MỚI CHO BLOCKING
+  blockedCountries: ["RU", "CY", "BY", "IR", "KP", "AU", "IL", "BZ", "SC", "VU", "KY", "UA", "NG", "BD"],
   blockedIPs: [],
-  blockAction: "403",
-  blockRedirectUrl: "",
+  blockedCIDR: [
+    "3.0.0.0/8", "52.0.0.0/8", "54.0.0.0/8",
+    "34.0.0.0/8", "35.0.0.0/8", "104.196.0.0/14",
+    "20.0.0.0/8", "40.0.0.0/8",
+    "188.166.0.0/16", "167.99.0.0/16", "143.198.0.0/16", "159.89.0.0/16",
+    "45.33.0.0/17", "139.162.0.0/16", "198.199.0.0/16",
+    "185.220.100.0/22", "51.15.0.0/16"
+  ],
+  blockedASNs: [
+    "AS16509", "AS15169", "AS8075", "AS14061", "AS63949",
+    "AS24940", "AS16276", "AS12876", "AS20473", "AS60068",
+    "AS394711", "AS9009"
+  ],
+  badReferrers: ["xm.com", "icmarkets.com", "pepperstone.com", "fbs.com"],
+  blockAction: "redirect",
+  blockRedirectUrl: "https://google.com",
+
   createdAt: "",
-  updatedAt: "",
-  gtmContainerId: "",      // ⭐ THÊM
-  ga4MeasurementId: "",    // ⭐ THÊM
+  updatedAt: ""
 };
 
 let writeQueue = Promise.resolve();

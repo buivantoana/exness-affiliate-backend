@@ -43,6 +43,51 @@ function validateDomainConfig(payload) {
 
 export function createAdminRouter() {
   const router = express.Router();
+  // DELETE /api/admin/analytics/route/:route
+  router.delete("/analytics/route/:route", async (req, res) => {
+    const { route } = req.params;
+    const domain = req.domainHost;
+
+    await deleteAnalyticsRoute(domain, route);
+    return res.json({ success: true, message: `Deleted ${route}` });
+  });
+  // / GET /api / admin / block - lists - Lấy danh sách block hiện tại
+  router.get("/block-lists", async (req, res) => {
+    const config = await getDomainConfig(req.domainHost);
+    return res.json({
+      blockedCountries: config?.blockedCountries || [],
+      blockedIPs: config?.blockedIPs || [],
+      blockedCIDR: config?.blockedCIDR || [],
+      blockedASNs: config?.blockedASNs || [],
+      badReferrers: config?.badReferrers || [],
+      blockAction: config?.blockAction || "redirect",
+      blockRedirectUrl: config?.blockRedirectUrl || ""
+    });
+  });
+
+  // PUT /api/admin/block-lists - Cập nhật block lists
+  router.put("/block-lists", express.json(), async (req, res) => {
+    const current = await getDomainConfig(req.domainHost);
+    const updated = {
+      ...current,
+      blockedCountries: req.body.blockedCountries ?? current?.blockedCountries ?? [],
+      blockedIPs: req.body.blockedIPs ?? current?.blockedIPs ?? [],
+      blockedCIDR: req.body.blockedCIDR ?? current?.blockedCIDR ?? [],
+      blockedASNs: req.body.blockedASNs ?? current?.blockedASNs ?? [],
+      badReferrers: req.body.badReferrers ?? current?.badReferrers ?? [],
+      blockAction: req.body.blockAction ?? current?.blockAction ?? "redirect",
+      blockRedirectUrl: req.body.blockRedirectUrl ?? current?.blockRedirectUrl ?? ""
+    };
+
+    await upsertDomainConfig(req.domainHost, updated);
+    return res.json({ success: true, config: updated });
+  });
+  // DELETE /api/admin/analytics/all
+  router.delete("/analytics/all", async (req, res) => {
+    const domain = req.domainHost;
+    await clearAllAnalytics(domain);
+    return res.json({ success: true, message: `Cleared all analytics for ${domain}` });
+  });
 
   router.post("/login", express.json(), async (req, res) => {
     const ip = req.ip || req.socket.remoteAddress || "unknown";

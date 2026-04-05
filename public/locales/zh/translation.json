@@ -1,0 +1,448 @@
+{
+  "topbar": {
+    "text": "限时优惠：黄金账户点差0% — 剩余时间",
+    "cta": "立即领取 →"
+  },
+  "nav1": {
+    "signIn": "登录",
+    "openAccount": "开户"
+  },
+  "live": {
+    "text": "当前在线 {{viewers}} 名交易者 · 今日开户 {{openers}} 个 · 全球活跃交易者超过 16,000,000 人"
+  },
+  "hero1": {
+    "tag1": "✓ FCA监管",
+    "tag2": "0% 佣金",
+    "tag3": "成立于2008年",
+    "title1": "交易黄金与外汇",
+    "title2": "享受",
+    "titleHighlight": "零点差",
+    "sub": "加入全球1600万交易者行列。即时出金，XAUUSD点差低至0.3点，杠杆最高1:2000。只需10美元即可开始。",
+    "cta1": "免费开户 →",
+    "cta2": "先试用模拟账户",
+    "note": "无需信用卡 · 出金几秒钟到账",
+    "trust1": "🏆 2025亚洲最佳经纪商",
+    "trust2": "🛡 6个监管牌照",
+    "trust3": "⚡ 即时出金",
+    "trust4": "📱 iOS & Android应用"
+  },
+  "metrics": {
+    "m1val": "$10",
+    "m1lbl": "最低入金",
+    "m1sub": "无隐藏费用",
+    "m2val": "<3秒",
+    "m2lbl": "出金速度",
+    "m2sub": "行业最快",
+    "m3val": "1:2000",
+    "m3lbl": "最高杠杆",
+    "m3sub": "按账户灵活调整",
+    "m4val": "0.3",
+    "m4lbl": "黄金点差 (点)",
+    "m4sub": "XAUUSD最优"
+  },
+  "marquee": {
+    "i1": "XAUUSD点差0.3点",
+    "i2": "24/7即时出金",
+    "i3": "2008年起受FCA监管",
+    "i4": "全球超过1600万交易者",
+    "i5": "5种账户类型",
+    "i6": "标准账户零佣金",
+    "i7": "MT4 + MT5 + 网页终端",
+    "i8": "负余额保护"
+  },
+  "why": {
+    "eyebrow": "为什么交易者选择我们",
+    "title": "无与伦比的交易条件",
+    "c1title": "即时出金",
+    "c1text": "资金几秒钟内处理完成，而非几天。通过银行转账、电子钱包或加密货币24/7可用。永不出金手续费。",
+    "c1stat": "<3秒",
+    "c1lbl": "平均处理时间",
+    "c2title": "最优点差",
+    "c2text": "XAUUSD点差低至0.3点，EUR/USD低至0.3点。提供零点差账户。无重报价、无滑点。",
+    "c2stat": "0.3",
+    "c2lbl": "XAUUSD点差 (点)",
+    "c3title": "最高安全性",
+    "c3text": "受FCA、CySEC、FSCA及其他3家机构监管。客户资金隔离存放。所有账户均提供负余额保护。",
+    "c3stat": "6",
+    "c3lbl": "监管牌照",
+    "c4title": "灵活杠杆",
+    "c4text": "可在选定品种上将杠杆从1:1调整至1:2000。根据您的风险承受能力随时调整。",
+    "c4stat": "1:2000",
+    "c4lbl": "最高杠杆",
+    "c5title": "全球24/7支持",
+    "c5text": "通过实时聊天、电话和邮件提供14种语言支持。实时聊天平均响应时间少于30秒。",
+    "c5stat": "14",
+    "c5lbl": "支持语言",
+    "c6title": "随时随地交易",
+    "c6text": "功能完整的iOS和Android应用。同时支持MT4、MT5和Exness网页终端。跨设备无缝同步。",
+    "c6stat": "16M+",
+    "c6lbl": "活跃交易者"
+  },
+  "instruments1": {
+    "eyebrow": "市场",
+    "title": "交易200+种金融产品",
+    "sub": "在一个账户中接入全球市场。黄金、原油、货币、股票、加密货币等。",
+    "i1name": "黄金",
+    "i1count": "XAUUSD · 0.3点",
+    "i2name": "外汇",
+    "i2count": "100+货币对",
+    "i3name": "指数",
+    "i3count": "S&P、纳斯达克、DAX",
+    "i4name": "原油与能源",
+    "i4count": "WTI · 布伦特",
+    "i5name": "加密货币",
+    "i5count": "比特币、以太坊等"
+  },
+  "accounts1": {
+    "eyebrow": "账户类型",
+    "title": "选择您的账户",
+    "sub": "五种账户类型，满足从新手到专业交易者的所有需求。",
+    "a1badge": "适合新手",
+    "a1name": "标准美分账户",
+    "a1desc": "以微型手交易，风险较低。适合用真实资金学习。",
+    "a2badge": "★ 最受欢迎",
+    "a2name": "标准账户",
+    "a2desc": "无最低入金要求，点差低，无佣金。全能最佳账户。",
+    "a3badge": "适合专业人士",
+    "a3name": "专业账户",
+    "a3desc": "点差低至0.1点，无限订单，即时执行。适合认真交易者。",
+    "specDeposit": "最低入金",
+    "specSpread": "点差低至",
+    "specComm": "佣金",
+    "none": "无",
+    "openBtn": "免费开户 →"
+  },
+  "steps": {
+    "eyebrow": "开始交易",
+    "title": "开始交易仅需3步",
+    "sub": "从注册到实盘交易不到10分钟，无需任何经验。",
+    "s1title": "创建免费账户",
+    "s1text": "输入邮箱和手机号。注册无需入金。不到2分钟完成。",
+    "s1cta": "立即注册 →",
+    "s2title": "身份验证",
+    "s2text": "上传身份证件。5-30分钟审核通过。出金必须验证。",
+    "s3title": "入金并交易",
+    "s3text": "通过银行、电子钱包或加密货币入金10美元起。立即可开第一单。"
+  },
+  "testimonials1": {
+    "eyebrow": "交易者怎么说",
+    "title": "数百万交易者信赖",
+    "reviews": "/ 5 · 12,400条评价",
+    "t1text": "\"出金真的只用了3秒——我亲自计时。黄金点差是我用过的5家经纪商中最紧的。现在这是我的主力平台。\"",
+    "t1name": "艾哈迈德·S.",
+    "t1meta": "雅加达，印度尼西亚 · 交易3年",
+    "t2text": "\"Standard Cent账户让我能用真实资金低风险学习。泰语支持非常好。3个月后我升级到Standard账户——再也不回去了。\"",
+    "t2name": "卡温·P.",
+    "t2meta": "曼谷，泰国 · 交易1年",
+    "t3text": "\"免掉期账户和阿拉伯语界面让Exness非常适合中东交易者。手机应用快速可靠——我可以随时随地交易。\"",
+    "t3name": "穆罕默德·R.",
+    "t3meta": "迪拜，阿联酋 · 交易5年",
+    "t4text": "\"交易5年用过很多平台，Exness的执行速度是我体验过最好的。尤其是亚洲时段的黄金点差，真的无可匹敌。\"",
+    "t4name": "拉胡尔·P.",
+    "t4meta": "孟买，印度 · 交易5年"
+  },
+  "platforms1": {
+    "eyebrow": "交易平台",
+    "title": "以您喜欢的方式交易",
+    "p1name": "MetaTrader 4",
+    "p1desc": "经典 · 支持EA",
+    "p2name": "MetaTrader 5",
+    "p2desc": "新一代 · 更多市场",
+    "p3name": "Exness网页终端",
+    "p3desc": "浏览器版 · 无需安装",
+    "p4name": "Exness手机应用",
+    "p4desc": "iOS & Android",
+    "b1": "2025最低点差奖",
+    "b2": "FCA监管",
+    "b3": "即时出金",
+    "b4": "无出金手续费",
+    "b5": "资金隔离",
+    "b6": "移动交易"
+  },
+  "finalCta": {
+    "tag": "限时优惠",
+    "title1": "今天只需",
+    "titleHighlight": "$10",
+    "title2": "即可开始交易",
+    "sub": "加入1600万交易者行列。2分钟完成开户 — 注册无需入金。",
+    "btn": "免费开户 →",
+    "f1": "无需信用卡",
+    "f2": "免费模拟账户",
+    "f3": "受监管且安全",
+    "f4": "即时出金"
+  },
+  "disclaimer1": "CFD交易存在很高的资金损失风险。与该提供商进行CFD交易的零售投资者账户中有74–89%会亏损。请考虑您是否有能力承担损失资金的高风险。本页面由独立联盟合作伙伴运营，与Exness Group Ltd.无关。所有商标归其各自所有者所有。",
+  "sticky1": {
+    "title": "Exness — 免费开户",
+    "sub": "从$10开始 · 即时出金",
+    "btn": "立即开始 →"
+  },
+  
+    "nav": {
+      "brokers": "经纪商",
+      "compare": "比较",
+      "education": "教育"
+    },
+    "breadcrumb": {
+      "home": "首页",
+      "brokers": "经纪商",
+      "current": "Exness 2025评测"
+    },
+    "urgency": {
+      "viewing": "人正在查看",
+      "opened": "今日开户"
+    },
+    "hero": {
+      "title": "Exness 2025评测",
+      "sub": "探索先进的交易体验",
+      "overall": "综合评分",
+      "regulated": "✓ 受FCA监管",
+      "updated": "2025年4月更新 · 专家团队评测",
+      "minDeposit": "最低存款",
+      "withdrawal": "出金",
+      "instant": "即时",
+      "maxLeverage": "最大杠杆",
+      "licenses": "牌照",
+      "openAccount": "开户",
+      "tryDemo": "免费试用"
+    },
+    "stickyNav": {
+      "findBroker": "寻找经纪商",
+      "expertAssessment": "专家评估",
+      "trustSafety": "信任与安全",
+      "accountTypes": "账户类型",
+      "compare": "比较",
+      "reviews": "评价",
+      "faq": "常见问题"
+    },
+    "quiz": {
+      "title": "找到适合您的经纪商",
+      "sub": "回答3个快速问题，获取个性化推荐",
+      "step": "步骤",
+      "of": "之",
+      "next": "下一步",
+      "seeResult": "查看结果",
+      "popular": "最受欢迎",
+      "topPriority": "首要优先",
+      "q1": "您主要想交易什么？",
+      "q2": "您的交易经验如何？",
+      "q3": "对您最重要的是什么？",
+      "optGold": "黄金 (XAUUSD) & 商品",
+      "optForex": "外汇 (EUR/USD, GBP/USD...)",
+      "optCrypto": "加密货币 & 指数",
+      "optBeginner": "新手 — 不到1年",
+      "optIntermediate": "中级 — 1至3年",
+      "optAdvanced": "高级 — 超过3年",
+      "optSpreads": "低点差 — 最低成本",
+      "optWithdrawals": "快速出金 — 即时资金访问",
+      "optLeverage": "高杠杆 — 最大化仓位",
+      "resultTitle": "基于您的资料的推荐",
+      "resultText": "根据您的回答，Exness是最适合的选择。Exness提供最低的XAUUSD点差（0.3点）、3秒内即时出金，以及高达1:2000的杠杆 — 最低存款仅$10。与您资料相似的87%的交易者选择了Exness。",
+      "openAccount": "开设Exness账户"
+    },
+    "expert": {
+      "title": "专家评测",
+      "text1": "寻找结合创新、可靠性和交易者导向功能的经纪商时，Exness脱颖而出。它强调透明度和用户友好性，满足各水平交易者的需求。",
+      "text2": "Exness适合新手和经验丰富的交易者，提供先进工具和竞争性点差。无佣金进一步提升了价值。",
+      "verdict": "我们的裁决",
+      "verdictText": "最适合优先考虑低点差、即时出金和灵活杠杆的交易者。不适合寻求结构化教育或欢迎奖金的人。",
+      "scoreBreakdown": "分数 breakdown",
+      "advantages": "优势",
+      "disadvantages": "劣势",
+      "adv1": "五种账户类型",
+      "adv2": "最低存款 $10",
+      "adv3": "稳定低点差",
+      "adv4": "超过70个MT服务器",
+      "adv5": "无隔夜利息",
+      "dis1": "教育内容有限",
+      "dis2": "无欢迎奖金"
+    },
+    "scores": {
+      "trust": "信任与安全",
+      "fees": "费用与点差",
+      "platforms": "平台",
+      "mobile": "移动应用",
+      "support": "支持",
+      "education": "教育"
+    },
+    "trust": {
+      "title": "信任与安全",
+      "text1": "Exness作为受监管的经纪商，确保安全的交易环境。客户资金与公司运营资金分开存放。",
+      "text2": "Exness严格执行AML和KYC程序，验证客户身份并防止非法活动。",
+      "regulatory": "监管合规",
+      "instruments": "交易工具",
+      "segregated": "客户资金隔离",
+      "segregatedText": "客户资金始终与经纪商运营资金分开保管 — 您的资金始终受到保护。"
+    },
+    "instruments": {
+      "forex": "外汇",
+      "commodities": "商品",
+      "indices": "指数",
+      "stocks": "股票",
+      "crypto": "加密货币",
+      "etfs": "ETF",
+      "bonds": "债券",
+      "options": "期权"
+    },
+    "accounts": {
+      "title": "账户类型",
+      "sub": "Exness提供五种不同账户类型，满足交易者的多样化需求。",
+      "popular": "最受欢迎",
+      "cent": "Standard Cent",
+      "centDesc": "适合初学者，使用美分手交易。完美用于策略测试。",
+      "standard": "Standard",
+      "standardDesc": "适合新手和有经验者，无最低存款要求。",
+      "pro": "Pro",
+      "proDesc": "适合资深交易者 — 无限制订单，点差从0.1点起。",
+      "zero": "Zero",
+      "zeroDesc": "主要工具95%的时间点差为零。",
+      "raw": "Raw Spread",
+      "rawDesc": "超低稳定点差 + 固定每手佣金。"
+    },
+    "fees": {
+      "title": "佣金与费用",
+      "account": "账户费用",
+      "inactivity": "不活跃费用",
+      "deposit": "入金费用",
+      "eurusd": "EUR/USD 点差",
+      "note": "无账户费、无不活跃费、无入金费。汇率按当时市场汇率。"
+    },
+    "features": {
+      "title": "特色功能",
+      "instant": "即时出金",
+      "swapFree": "无掉期交易",
+      "social": "社交交易",
+      "vps": "VPS托管",
+      "negative": "负余额保护",
+      "copy": "复制交易"
+    },
+    "compare": {
+      "title": "Exness vs 竞争对手",
+      "sub": "查看Exness与其他顶级外汇经纪商的比较",
+      "feature": "功能",
+      "minDeposit": "最低存款",
+      "eurusdSpread": "EUR/USD 点差",
+      "xauusdSpread": "XAUUSD 点差",
+      "maxLeverage": "最大杠杆",
+      "withdrawalSpeed": "出金速度",
+      "regulation": "监管",
+      "swapFree": "无掉期",
+      "mt5": "MT5",
+      "instant": "即时",
+      "allAccounts": "✓ 所有账户",
+      "islamicOnly": "仅伊斯兰",
+      "no": "✕ 无",
+      "yes": "✓ 有",
+      "openAccount": "开设Exness账户"
+    },
+    "testimonials": {
+      "title": "交易者评价",
+      "sub": "来自真实交易者的验证评价",
+      "t1name": "Ahmad S.",
+      "t1location": "雅加达，印度尼西亚 · 交易3年 · 2天前",
+      "t1text": "出金在5秒内处理。黄金点差是我见过最低的。Exness是我主要的交易平台，我推荐给所有人。",
+      "t2name": "Kawin P.",
+      "t2location": "曼谷，泰国 · 交易1年 · 5天前",
+      "t2text": "Standard Cent账户非常适合新手。24/7泰语支持，响应迅速。Exness是东南亚最好的经纪商。",
+      "t3name": "Mohammed R.",
+      "t3location": "迪拜，阿联酋 · 交易5年 · 1周前",
+      "t3text": "无掉期账户和阿拉伯语支持使Exness成为穆斯林交易者的理想选择。平台快速，出金真正即时。",
+      "t4name": "Rahul P.",
+      "t4location": "孟买，印度 · 交易2年 · 3天前",
+      "t4text": "使用Exness已2年。杠杆和点差选项无与伦比。客服24/7可用且非常有帮助。"
+    },
+    "platforms": {
+      "title": "交易平台",
+      "mt4": "MetaTrader 4 (MT4)",
+      "mt4Desc": "具有高级图表工具的经典平台",
+      "mt5": "MetaTrader 5 (MT5)",
+      "mt5Desc": "具有高级功能的下一代平台",
+      "terminal": "Exness Terminal",
+      "terminalDesc": "具有现代界面的网页平台",
+      "appDesc": "iOS和Android移动交易"
+    },
+    "payment": {
+      "title": "存款与取款",
+      "methods": "银行转账、信用卡/借记卡、电子钱包",
+      "noFees": "Exness不收取存款或取款费用",
+      "instant": "大多数方式即时处理",
+      "minDeposit": "最低存款从 $10 USD 起"
+    },
+    "support": {
+      "title": "客户支持",
+      "chat": "通过电话、在线聊天、邮件提供24/7支持",
+      "languages": "支持14种语言",
+      "managers": "高端客户专属账户经理"
+    },
+    "conclusion": {
+      "title": "结论",
+      "text1": "Exness是一家可靠且创新的经纪商，提供全面的交易体验。凭借竞争性点差、多样账户类型和强大监管，它是各水平交易者的优秀选择。",
+      "text2": "平台对安全、透明和用户体验的重视，使其成为行业中最值得信赖的经纪商之一。",
+      "ctaTitle": "与最可靠的经纪商之一开始交易",
+      "openAccount": "开户"
+    },
+    "faq": {
+      "title": "常见问题",
+      "q1": "在Exness交易安全吗？",
+      "a1": "是的。Exness受包括FCA（英国）和CySEC（欧盟）在内的6大金融监管机构监管。客户资金与公司资金隔离存放。自2008年以来无重大监管事件。",
+      "q2": "最低存款是多少？",
+      "a2": "取决于账户类型。Standard和Standard Cent无最低存款要求。Pro有最低存款，Zero和Raw Spread因地区而异。大多数交易者从$10开始。",
+      "q3": "Exness收取出金费吗？",
+      "a3": "不收取。Exness不收取任何出金费。大多数出金即时处理（通常几秒内）。使用当时市场汇率，无隐藏费用。",
+      "q4": "Exness提供哪些平台？",
+      "a4": "提供MetaTrader 4 (MT4)、MetaTrader 5 (MT5)、网页版Exness Terminal以及iOS/Android的Exness Trade App。MT5是最先进的。",
+      "q5": "Exness提供模拟账户吗？",
+      "a5": "是的。Exness在所有平台提供无限时免费模拟账户。允许无风险练习策略。"
+    },
+    "disclaimer": {
+      "title": "风险提示：",
+      "text": "CFD交易存在重大资金损失风险。与该提供商进行CFD交易的零售投资者账户中有74-89%会亏损。您应考虑自己是否能承受高风险。本评测仅供参考，不构成财务建议。ExpertReview是独立评测网站，与Exness集团无关联。"
+    },
+    "sticky": {
+      "title": "Exness — 从 $10 开始",
+      "sub": "即时出金 · 6个牌照",
+      "btn": "开户"
+    },
+    "botcheck": {
+      "title": "安全验证",
+      "subtitle": "由 ExTradeFX 保护",
+      "label": "我不是机器人",
+      "sublabel": {
+        "idle": "点击以验证您的身份",
+        "checking1": "正在分析浏览器指纹…",
+        "checking2": "正在检查交互模式…",
+        "checking3": "正在验证会话令牌…",
+        "checking4": "即将完成…"
+      },
+      "status": {
+        "idle": "等待验证…",
+        "checking": "验证中…",
+        "done": "已验证为真人 — 已授予访问权限"
+      },
+      "redirect": {
+        "prefix": "即将跳转",
+        "suffix": "…"
+      },
+      "footer": {
+        "privacy": "隐私政策",
+        "terms": "条款",
+        "help": "帮助",
+        "brand": "由 ExTradeFX 保护"
+      },
+      "pageNote": "此安全检查用于确认您是真实用户。您的连接已加密且安全。"
+    },
+    "notFound": {
+      "title": "页面未找到",
+      "sub": "您要查找的页面不存在或已被移动。请检查网址或返回首页。",
+      "cta": {
+        "home": "返回首页 →",
+        "openAccount": "开设账户"
+      },
+      "quickLinks": {
+        "trading": "交易品种",
+        "accounts": "账户类型",
+        "platforms": "交易平台",
+        "support": "支持帮助"
+      }
+    }
+  }
