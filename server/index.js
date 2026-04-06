@@ -94,43 +94,43 @@ async function blockMiddleware(req, res, config) {
   }
 
   // ===== TIER 2: SUSPICIOUS → blog.html =====
-  try {
-    const info = await getIPInfo(ip);
-    console.log(`   📊 IP Info result:`, info);
+  // try {
+  //   const info = await getIPInfo(ip);
+  //   console.log(`   📊 IP Info result:`, info);
 
-    if (info) {
-      // Check blocked countries
-      const blockedCountries = config.blockedCountries || [];
-      console.log(`   🌍 Country check: ${info.countryCode} in ${JSON.stringify(blockedCountries)}`);
-      
-      if (blockedCountries.includes(info.countryCode)) {
-        console.log(`   🟡 SUSPICIOUS: Blocked country ${info.countryCode}`);
-        await logSuspicious(ip, "blocked_country", info.countryCode);
-        return 'suspicious';
-      }
+  //   if (info) {
+  //     // Check blocked countries
+  //     const blockedCountries = config.blockedCountries || [];
+  //     console.log(`   🌍 Country check: ${info.countryCode} in ${JSON.stringify(blockedCountries)}`);
 
-      // Check blocked ASNs (datacenter)
-      if (isASNBlocked(info.as, config.blockedASNs)) {
-        console.log(`   🟡 SUSPICIOUS: Blocked ASN ${info.as}`);
-        await logSuspicious(ip, "blocked_asn", info.as);
-        return 'suspicious';
-      }
+  //     if (blockedCountries.includes(info.countryCode)) {
+  //       console.log(`   🟡 SUSPICIOUS: Blocked country ${info.countryCode}`);
+  //       await logSuspicious(ip, "blocked_country", info.countryCode);
+  //       return 'suspicious';
+  //     }
 
-      // VPN / Proxy / Hosting detection
-      if (info.proxy || info.hosting) {
-        console.log(`   🟡 SUSPICIOUS: ${info.proxy ? 'VPN/Proxy' : 'Hosting'} detected`);
-        await logSuspicious(ip, info.proxy ? "vpn_proxy" : "hosting");
-        return 'suspicious';
-      }
-    } else {
-      console.log(`   ⚠️ No IP info returned, skipping suspicious checks`);
-    }
-  } catch (error) {
-    console.error(`   ❌ IP info API error:`, error.message);
-  }
+  //     // Check blocked ASNs (datacenter)
+  //     if (isASNBlocked(info.as, config.blockedASNs)) {
+  //       console.log(`   🟡 SUSPICIOUS: Blocked ASN ${info.as}`);
+  //       await logSuspicious(ip, "blocked_asn", info.as);
+  //       return 'suspicious';
+  //     }
+
+  //     // VPN / Proxy / Hosting detection
+  //     if (info.proxy || info.hosting) {
+  //       console.log(`   🟡 SUSPICIOUS: ${info.proxy ? 'VPN/Proxy' : 'Hosting'} detected`);
+  //       await logSuspicious(ip, info.proxy ? "vpn_proxy" : "hosting");
+  //       return 'suspicious';
+  //     }
+  //   } else {
+  //     console.log(`   ⚠️ No IP info returned, skipping suspicious checks`);
+  //   }
+  // } catch (error) {
+  //   console.error(`   ❌ IP info API error:`, error.message);
+  // }
 
   // Check bad referrer
- 
+
   // Check bad referrer
   const referer = req.headers.referer || "";
   if (isBadReferrer(referer, config.badReferrers)) {
@@ -144,7 +144,7 @@ async function blockMiddleware(req, res, config) {
       const redis = await getRedisClient();
       const visits = await redis.incr(`visit:${ip}`);
       console.log(`   📊 Repeat visit: ${visits} for IP ${ip}`);
-      
+
       if (visits === 1) {
         await redis.expire(`visit:${ip}`, 86400);
       }
@@ -164,8 +164,8 @@ async function blockMiddleware(req, res, config) {
 
 // Thêm hàm isLocalIP
 function isLocalIP(ip) {
-  return ip === '::1' || ip === '127.0.0.1' || ip === 'localhost' || 
-         ip.startsWith('192.168.') || ip.startsWith('10.'); // ⭐ 10.0.0.99 sẽ bị coi là local!
+  return ip === '::1' || ip === '127.0.0.1' || ip === 'localhost' ||
+    ip.startsWith('192.168.') || ip.startsWith('10.'); // ⭐ 10.0.0.99 sẽ bị coi là local!
 }
 // ==================== SERVE PAGE MỚI (chọn index.html hoặc blog.html) ====================
 
@@ -182,10 +182,10 @@ async function servePage(req, res, domain) {
   console.log(`\n📄 ===== SERVEPAGE CALLED =====`);
   console.log(`   Domain: ${domain}`);
   console.log(`   URL: ${req.url}`);
-  
+
   const config = await getDomainConfig(domain);
   console.log(`   Config found: ${!!config}`);
-  
+
   if (!config) {
     console.log(`   ⚠️ No config, serving fallback`);
     const defaultPath = path.join(PUBLIC_DIR, "index.html");
