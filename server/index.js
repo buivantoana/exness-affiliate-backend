@@ -132,6 +132,10 @@ async function blockMiddleware(req, res, config) {
   // Check bad referrer 
 
   // Check bad referrer
+  if (pathname === "/verify") {
+    console.log(`   → Skip repeat visit check for /verify`);
+    return false;
+  }
   const referer = req.headers.referer || "";
   if (isBadReferrer(referer, config.badReferrers)) {
     console.log(`   🟡 SUSPICIOUS: Bad referrer ${referer}`);
