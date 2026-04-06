@@ -219,12 +219,17 @@ async function servePage(req, res, domain) {
 }
 
 // ==================== ROUTES ====================
-app.use(express.static(PUBLIC_DIR, { extensions: ["html"] }));
 app.use("/api", createPublicApiRouter());
 app.use("/api/admin", createAdminRouter());
 app.use("/go", createRedirectRouter());
 
-// Admin HTML - phải nằm TRƯỚC catch-all
+// 2. Route verify - phải nằm TRƯỚC static files và catch-all
+app.get("/verify", async (req, res) => {
+  console.log(`\n🎯 VERIFY ROUTE TRIGGERED: ${req.url}`);
+  await servePage(req, res, req.domainHost);
+});
+
+// 3. Admin HTML
 app.get("/admin.html", async (_req, res) => {
   if (await fileExists(ADMIN_HTML)) {
     return res.sendFile(ADMIN_HTML);
@@ -232,7 +237,10 @@ app.get("/admin.html", async (_req, res) => {
   return res.status(404).send("admin.html not found");
 });
 
-// Catch-all - Tất cả các route khác (bao gồm /, /abc, /verify...)
+// 4. Static files (assets, images, css, js)
+app.use(express.static(PUBLIC_DIR, { extensions: ["html"] }));
+
+// 5. Catch-all - Tất cả các route khác (bao gồm /, /abc...)
 app.get("*", async (req, res) => {
   console.log(`\n🎯 CATCH-ALL TRIGGERED: ${req.url}`);
   await servePage(req, res, req.domainHost);
