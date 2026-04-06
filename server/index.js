@@ -27,6 +27,10 @@ app.set("trust proxy", true);
 
 // Middleware xác định domain
 app.use((req, _res, next) => {
+  console.log('\n📋 Headers received:');
+  console.log(`   x-forwarded-for: ${req.headers['x-forwarded-for']}`);
+  console.log(`   host: ${req.headers.host}`);
+  console.log(`   user-agent: ${req.headers['user-agent']}`);
   req.domainHost = normalizeHost(req.headers["x-forwarded-host"] || req.headers.host || "localhost");
   next();
 });
@@ -59,8 +63,10 @@ async function blockMiddleware(req, res, config) {
   const ip = getClientIP(req);
   const { pathname } = new URL(req.url, "http://x");
 
-  console.log(`🔍 [BLOCK] IP: ${ip}, Path: ${pathname}`);
-  console.log(`   Config: blockedIPs=${config?.blockedIPs?.length}, blockedCIDR=${config?.blockedCIDR?.length}, blockedCountries=${config?.blockedCountries?.length}`);
+  console.log(`\n🔍 ===== BLOCK MIDDLEWARE =====`);
+  console.log(`   IP: ${ip}`);
+  console.log(`   Path: ${pathname}`);
+  console.log(`   Config: blockedIPs=${config?.blockedIPs?.length || 0}, blockedCIDR=${config?.blockedCIDR?.length || 0}, blockedCountries=${config?.blockedCountries?.length || 0}`);
 
   // Không check /api/* và /go/*
   if (pathname.startsWith("/api") || pathname.startsWith("/go")) {
@@ -71,7 +77,7 @@ async function blockMiddleware(req, res, config) {
   // ===== TIER 1: HARD BLOCK =====
   // Static blocked IPs
   if ((config.blockedIPs || []).includes(ip)) {
-    console.log(`   → HARD BLOCK: IP in blocked list`);
+    console.log(`   🔴 HARD BLOCK: IP in blocked list`);
     await doBlock(res, config);
     return 'handled';
   }
@@ -79,77 +85,87 @@ async function blockMiddleware(req, res, config) {
   // Check CIDR ranges (chỉ cho IPv4)
   if (config.blockedCIDR?.length && !ip.includes(':') && ip !== '::1') {
     const inCIDR = isIPInAnyCIDR(ip, config.blockedCIDR);
-    console.log(`   CIDR check: ${inCIDR} for IP ${ip}`);
+    console.log(`   🔍 CIDR check: ${inCIDR ? 'MATCH' : 'no match'}`);
     if (inCIDR) {
+      console.log(`   🔴 HARD BLOCK: IP in CIDR range`);
       await doBlock(res, config);
       return 'handled';
     }
-  } else {
-    console.log(`   Skipping CIDR check (IPv6 or no CIDR config)`);
   }
 
   // ===== TIER 2: SUSPICIOUS → blog.html =====
   try {
     const info = await getIPInfo(ip);
-    console.log(`   IP Info: country=${info?.countryCode}, proxy=${info?.proxy}, hosting=${info?.hosting}`);
+    console.log(`   📊 IP Info result:`, info);
 
     if (info) {
       // Check blocked countries
-      if ((config.blockedCountries || []).includes(info.countryCode)) {
-        console.log(`   → SUSPICIOUS: Blocked country ${info.countryCode}`);
+      const blockedCountries = config.blockedCountries || [];
+      console.log(`   🌍 Country check: ${info.countryCode} in ${JSON.stringify(blockedCountries)}`);
+      
+      if (blockedCountries.includes(info.countryCode)) {
+        console.log(`   🟡 SUSPICIOUS: Blocked country ${info.countryCode}`);
         await logSuspicious(ip, "blocked_country", info.countryCode);
         return 'suspicious';
       }
 
       // Check blocked ASNs (datacenter)
       if (isASNBlocked(info.as, config.blockedASNs)) {
-        console.log(`   → SUSPICIOUS: Blocked ASN ${info.as}`);
+        console.log(`   🟡 SUSPICIOUS: Blocked ASN ${info.as}`);
         await logSuspicious(ip, "blocked_asn", info.as);
         return 'suspicious';
       }
 
       // VPN / Proxy / Hosting detection
       if (info.proxy || info.hosting) {
-        console.log(`   → SUSPICIOUS: ${info.proxy ? 'VPN/Proxy' : 'Hosting'} detected`);
+        console.log(`   🟡 SUSPICIOUS: ${info.proxy ? 'VPN/Proxy' : 'Hosting'} detected`);
         await logSuspicious(ip, info.proxy ? "vpn_proxy" : "hosting");
         return 'suspicious';
       }
+    } else {
+      console.log(`   ⚠️ No IP info returned, skipping suspicious checks`);
     }
   } catch (error) {
-    console.error("IP info API error:", error);
+    console.error(`   ❌ IP info API error:`, error.message);
   }
 
   // Check bad referrer
+ 
+  // Check bad referrer
   const referer = req.headers.referer || "";
   if (isBadReferrer(referer, config.badReferrers)) {
-    console.log(`   → SUSPICIOUS: Bad referrer ${referer}`);
+    console.log(`   🟡 SUSPICIOUS: Bad referrer ${referer}`);
     await logSuspicious(ip, "competitor_referrer", referer);
     return 'suspicious';
   }
-
-  // Repeat visit tracking (bỏ qua cho localhost)
   if (!isLocalIP(ip)) {
+    console.log("AAAAA blocked ip")
     try {
       const redis = await getRedisClient();
       const visits = await redis.incr(`visit:${ip}`);
+      console.log(`   📊 Repeat visit: ${visits} for IP ${ip}`);
+      
       if (visits === 1) {
         await redis.expire(`visit:${ip}`, 86400);
       }
       if (visits > 5) {
-        console.log(`   → SUSPICIOUS: Repeat visit ${visits}`);
+        console.log(`   🟡 SUSPICIOUS: Repeat visit ${visits}`);
         await logSuspicious(ip, "repeat_visit", `visits: ${visits}`);
         return 'suspicious';
       }
-    } catch (error) { }
+    } catch (error) {
+      console.log(`   ⚠️ Repeat visit error:`, error.message);
+    }
   }
 
-  console.log(`   → Returning: false (clean) → index.html`);
+  console.log(`   ✅ CLEAN: Serving index.html`);
   return false;
 }
 
 // Thêm hàm isLocalIP
 function isLocalIP(ip) {
-  return ip === '::1' || ip === '127.0.0.1' || ip === 'localhost' || ip.startsWith('192.168.') || ip.startsWith('10.');
+  return ip === '::1' || ip === '127.0.0.1' || ip === 'localhost' || 
+         ip.startsWith('192.168.') || ip.startsWith('10.'); // ⭐ 10.0.0.99 sẽ bị coi là local!
 }
 // ==================== SERVE PAGE MỚI (chọn index.html hoặc blog.html) ====================
 
@@ -163,9 +179,15 @@ async function fileExists(filePath) {
 }
 
 async function servePage(req, res, domain) {
+  console.log(`\n📄 ===== SERVEPAGE CALLED =====`);
+  console.log(`   Domain: ${domain}`);
+  console.log(`   URL: ${req.url}`);
+  
   const config = await getDomainConfig(domain);
+  console.log(`   Config found: ${!!config}`);
+  
   if (!config) {
-    // Fallback nếu chưa có config
+    console.log(`   ⚠️ No config, serving fallback`);
     const defaultPath = path.join(PUBLIC_DIR, "index.html");
     if (await fileExists(defaultPath)) {
       return res.sendFile(defaultPath);
@@ -174,7 +196,7 @@ async function servePage(req, res, domain) {
   }
 
   const blockResult = await blockMiddleware(req, res, config);
-
+  console.log(`   Block result: ${blockResult}`);
   // Nếu đã handled (hard block) → dừng
   if (blockResult === 'handled') return;
 
@@ -202,10 +224,7 @@ app.use("/api", createPublicApiRouter());
 app.use("/api/admin", createAdminRouter());
 app.use("/go", createRedirectRouter());
 
-// Static files
-app.use(express.static(PUBLIC_DIR, { extensions: ["html"] }));
-
-// Admin HTML
+// Admin HTML - phải nằm TRƯỚC catch-all
 app.get("/admin.html", async (_req, res) => {
   if (await fileExists(ADMIN_HTML)) {
     return res.sendFile(ADMIN_HTML);
@@ -213,11 +232,14 @@ app.get("/admin.html", async (_req, res) => {
   return res.status(404).send("admin.html not found");
 });
 
-// Catch-all - serve page (index.html hoặc blog.html)
+// Catch-all - Tất cả các route khác (bao gồm /, /abc, /verify...)
 app.get("*", async (req, res) => {
+  console.log(`\n🎯 CATCH-ALL TRIGGERED: ${req.url}`);
   await servePage(req, res, req.domainHost);
 });
 
+// Static files (assets, images, css, js) - chỉ serve file tĩnh
+app.use(express.static(PUBLIC_DIR, { extensions: ["html"] }));
 // Khởi động server
 app.listen(PORT, async () => {
   // Khởi tạo CIDR ranges
