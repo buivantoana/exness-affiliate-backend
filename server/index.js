@@ -129,7 +129,7 @@ async function blockMiddleware(req, res, config) {
   //   console.error(`   ❌ IP info API error:`, error.message);
   // }
 
-  // Check bad referrer
+  // Check bad referrer 
 
   // Check bad referrer
   const referer = req.headers.referer || "";
