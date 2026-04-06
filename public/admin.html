@@ -1060,7 +1060,9 @@
               "success"
             );
             document.getElementById("newSubPath").value = "";
-            await loadSubPaths();
+            setTimeout(async () => {
+              await loadSubPaths();
+            }, 1000);
           } else {
             const err = await res.json();
             showNotification(err.error || "Failed to add sub-path", "error");
@@ -1089,7 +1091,9 @@
 
           if (res.ok) {
             showNotification(`Config for /${path} saved!`, "success");
-            await loadSubPaths();
+            setTimeout(async () => {
+              await loadSubPaths();
+            }, 1000);
           } else {
             showNotification("Failed to save config", "error");
           }
@@ -1110,7 +1114,9 @@
 
           if (res.ok) {
             showNotification(`Sub-path /${path} deleted!`, "success");
-            await loadSubPaths();
+            setTimeout(async () => {
+              await loadSubPaths();
+            }, 1000);
           } else {
             showNotification("Failed to delete sub-path", "error");
           }
@@ -1227,7 +1233,9 @@
               "All configurations saved successfully!",
               "success"
             );
-            await loadDomainConfig();
+            setTimeout(async () => {
+              await loadDomainConfig();
+            }, 1000);
           } else {
             showNotification("Failed to save configuration", "error");
           }
