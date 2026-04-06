@@ -219,7 +219,7 @@ async function servePage(req, res, domain) {
 }
 
 // ==================== ROUTES ====================
-
+app.use(express.static(PUBLIC_DIR, { extensions: ["html"] }));
 app.use("/api", createPublicApiRouter());
 app.use("/api/admin", createAdminRouter());
 app.use("/go", createRedirectRouter());
@@ -239,7 +239,7 @@ app.get("*", async (req, res) => {
 });
 
 // Static files (assets, images, css, js) - chỉ serve file tĩnh
-app.use(express.static(PUBLIC_DIR, { extensions: ["html"] }));
+
 // Khởi động server
 app.listen(PORT, async () => {
   // Khởi tạo CIDR ranges
