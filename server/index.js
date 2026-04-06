@@ -142,25 +142,25 @@ async function blockMiddleware(req, res, config) {
     await logSuspicious(ip, "competitor_referrer", referer);
     return 'suspicious';
   }
-  if (!isLocalIP(ip)) {
-    console.log("AAAAA blocked ip")
-    try {
-      const redis = await getRedisClient();
-      const visits = await redis.incr(`visit:${ip}`);
-      console.log(`   📊 Repeat visit: ${visits} for IP ${ip}`);
+  // if (!isLocalIP(ip)) {
+  //   console.log("AAAAA blocked ip")
+  //   try {
+  //     const redis = await getRedisClient();
+  //     const visits = await redis.incr(`visit:${ip}`);
+  //     console.log(`   📊 Repeat visit: ${visits} for IP ${ip}`);
 
-      if (visits === 1) {
-        await redis.expire(`visit:${ip}`, 86400);
-      }
-      if (visits > 5) {
-        console.log(`   🟡 SUSPICIOUS: Repeat visit ${visits}`);
-        await logSuspicious(ip, "repeat_visit", `visits: ${visits}`);
-        return 'suspicious';
-      }
-    } catch (error) {
-      console.log(`   ⚠️ Repeat visit error:`, error.message);
-    }
-  }
+  //     if (visits === 1) {
+  //       await redis.expire(`visit:${ip}`, 86400);
+  //     }
+  //     if (visits > 5) {
+  //       console.log(`   🟡 SUSPICIOUS: Repeat visit ${visits}`);
+  //       await logSuspicious(ip, "repeat_visit", `visits: ${visits}`);
+  //       return 'suspicious';
+  //     }
+  //   } catch (error) {
+  //     console.log(`   ⚠️ Repeat visit error:`, error.message);
+  //   }
+  // }
 
   console.log(`   ✅ CLEAN: Serving index.html`);
   return false;
