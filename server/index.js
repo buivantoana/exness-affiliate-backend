@@ -204,7 +204,10 @@ async function blockMiddleware(req, res, config) {
       return 'suspicious';
     }
   }
-
+  // if (process.env.NODE_ENV === 'development') {
+  //   console.log(`   → Skip repeat visit in development mode`);
+  //   return false;
+  // }
   // ===== TIER 3: REPEAT VISIT =====
   if (!isLocalIP(ip)) {
     try {
@@ -312,7 +315,10 @@ app.get("/admin.html", async (_req, res) => {
 });
 
 // 4. Static files (assets, images, css, js)
-app.use(express.static(PUBLIC_DIR, { extensions: ["html"] }));
+app.use(express.static(PUBLIC_DIR, { 
+  extensions: false,  // Tắt auto .html extension
+  index: false        // ⭐ Tắt auto serve index.html cho /
+}));
 
 // 5. Catch-all - Tất cả các route khác (bao gồm /, /abc...)
 app.get("*", async (req, res) => {
