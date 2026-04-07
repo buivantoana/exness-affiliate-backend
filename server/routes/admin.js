@@ -64,7 +64,65 @@ export function createAdminRouter() {
       blockRedirectUrl: config?.blockRedirectUrl || ""
     });
   });
+  // server/routes/admin.js
 
+  // ⭐ RESET REPEAT VISIT COUNT CHO 1 IP
+  router.post("/reset-visit", async (req, res) => {
+    const { ip } = req.body;
+
+    if (!ip) {
+      return res.status(400).json({ success: false, error: "IP is required" });
+    }
+
+    try {
+      const redis = await getRedisClient();
+      await redis.del(`visit:${ip}`);
+
+      console.log(`✅ Reset repeat visit count for IP: ${ip}`);
+      res.json({ success: true, message: `Reset visit count for ${ip}` });
+    } catch (error) {
+      console.error(`❌ Failed to reset for IP ${ip}:`, error);
+      res.status(500).json({ success: false, error: error.message });
+    }
+  });
+
+  // ⭐ RESET TẤT CẢ IP (chỉ dùng khi test)
+  router.post("/reset-all-visits", async (req, res) => {
+    try {
+      const redis = await getRedisClient();
+
+      // Lấy tất cả keys có dạng visit:*
+      const keys = await redis.keys('visit:*');
+
+      if (keys.length > 0) {
+        await redis.del(keys);
+      }
+
+      console.log(`✅ Reset all repeat visit counts (${keys.length} keys)`);
+      res.json({ success: true, message: `Reset ${keys.length} IPs` });
+    } catch (error) {
+      console.error(`❌ Failed to reset all:`, error);
+      res.status(500).json({ success: false, error: error.message });
+    }
+  });
+
+  // ⭐ XEM SỐ LẦN TRUY CẬP CỦA 1 IP
+  router.get("/visit-count/:ip", async (req, res) => {
+    const { ip } = req.params;
+
+    try {
+      const redis = await getRedisClient();
+      const visits = await redis.get(`visit:${ip}`);
+
+      res.json({
+        success: true,
+        ip,
+        visits: visits ? parseInt(visits) : 0
+      });
+    } catch (error) {
+      res.status(500).json({ success: false, error: error.message });
+    }
+  });
   // PUT /api/admin/block-lists - Cập nhật block lists
   router.put("/block-lists", express.json(), async (req, res) => {
     const current = await getDomainConfig(req.domainHost);
