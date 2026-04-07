@@ -13,6 +13,7 @@ import {
   deleteSubPath
 } from "../db/index.js";
 import { getAdminUser, requireAdmin, signAdminToken, verifyPassword } from "../middleware/auth.js";
+import { getRedisClient } from "../utils/redis-client.js";
 
 const loginAttempts = new Map();
 const LOGIN_WINDOW_MS = 60 * 1000;
@@ -44,6 +45,7 @@ function validateDomainConfig(payload) {
 export function createAdminRouter() {
   const router = express.Router();
   // DELETE /api/admin/analytics/route/:route
+  router.use(express.json());
   router.delete("/analytics/route/:route", async (req, res) => {
     const { route } = req.params;
     const domain = req.domainHost;
