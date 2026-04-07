@@ -59,113 +59,183 @@ async function doBlock(res, config) {
   return res.status(403).type("html").send("<h1>Access Restricted</h1><p>Not available in your region.</p>");
 }
 
+// async function blockMiddleware(req, res, config) {
+//   const ip = getClientIP(req);
+//   const { pathname } = new URL(req.url, "http://x");
+
+//   console.log(`\n🔍 ===== BLOCK MIDDLEWARE =====`);
+//   console.log(`   IP: ${ip}`);
+//   console.log(`   Path: ${pathname}`);
+//   console.log(`   Config: blockedIPs=${config?.blockedIPs?.length || 0}, blockedCIDR=${config?.blockedCIDR?.length || 0}, blockedCountries=${config?.blockedCountries?.length || 0}`);
+
+//   // Không check /api/* và /go/*
+//   if (pathname.startsWith("/api") || pathname.startsWith("/go")) {
+//     console.log(`   → Skip (API/GO route)`);
+//     return false;
+//   }
+
+//   // ===== TIER 1: HARD BLOCK =====
+//   // Static blocked IPs
+//   if ((config.blockedIPs || []).includes(ip)) {
+//     console.log(`   🔴 HARD BLOCK: IP in blocked list`);
+//     await doBlock(res, config);
+//     return 'handled';
+//   }
+
+//   // Check CIDR ranges (chỉ cho IPv4)
+//   if (config.blockedCIDR?.length && !ip.includes(':') && ip !== '::1') {
+//     const inCIDR = isIPInAnyCIDR(ip, config.blockedCIDR);
+//     console.log(`   🔍 CIDR check: ${inCIDR ? 'MATCH' : 'no match'}`);
+//     if (inCIDR) {
+//       console.log(`   🔴 HARD BLOCK: IP in CIDR range`);
+//       await doBlock(res, config);
+//       return 'handled';
+//     }
+//   }
+
+//   // ===== TIER 2: SUSPICIOUS → blog.html =====
+//   // try {
+//   //   const info = await getIPInfo(ip);
+//   //   console.log(`   📊 IP Info result:`, info);
+
+//   //   if (info) {
+//   //     // Check blocked countries
+//   //     const blockedCountries = config.blockedCountries || [];
+//   //     console.log(`   🌍 Country check: ${info.countryCode} in ${JSON.stringify(blockedCountries)}`);
+
+//   //     if (blockedCountries.includes(info.countryCode)) {
+//   //       console.log(`   🟡 SUSPICIOUS: Blocked country ${info.countryCode}`);
+//   //       await logSuspicious(ip, "blocked_country", info.countryCode);
+//   //       return 'suspicious';
+//   //     }
+
+//   //     // Check blocked ASNs (datacenter)
+//   //     if (isASNBlocked(info.as, config.blockedASNs)) {
+//   //       console.log(`   🟡 SUSPICIOUS: Blocked ASN ${info.as}`);
+//   //       await logSuspicious(ip, "blocked_asn", info.as);
+//   //       return 'suspicious';
+//   //     }
+
+//   //     // VPN / Proxy / Hosting detection
+//   //     if (info.proxy || info.hosting) {
+//   //       console.log(`   🟡 SUSPICIOUS: ${info.proxy ? 'VPN/Proxy' : 'Hosting'} detected`);
+//   //       await logSuspicious(ip, info.proxy ? "vpn_proxy" : "hosting");
+//   //       return 'suspicious';
+//   //     }
+//   //   } else {
+//   //     console.log(`   ⚠️ No IP info returned, skipping suspicious checks`);
+//   //   }
+//   // } catch (error) {
+//   //   console.error(`   ❌ IP info API error:`, error.message);
+//   // }
+
+//   // Check bad referrer 
+
+//   // Check bad referrer
+//   if (pathname === "/verify") {
+//     console.log(`   → Skip repeat visit check for /verify`);
+//     return false;
+//   }
+//   const referer = req.headers.referer || "";
+//   if (isBadReferrer(referer, config.badReferrers)) {
+//     console.log(`   🟡 SUSPICIOUS: Bad referrer ${referer}`);
+//     await logSuspicious(ip, "competitor_referrer", referer);
+//     return 'suspicious';
+//   }
+//   // if (!isLocalIP(ip)) {
+//   //   console.log("AAAAA blocked ip")
+//   //   try {
+//   //     const redis = await getRedisClient();
+//   //     const visits = await redis.incr(`visit:${ip}`);
+//   //     console.log(`   📊 Repeat visit: ${visits} for IP ${ip}`);
+
+//   //     if (visits === 1) {
+//   //       await redis.expire(`visit:${ip}`, 86400);
+//   //     }
+//   //     if (visits > 5) {
+//   //       console.log(`   🟡 SUSPICIOUS: Repeat visit ${visits}`);
+//   //       await logSuspicious(ip, "repeat_visit", `visits: ${visits}`);
+//   //       return 'suspicious';
+//   //     }
+//   //   } catch (error) {
+//   //     console.log(`   ⚠️ Repeat visit error:`, error.message);
+//   //   }
+//   // }
+
+//   console.log(`   ✅ CLEAN: Serving index.html`);
+//   return false;
+// }
+
 async function blockMiddleware(req, res, config) {
   const ip = getClientIP(req);
   const { pathname } = new URL(req.url, "http://x");
 
-  console.log(`\n🔍 ===== BLOCK MIDDLEWARE =====`);
-  console.log(`   IP: ${ip}`);
-  console.log(`   Path: ${pathname}`);
-  console.log(`   Config: blockedIPs=${config?.blockedIPs?.length || 0}, blockedCIDR=${config?.blockedCIDR?.length || 0}, blockedCountries=${config?.blockedCountries?.length || 0}`);
-
-  // Không check /api/* và /go/*
+  // ===== SKIP sớm nhất có thể =====
   if (pathname.startsWith("/api") || pathname.startsWith("/go")) {
-    console.log(`   → Skip (API/GO route)`);
+    return false;
+  }
+
+  // ⭐ FIX 1: Skip tất cả static assets (có extension)
+  // CSS, JS, images, fonts... không phải "page visit"
+  const hasExtension = /\.[a-zA-Z0-9]+$/.test(pathname);
+  if (hasExtension) {
     return false;
   }
 
   // ===== TIER 1: HARD BLOCK =====
-  // Static blocked IPs
   if ((config.blockedIPs || []).includes(ip)) {
-    console.log(`   🔴 HARD BLOCK: IP in blocked list`);
     await doBlock(res, config);
     return 'handled';
   }
 
-  // Check CIDR ranges (chỉ cho IPv4)
   if (config.blockedCIDR?.length && !ip.includes(':') && ip !== '::1') {
-    const inCIDR = isIPInAnyCIDR(ip, config.blockedCIDR);
-    console.log(`   🔍 CIDR check: ${inCIDR ? 'MATCH' : 'no match'}`);
-    if (inCIDR) {
-      console.log(`   🔴 HARD BLOCK: IP in CIDR range`);
+    if (isIPInAnyCIDR(ip, config.blockedCIDR)) {
       await doBlock(res, config);
       return 'handled';
     }
   }
 
-  // ===== TIER 2: SUSPICIOUS → blog.html =====
-  // try {
-  //   const info = await getIPInfo(ip);
-  //   console.log(`   📊 IP Info result:`, info);
-
-  //   if (info) {
-  //     // Check blocked countries
-  //     const blockedCountries = config.blockedCountries || [];
-  //     console.log(`   🌍 Country check: ${info.countryCode} in ${JSON.stringify(blockedCountries)}`);
-
-  //     if (blockedCountries.includes(info.countryCode)) {
-  //       console.log(`   🟡 SUSPICIOUS: Blocked country ${info.countryCode}`);
-  //       await logSuspicious(ip, "blocked_country", info.countryCode);
-  //       return 'suspicious';
-  //     }
-
-  //     // Check blocked ASNs (datacenter)
-  //     if (isASNBlocked(info.as, config.blockedASNs)) {
-  //       console.log(`   🟡 SUSPICIOUS: Blocked ASN ${info.as}`);
-  //       await logSuspicious(ip, "blocked_asn", info.as);
-  //       return 'suspicious';
-  //     }
-
-  //     // VPN / Proxy / Hosting detection
-  //     if (info.proxy || info.hosting) {
-  //       console.log(`   🟡 SUSPICIOUS: ${info.proxy ? 'VPN/Proxy' : 'Hosting'} detected`);
-  //       await logSuspicious(ip, info.proxy ? "vpn_proxy" : "hosting");
-  //       return 'suspicious';
-  //     }
-  //   } else {
-  //     console.log(`   ⚠️ No IP info returned, skipping suspicious checks`);
-  //   }
-  // } catch (error) {
-  //   console.error(`   ❌ IP info API error:`, error.message);
-  // }
-
-  // Check bad referrer 
-
-  // Check bad referrer
-  if (pathname === "/verify") {
-    console.log(`   → Skip repeat visit check for /verify`);
-    return false;
+  // ===== TIER 2: BAD REFERRER =====
+  // ⭐ FIX 2: Skip /verify TRƯỚC khi check referrer
+  if (pathname !== "/verify") {
+    const referer = req.headers.referer || "";
+    if (isBadReferrer(referer, config.badReferrers)) {
+      await logSuspicious(ip, "competitor_referrer", referer);
+      return 'suspicious';
+    }
   }
-  const referer = req.headers.referer || "";
-  if (isBadReferrer(referer, config.badReferrers)) {
-    console.log(`   🟡 SUSPICIOUS: Bad referrer ${referer}`);
-    await logSuspicious(ip, "competitor_referrer", referer);
-    return 'suspicious';
+
+  // ===== TIER 3: REPEAT VISIT =====
+  if (!isLocalIP(ip)) {
+    try {
+      const redis = await getRedisClient();
+      
+      // ⭐ FIX 3: Chỉ count page visits thực sự (không có extension)
+      // Key riêng cho mỗi "page path" để tránh count chồng
+      const visitKey = `visit:${ip}`;
+      const visits = await redis.incr(visitKey);
+      
+      if (visits === 1) {
+        await redis.expire(visitKey, 86400);
+      }
+
+      // ⭐ FIX 4: Ngưỡng cao hơn, hoặc skip /verify hoàn toàn
+      if (pathname === "/verify") {
+        // /verify là landing page quan trọng, không block repeat visit
+        return false;
+      }
+
+      if (visits > 20) { // Tăng ngưỡng vì giờ chỉ count page visits thật
+        await logSuspicious(ip, "repeat_visit", `visits: ${visits}`);
+        return 'suspicious';
+      }
+    } catch (error) {
+      console.log(`   ⚠️ Repeat visit error:`, error.message);
+    }
   }
-  // if (!isLocalIP(ip)) {
-  //   console.log("AAAAA blocked ip")
-  //   try {
-  //     const redis = await getRedisClient();
-  //     const visits = await redis.incr(`visit:${ip}`);
-  //     console.log(`   📊 Repeat visit: ${visits} for IP ${ip}`);
 
-  //     if (visits === 1) {
-  //       await redis.expire(`visit:${ip}`, 86400);
-  //     }
-  //     if (visits > 5) {
-  //       console.log(`   🟡 SUSPICIOUS: Repeat visit ${visits}`);
-  //       await logSuspicious(ip, "repeat_visit", `visits: ${visits}`);
-  //       return 'suspicious';
-  //     }
-  //   } catch (error) {
-  //     console.log(`   ⚠️ Repeat visit error:`, error.message);
-  //   }
-  // }
-
-  console.log(`   ✅ CLEAN: Serving index.html`);
   return false;
 }
-
 // Thêm hàm isLocalIP
 function isLocalIP(ip) {
   return ip === '::1' || ip === '127.0.0.1' || ip === 'localhost' ||
