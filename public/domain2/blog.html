@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exness - Đánh giá Forex Broker 2026</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --navy: #0c1220;
+        --navy2: #111827;
+        --green: #06b96f;
+        --green2: #04a663;
+        --text: #0d1117;
+        --textDim: #4b5563;
+        --bg: #f7f8fa;
+        --border: #e5e7eb;
+        --radius: 14px;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "DM Sans", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.7;
+        font-size: 15px;
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: "Outfit", sans-serif;
+        font-weight: 800;
+        line-height: 1.2;
+      }
+
+      /* ==================== NAVBAR ==================== */
+      .navbar {
+        background: white;
+        border-bottom: 1px solid var(--border);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        height: 62px;
+        display: flex;
+        align-items: center;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+      .nav-inner {
+        max-width: 1180px;
+        margin: 0 auto;
+        width: 100%;
+        padding: 0 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        font-size: 21px;
+        font-weight: 800;
+        color: var(--navy);
+      }
+      .logo-mark {
+        width: 34px;
+        height: 34px;
+        background: var(--navy);
+        color: white;
+        border-radius: 9px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        font-weight: 800;
+      }
+
+      /* ==================== HERO ==================== */
+      .hero {
+        background: var(--navy);
+        color: white;
+        text-align: center;
+        padding: 90px 20px 70px;
+      }
+      .hero h1 {
+        font-size: clamp(32px, 7vw, 58px);
+        line-height: 1.1;
+        margin-bottom: 18px;
+        letter-spacing: -0.6px;
+      }
+      .hero .subtitle {
+        font-size: clamp(15px, 4vw, 18px);
+        max-width: 560px;
+        margin: 0 auto 32px;
+        color: rgba(255, 255, 255, 0.78);
+      }
+      .hero .cta-group {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 40px;
+      }
+      @media (min-width: 640px) {
+        .hero .cta-group {
+          flex-direction: row;
+          justify-content: center;
+        }
+      }
+      .cta-btn {
+        background: var(--green);
+        color: white;
+        padding: 16px 32px;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 15.5px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        white-space: nowrap;
+      }
+      .cta-btn:hover {
+        background: var(--green2);
+        transform: translateY(-3px);
+      }
+      .cta-btn-outline {
+        background: transparent;
+        border: 2px solid rgba(255, 255, 255, 0.25);
+        color: white;
+        padding: 14px 30px;
+      }
+      .cta-btn-outline:hover {
+        border-color: rgba(255, 255, 255, 0.5);
+      }
+
+      /* Badges */
+      .badges {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .badge {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        padding: 8px 18px;
+        border-radius: 50px;
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      /* ==================== SECTIONS ==================== */
+      .section {
+        padding: 80px 20px;
+        max-width: 1180px;
+        margin: 0 auto;
+      }
+      .eyebrow {
+        font-size: 11.5px;
+        font-weight: 700;
+        color: var(--green);
+        letter-spacing: 1.8px;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+      }
+      .section-title {
+        font-size: clamp(24px, 5vw, 34px);
+        margin-bottom: 40px;
+      }
+
+      /* Featured */
+      .featured {
+        background: white;
+        border-radius: var(--radius);
+        overflow: hidden;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.07);
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+      @media (min-width: 900px) {
+        .featured {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      .featured-img {
+        height: 320px;
+        background: linear-gradient(135deg, #0c1220, #1a2437);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 110px;
+      }
+      @media (min-width: 900px) {
+        .featured-img {
+          height: 100%;
+        }
+      }
+      .featured-content {
+        padding: 40px 28px;
+      }
+      @media (min-width: 900px) {
+        .featured-content {
+          padding: 48px 52px;
+        }
+      }
+
+      /* Article Grid */
+      .article-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+      @media (min-width: 640px) {
+        .article-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (min-width: 1024px) {
+        .article-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+
+      .article-card {
+        background: white;
+        border-radius: var(--radius);
+        overflow: hidden;
+        border: 1px solid var(--border);
+        transition: all 0.3s ease;
+      }
+      .article-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        border-color: var(--green);
+      }
+      .card-thumb {
+        height: 170px;
+        background: var(--navy2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 52px;
+      }
+      .card-body {
+        padding: 22px 24px;
+      }
+      .card-body h3 {
+        font-size: 17.5px;
+        line-height: 1.4;
+        margin-bottom: 12px;
+      }
+
+      /* Most Read List */
+      .most-read {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+      .list-item {
+        background: white;
+        padding: 22px 24px;
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        display: flex;
+        gap: 18px;
+        transition: all 0.25s;
+      }
+      .list-item:hover {
+        border-color: var(--green);
+      }
+      .list-num {
+        font-size: 26px;
+        font-weight: 800;
+        color: rgba(6, 185, 111, 0.25);
+        min-width: 32px;
+      }
+
+      /* Final CTA */
+      .final-cta {
+        background: var(--navy);
+        color: white;
+        text-align: center;
+        padding: 90px 20px;
+        border-radius: 0;
+      }
+      .final-cta h2 {
+        font-size: clamp(26px, 5.5vw, 40px);
+        margin-bottom: 16px;
+      }
+
+      /* Footer */
+      footer {
+        background: var(--navy2);
+        color: rgba(255, 255, 255, 0.75);
+        padding: 60px 20px 40px;
+        font-size: 13.5px;
+        text-align: center;
+      }
+
+      /* Responsive Improvements */
+      @media (max-width: 480px) {
+        .section {
+          padding: 60px 16px;
+        }
+        .hero {
+          padding: 70px 16px 50px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+      <div class="nav-inner">
+        <div class="logo">
+          <div class="logo-mark">Ex</div>
+          Exness
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px">
+          <select
+            style="
+              padding: 7px 12px;
+              border: 1px solid #ddd;
+              border-radius: 8px;
+              font-size: 13px;
+              background: white;
+            "
+          >
+            <option>🇻🇳 VI</option>
+            <option>🇬🇧 EN</option>
+            <option>🇹🇭 TH</option>
+          </select>
+          <button
+            style="
+              padding: 8px 18px;
+              border: 1px solid #ddd;
+              border-radius: 8px;
+              background: white;
+              font-weight: 600;
+            "
+          >
+            Đăng nhập
+          </button>
+          <button class="cta-btn" onclick="window.location='/go/register'">
+            Mở tài khoản
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+      <h1>Đánh giá Broker Exness<br />Bạn có thể tin tưởng</h1>
+      <p class="subtitle">
+        Phân tích độc lập • Dữ liệu spread thực tế • Không quảng cáo trả phí
+      </p>
+
+      <div class="cta-group">
+        <button class="cta-btn">Mở tài khoản ngay hôm nay</button>
+        <button class="cta-btn cta-btn-outline">Xem tất cả đánh giá</button>
+      </div>
+
+      <div class="badges">
+        <div class="badge">✓ Rút tiền tức thì</div>
+        <div class="badge">✓ Spread từ 0.0 pip</div>
+        <div class="badge">✓ Quy định FCA, CySEC</div>
+      </div>
+    </section>
+
+    <!-- FEATURED ARTICLE -->
+    <div class="section" style="background: white">
+      <div class="featured">
+        <div class="featured-img">📊</div>
+        <div class="featured-content">
+          <div class="eyebrow">BÀI NỔI BẬT 2026</div>
+          <h2 style="font-size: 28px; margin-bottom: 16px">
+            Exness Review 2026: Ưu điểm, Nhược điểm & Kết luận chi tiết
+          </h2>
+          <p style="color: var(--textDim); margin-bottom: 28px">
+            Khối lượng giao dịch hơn 4.8 nghìn tỷ USD mỗi tháng và được quản lý
+            bởi nhiều cơ quan tài chính hàng đầu.
+          </p>
+          <button class="cta-btn" style="background: var(--navy)">
+            Đọc đánh giá đầy đủ →
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- LATEST REVIEWS -->
+    <div class="section">
+      <div class="eyebrow">MỚI CẬP NHẬT</div>
+      <h2 class="section-title">Đánh giá & So sánh mới nhất</h2>
+
+      <div class="article-grid">
+        <div class="article-card">
+          <div class="card-thumb">⚔️</div>
+          <div class="card-body">
+            <h3>Exness vs IC Markets 2026: Broker nào tốt hơn?</h3>
+            <p
+              style="
+                color: var(--textDim);
+                margin: 12px 0 16px;
+                font-size: 14.2px;
+              "
+            >
+              So sánh spread, đòn bẩy, rút tiền và nền tảng giao dịch.
+            </p>
+            <span style="color: var(--green); font-weight: 700"
+              >7 phút đọc</span
+            >
+          </div>
+        </div>
+
+        <div class="article-card">
+          <div
+            class="card-thumb"
+            style="background: linear-gradient(135deg, #064e3b, #0c1220)"
+          >
+            📋
+          </div>
+          <div class="card-body">
+            <h3>Hướng dẫn mở tài khoản Exness 2026 (Chi tiết từng bước)</h3>
+            <p
+              style="
+                color: var(--textDim);
+                margin: 12px 0 16px;
+                font-size: 14.2px;
+              "
+            >
+              Hoàn tất chỉ trong 3-5 phút với ảnh minh họa.
+            </p>
+            <span style="color: var(--green); font-weight: 700">Hướng dẫn</span>
+          </div>
+        </div>
+
+        <div class="article-card">
+          <div
+            class="card-thumb"
+            style="background: linear-gradient(135deg, #3b2200, #0c1220)"
+          >
+            💰
+          </div>
+          <div class="card-body">
+            <h3>Spread & Phí giao dịch Exness 2026 – Kiểm tra thực tế</h3>
+            <p
+              style="
+                color: var(--textDim);
+                margin: 12px 0 16px;
+                font-size: 14.2px;
+              "
+            >
+              Dữ liệu spread live từ tất cả các phiên giao dịch.
+            </p>
+            <span style="color: var(--green); font-weight: 700"
+              >9 phút đọc</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MOST READ -->
+    <div class="section" style="background: white">
+      <div class="eyebrow">XEM NHIỀU NHẤT</div>
+      <h2 class="section-title">Bài viết phổ biến tuần này</h2>
+
+      <div class="most-read">
+        <div class="list-item">
+          <span class="list-num">01</span>
+          <div>
+            <h3>Cách rút tiền từ Exness 2026 – Tốc độ thực tế</h3>
+            <p style="color: var(--textDim); margin-top: 6px; font-size: 14px">
+              Rút tiền tức thì qua nhiều phương thức.
+            </p>
+          </div>
+        </div>
+        <div class="list-item">
+          <span class="list-num">02</span>
+          <div>
+            <h3>Trading vàng (XAUUSD) trên Exness – Spread & Mẹo hay</h3>
+            <p style="color: var(--textDim); margin-top: 6px; font-size: 14px">
+              Chiến lược giao dịch vàng hiệu quả nhất.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FINAL CTA -->
+    <div class="final-cta">
+      <h2>Sẵn sàng bắt đầu giao dịch?</h2>
+      <p
+        style="
+          max-width: 480px;
+          margin: 0 auto 32px;
+          opacity: 0.85;
+          font-size: 16px;
+        "
+      >
+        Mở tài khoản chỉ trong 2 phút. Gửi tiền tối thiểu $10 và rút tiền ngay
+        lập tức.
+      </p>
+      <button class="cta-btn" style="font-size: 16.5px; padding: 18px 48px">
+        Mở tài khoản miễn phí →
+      </button>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <p>© 2026 Exness • Đánh giá độc lập • Không phải lời khuyên tài chính</p>
+      <p style="margin-top: 12px; font-size: 12px">
+        Trading CFD chứa đựng rủi ro cao. 74–89% tài khoản nhà đầu tư cá nhân bị
+        lỗ tiền.
+      </p>
+    </footer>
+  </body>
+</html>

