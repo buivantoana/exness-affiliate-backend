@@ -1,985 +1,915 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Exness Affiliate Admin Panel</title>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Exness Affiliate Admin Panel</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        "Helvetica Neue", Arial, sans-serif;
+      background: #f3f4f6;
+      color: #1f2937;
+    }
+
+    /* Login Page */
+    .login-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .login-card {
+      background: white;
+      border-radius: 16px;
+      padding: 40px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+        0 10px 10px -5px rgba(0, 0, 0, 0.02);
+    }
+
+    .login-card h2 {
+      font-size: 28px;
+      margin-bottom: 8px;
+      color: #1f2937;
+    }
+
+    .login-card .subtitle {
+      color: #6b7280;
+      margin-bottom: 32px;
+      font-size: 14px;
+    }
+
+    /* Dashboard */
+    .dashboard-container {
+      display: none;
+    }
+
+    .navbar {
+      background: white;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .navbar h1 {
+      font-size: 20px;
+      font-weight: 600;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .navbar .domain-badge {
+      background: #e5e7eb;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-family: monospace;
+    }
+
+    .logout-btn {
+      background: #ef4444;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .logout-btn:hover {
+      background: #dc2626;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 24px 32px;
+    }
+
+    /* Cards */
+    .card {
+      background: white;
+      border-radius: 12px;
+      margin-bottom: 24px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .card-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid #e5e7eb;
+      background: #fafafa;
+    }
+
+    .card-header h3 {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .card-header p {
+      font-size: 13px;
+      color: #6b7280;
+      margin-top: 4px;
+    }
+
+    .card-body {
+      padding: 24px;
+    }
+
+    /* Form Elements */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 6px;
+      color: #374151;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      font-family: monospace;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    /* Grid Layouts */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    /* Buttons */
+    .btn-primary {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-primary:hover {
+      background: #5a67d8;
+    }
+
+    .btn-secondary {
+      background: #e5e7eb;
+      color: #374151;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .btn-danger {
+      background: #ef4444;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .btn-success {
+      background: #10b981;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .btn-warning {
+      background: #f59e0b;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    /* Sub-paths List */
+    .subpath-item {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+
+    .subpath-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .subpath-header:hover {
+      background: #f3f4f6;
+    }
+
+    .subpath-path {
+      font-family: monospace;
+      font-weight: 600;
+      color: #667eea;
+    }
+
+    .subpath-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .subpath-config {
+      padding: 16px;
+      border-top: 1px solid #e5e7eb;
+      background: white;
+      display: none;
+    }
+
+    .subpath-config.show {
+      display: block;
+    }
+
+    /* Analytics Table */
+    .analytics-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .analytics-table th,
+    .analytics-table td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .analytics-table th {
+      background: #f9fafb;
+      font-weight: 600;
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    .analytics-table td {
+      font-size: 14px;
+    }
+
+    .click-count {
+      font-weight: 600;
+      color: #667eea;
+    }
+
+    /* Loading */
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #6b7280;
+    }
+
+    .alert {
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+
+    .alert-success {
+      background: #d1fae5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+    }
+
+    .alert-error {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+
+    .alert-info {
+      background: #dbeafe;
+      color: #1e40af;
+      border: 1px solid #bfdbfe;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    /* Accordion */
+    .accordion-toggle {
+      cursor: pointer;
+      padding: 12px 0;
+      color: #667eea;
+      font-size: 14px;
+      user-select: none;
+    }
+
+    .accordion-content {
+      display: none;
+      padding-top: 16px;
+    }
+
+    .accordion-content.show {
+      display: block;
+    }
+
+    .info-box {
+      background: #fef3c7;
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 16px;
+    }
+
+    .info-box small {
+      color: #92400e;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container {
+        padding: 16px;
       }
 
-      body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-          "Helvetica Neue", Arial, sans-serif;
-        background: #f3f4f6;
-        color: #1f2937;
-      }
-
-      /* Login Page */
-      .login-container {
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      }
-
-      .login-card {
-        background: white;
-        border-radius: 16px;
-        padding: 40px;
-        width: 100%;
-        max-width: 400px;
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
-          0 10px 10px -5px rgba(0, 0, 0, 0.02);
-      }
-
-      .login-card h2 {
-        font-size: 28px;
-        margin-bottom: 8px;
-        color: #1f2937;
-      }
-
-      .login-card .subtitle {
-        color: #6b7280;
-        margin-bottom: 32px;
-        font-size: 14px;
-      }
-
-      /* Dashboard */
-      .dashboard-container {
-        display: none;
+      .grid-2,
+      .grid-3 {
+        grid-template-columns: 1fr;
       }
 
       .navbar {
-        background: white;
-        border-bottom: 1px solid #e5e7eb;
-        padding: 16px 32px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        position: sticky;
-        top: 0;
-        z-index: 100;
-      }
-
-      .navbar h1 {
-        font-size: 20px;
-        font-weight: 600;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
-
-      .navbar .domain-badge {
-        background: #e5e7eb;
-        padding: 6px 12px;
-        border-radius: 8px;
-        font-size: 12px;
-        font-family: monospace;
-      }
-
-      .logout-btn {
-        background: #ef4444;
-        color: white;
-        border: none;
-        padding: 8px 16px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 14px;
-      }
-
-      .logout-btn:hover {
-        background: #dc2626;
-      }
-
-      .container {
-        max-width: 1400px;
-        margin: 0 auto;
-        padding: 24px 32px;
-      }
-
-      /* Cards */
-      .card {
-        background: white;
-        border-radius: 12px;
-        margin-bottom: 24px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-      }
-
-      .card-header {
-        padding: 20px 24px;
-        border-bottom: 1px solid #e5e7eb;
-        background: #fafafa;
-      }
-
-      .card-header h3 {
-        font-size: 18px;
-        font-weight: 600;
-      }
-
-      .card-header p {
-        font-size: 13px;
-        color: #6b7280;
-        margin-top: 4px;
-      }
-
-      .card-body {
-        padding: 24px;
-      }
-
-      /* Form Elements */
-      .form-group {
-        margin-bottom: 20px;
-      }
-
-      .form-group label {
-        display: block;
-        font-size: 14px;
-        font-weight: 500;
-        margin-bottom: 6px;
-        color: #374151;
-      }
-
-      .form-group input,
-      .form-group select,
-      .form-group textarea {
-        width: 100%;
-        padding: 10px 12px;
-        border: 1px solid #d1d5db;
-        border-radius: 8px;
-        font-size: 14px;
-        transition: border-color 0.2s, box-shadow 0.2s;
-        font-family: monospace;
-      }
-
-      .form-group input:focus,
-      .form-group select:focus,
-      .form-group textarea:focus {
-        outline: none;
-        border-color: #667eea;
-        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-      }
-
-      /* Grid Layouts */
-      .grid-2 {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-      }
-
-      .grid-3 {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
-      }
-
-      /* Buttons */
-      .btn-primary {
-        background: #667eea;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 8px;
-        font-size: 14px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: background 0.2s;
-      }
-
-      .btn-primary:hover {
-        background: #5a67d8;
-      }
-
-      .btn-secondary {
-        background: #e5e7eb;
-        color: #374151;
-        border: none;
-        padding: 8px 16px;
-        border-radius: 8px;
-        font-size: 13px;
-        cursor: pointer;
-      }
-
-      .btn-danger {
-        background: #ef4444;
-        color: white;
-        border: none;
-        padding: 6px 12px;
-        border-radius: 6px;
-        font-size: 12px;
-        cursor: pointer;
-      }
-
-      .btn-success {
-        background: #10b981;
-        color: white;
-        border: none;
-        padding: 8px 16px;
-        border-radius: 8px;
-        cursor: pointer;
-      }
-
-      .btn-warning {
-        background: #f59e0b;
-        color: white;
-        border: none;
-        padding: 8px 16px;
-        border-radius: 8px;
-        cursor: pointer;
-      }
-
-      /* Sub-paths List */
-      .subpath-item {
-        background: #f9fafb;
-        border: 1px solid #e5e7eb;
-        border-radius: 8px;
-        margin-bottom: 12px;
-        overflow: hidden;
-      }
-
-      .subpath-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
         padding: 12px 16px;
-        cursor: pointer;
-        transition: background 0.2s;
       }
+    }
+  </style>
+</head>
 
-      .subpath-header:hover {
-        background: #f3f4f6;
-      }
+<body>
+  <!-- Login Page -->
+  <div id="loginPage" class="login-container">
+    <div class="login-card">
+      <h2>🔐 Admin Login</h2>
+      <p class="subtitle">Exness Affiliate System</p>
+      <div id="loginError" class="alert alert-error hidden"></div>
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" id="loginUsername" placeholder="Enter username" value="admin" />
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="loginPassword" placeholder="Enter password" />
+      </div>
+      <button class="btn-primary" onclick="handleLogin()" style="width: 100%">
+        Login
+      </button>
+    </div>
+  </div>
 
-      .subpath-path {
-        font-family: monospace;
-        font-weight: 600;
-        color: #667eea;
-      }
-
-      .subpath-actions {
-        display: flex;
-        gap: 8px;
-      }
-
-      .subpath-config {
-        padding: 16px;
-        border-top: 1px solid #e5e7eb;
-        background: white;
-        display: none;
-      }
-
-      .subpath-config.show {
-        display: block;
-      }
-
-      /* Analytics Table */
-      .analytics-table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-
-      .analytics-table th,
-      .analytics-table td {
-        padding: 12px;
-        text-align: left;
-        border-bottom: 1px solid #e5e7eb;
-      }
-
-      .analytics-table th {
-        background: #f9fafb;
-        font-weight: 600;
-        font-size: 13px;
-        color: #6b7280;
-      }
-
-      .analytics-table td {
-        font-size: 14px;
-      }
-
-      .click-count {
-        font-weight: 600;
-        color: #667eea;
-      }
-
-      /* Loading */
-      .loading {
-        text-align: center;
-        padding: 40px;
-        color: #6b7280;
-      }
-
-      .alert {
-        padding: 12px 16px;
-        border-radius: 8px;
-        margin-bottom: 16px;
-      }
-
-      .alert-success {
-        background: #d1fae5;
-        color: #065f46;
-        border: 1px solid #a7f3d0;
-      }
-
-      .alert-error {
-        background: #fee2e2;
-        color: #991b1b;
-        border: 1px solid #fecaca;
-      }
-
-      .alert-info {
-        background: #dbeafe;
-        color: #1e40af;
-        border: 1px solid #bfdbfe;
-      }
-
-      .hidden {
-        display: none;
-      }
-
-      /* Accordion */
-      .accordion-toggle {
-        cursor: pointer;
-        padding: 12px 0;
-        color: #667eea;
-        font-size: 14px;
-        user-select: none;
-      }
-
-      .accordion-content {
-        display: none;
-        padding-top: 16px;
-      }
-
-      .accordion-content.show {
-        display: block;
-      }
-
-      .info-box {
-        background: #fef3c7;
-        padding: 12px;
-        border-radius: 8px;
-        margin-top: 16px;
-      }
-
-      .info-box small {
-        color: #92400e;
-      }
-
-      /* Responsive */
-      @media (max-width: 768px) {
-        .container {
-          padding: 16px;
-        }
-        .grid-2,
-        .grid-3 {
-          grid-template-columns: 1fr;
-        }
-        .navbar {
-          padding: 12px 16px;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <!-- Login Page -->
-    <div id="loginPage" class="login-container">
-      <div class="login-card">
-        <h2>🔐 Admin Login</h2>
-        <p class="subtitle">Exness Affiliate System</p>
-        <div id="loginError" class="alert alert-error hidden"></div>
-        <div class="form-group">
-          <label>Username</label>
-          <input
-            type="text"
-            id="loginUsername"
-            placeholder="Enter username"
-            value="admin"
-          />
-        </div>
-        <div class="form-group">
-          <label>Password</label>
-          <input
-            type="password"
-            id="loginPassword"
-            placeholder="Enter password"
-          />
-        </div>
-        <button class="btn-primary" onclick="handleLogin()" style="width: 100%">
-          Login
-        </button>
+  <!-- Dashboard -->
+  <div id="dashboardPage" class="dashboard-container">
+    <div class="navbar">
+      <h1>📊 Exness Affiliate Admin</h1>
+      <div style="display: flex; align-items: center; gap: 16px">
+        <span class="domain-badge" id="currentDomain">loading...</span>
+        <button class="logout-btn" onclick="handleLogout()">Logout</button>
       </div>
     </div>
 
-    <!-- Dashboard -->
-    <div id="dashboardPage" class="dashboard-container">
-      <div class="navbar">
-        <h1>📊 Exness Affiliate Admin</h1>
-        <div style="display: flex; align-items: center; gap: 16px">
-          <span class="domain-badge" id="currentDomain">loading...</span>
-          <button class="logout-btn" onclick="handleLogout()">Logout</button>
+    <div class="container">
+      <div id="notification" class="hidden"></div>
+
+      <!-- Card 1: Domain Settings -->
+      <div class="card">
+        <div class="card-header">
+          <h3>🌐 Domain Settings</h3>
+          <p>Cấu hình chung cho domain hiện tại</p>
+        </div>
+        <div class="card-body">
+          <div class="grid-2">
+            <div class="form-group">
+              <label>Default Language</label>
+              <select id="defaultLanguage">
+                <option value="en">English</option>
+                <option value="vi">Vietnamese</option>
+                <option value="ar">Arabic (RTL)</option>
+                <option value="ja">Japanese</option>
+                <option value="th">Thai</option>
+                <option value="zh">Chinese</option>
+                <option value="id">Indonesian</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Bot Check Redirect URL</label>
+              <input type="text" id="botCheckRedirectUrl" placeholder="https://exness.com/after-bot-check" />
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="container">
-        <div id="notification" class="hidden"></div>
-
-        <!-- Card 1: Domain Settings -->
-        <div class="card">
-          <div class="card-header">
-            <h3>🌐 Domain Settings</h3>
-            <p>Cấu hình chung cho domain hiện tại</p>
+      <!-- Card 2: Affiliate Links -->
+      <div class="card">
+        <div class="card-header">
+          <h3>🔗 Affiliate Links</h3>
+          <p>Main link sẽ tự động fill vào các link trống bên dưới</p>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <label>📌 Main Register Link</label>
+            <input type="text" id="mainRegisterLink" placeholder="https://affiliate.exness.com/..."
+              oninput="fillEmptyLinks()" />
           </div>
-          <div class="card-body">
+          <div class="form-group">
+            <label>📱 App Download Link</label>
+            <input type="text" id="appDownloadLink" placeholder="https://exness.app/download" />
+          </div>
+
+          <div class="accordion-toggle" onclick="toggleAdvancedLinks()">
+            ▼ Advanced Links (click to expand)
+          </div>
+          <div id="advancedLinks" class="accordion-content">
             <div class="grid-2">
               <div class="form-group">
-                <label>Default Language</label>
-                <select id="defaultLanguage">
-                  <option value="en">English</option>
-                  <option value="vi">Vietnamese</option>
-                  <option value="ar">Arabic (RTL)</option>
-                  <option value="ja">Japanese</option>
-                  <option value="th">Thai</option>
-                  <option value="zh">Chinese</option>
-                  <option value="id">Indonesian</option>
-                </select>
+                <label>Sign In Link</label><input type="text" id="signInLink" />
               </div>
               <div class="form-group">
-                <label>Bot Check Redirect URL</label>
-                <input
-                  type="text"
-                  id="botCheckRedirectUrl"
-                  placeholder="https://exness.com/after-bot-check"
-                />
+                <label>Try Demo Link</label><input type="text" id="tryDemoLink" />
+              </div>
+              <div class="form-group">
+                <label>Live Chat Link</label><input type="text" id="liveChatLink" />
+              </div>
+              <div class="form-group">
+                <label>Trading Link</label><input type="text" id="tradingLink" />
+              </div>
+              <div class="form-group">
+                <label>Markets Link</label><input type="text" id="marketsLink" />
+              </div>
+              <div class="form-group">
+                <label>Platforms Link</label><input type="text" id="platformsLink" />
+              </div>
+              <div class="form-group">
+                <label>Tools Link</label><input type="text" id="toolsLink" />
+              </div>
+              <div class="form-group">
+                <label>Company Link</label><input type="text" id="companyLink" />
+              </div>
+              <div class="form-group">
+                <label>Partners Link</label><input type="text" id="partnersLink" />
+              </div>
+              <div class="form-group">
+                <label>MetaTrader 5 Link</label><input type="text" id="metatrader5Link" />
+              </div>
+              <div class="form-group">
+                <label>Exness Terminal Link</label><input type="text" id="exnessTerminalLink" />
+              </div>
+              <div class="form-group">
+                <label>Exness Trade App Link</label><input type="text" id="exnessTradeAppLink" />
+              </div>
+              <div class="form-group">
+                <label>Client Protection Link</label><input type="text" id="clientProtectionLink" />
+              </div>
+              <div class="form-group">
+                <label>Why Exness Link</label><input type="text" id="whyExnessLink" />
               </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- Card 2: Affiliate Links -->
-        <div class="card">
-          <div class="card-header">
-            <h3>🔗 Affiliate Links</h3>
-            <p>Main link sẽ tự động fill vào các link trống bên dưới</p>
-          </div>
-          <div class="card-body">
+      <!-- Card 3: Tracking & Analytics (GTM/GA4) -->
+      <div class="card">
+        <div class="card-header">
+          <h3>📈 Tracking & Analytics</h3>
+          <p>
+            Google Tag Manager & Google Analytics 4 - Thay đổi có hiệu lực
+            ngay
+          </p>
+        </div>
+        <div class="card-body">
+          <div class="grid-2">
             <div class="form-group">
-              <label>📌 Main Register Link</label>
-              <input
-                type="text"
-                id="mainRegisterLink"
-                placeholder="https://affiliate.exness.com/..."
-                oninput="fillEmptyLinks()"
-              />
+              <label>GTM Container ID</label>
+              <input type="text" id="gtmContainerId" placeholder="GTM-XXXXXXX" />
+              <small style="color: #6b7280">Ví dụ: GTM-ABC123</small>
             </div>
             <div class="form-group">
-              <label>📱 App Download Link</label>
-              <input
-                type="text"
-                id="appDownloadLink"
-                placeholder="https://exness.app/download"
-              />
-            </div>
-
-            <div class="accordion-toggle" onclick="toggleAdvancedLinks()">
-              ▼ Advanced Links (click to expand)
-            </div>
-            <div id="advancedLinks" class="accordion-content">
-              <div class="grid-2">
-                <div class="form-group">
-                  <label>Sign In Link</label
-                  ><input type="text" id="signInLink" />
-                </div>
-                <div class="form-group">
-                  <label>Try Demo Link</label
-                  ><input type="text" id="tryDemoLink" />
-                </div>
-                <div class="form-group">
-                  <label>Live Chat Link</label
-                  ><input type="text" id="liveChatLink" />
-                </div>
-                <div class="form-group">
-                  <label>Trading Link</label
-                  ><input type="text" id="tradingLink" />
-                </div>
-                <div class="form-group">
-                  <label>Markets Link</label
-                  ><input type="text" id="marketsLink" />
-                </div>
-                <div class="form-group">
-                  <label>Platforms Link</label
-                  ><input type="text" id="platformsLink" />
-                </div>
-                <div class="form-group">
-                  <label>Tools Link</label><input type="text" id="toolsLink" />
-                </div>
-                <div class="form-group">
-                  <label>Company Link</label
-                  ><input type="text" id="companyLink" />
-                </div>
-                <div class="form-group">
-                  <label>Partners Link</label
-                  ><input type="text" id="partnersLink" />
-                </div>
-                <div class="form-group">
-                  <label>MetaTrader 5 Link</label
-                  ><input type="text" id="metatrader5Link" />
-                </div>
-                <div class="form-group">
-                  <label>Exness Terminal Link</label
-                  ><input type="text" id="exnessTerminalLink" />
-                </div>
-                <div class="form-group">
-                  <label>Exness Trade App Link</label
-                  ><input type="text" id="exnessTradeAppLink" />
-                </div>
-                <div class="form-group">
-                  <label>Client Protection Link</label
-                  ><input type="text" id="clientProtectionLink" />
-                </div>
-                <div class="form-group">
-                  <label>Why Exness Link</label
-                  ><input type="text" id="whyExnessLink" />
-                </div>
-              </div>
+              <label>GA4 Measurement ID</label>
+              <input type="text" id="ga4MeasurementId" placeholder="G-XXXXXXXXXX" />
+              <small style="color: #6b7280">Ví dụ: G-ABC123XYZ</small>
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- Card 3: Tracking & Analytics (GTM/GA4) -->
-        <div class="card">
-          <div class="card-header">
-            <h3>📈 Tracking & Analytics</h3>
-            <p>
-              Google Tag Manager & Google Analytics 4 - Thay đổi có hiệu lực
-              ngay
-            </p>
-          </div>
-          <div class="card-body">
-            <div class="grid-2">
-              <div class="form-group">
-                <label>GTM Container ID</label>
-                <input
-                  type="text"
-                  id="gtmContainerId"
-                  placeholder="GTM-XXXXXXX"
-                />
-                <small style="color: #6b7280">Ví dụ: GTM-ABC123</small>
-              </div>
-              <div class="form-group">
-                <label>GA4 Measurement ID</label>
-                <input
-                  type="text"
-                  id="ga4MeasurementId"
-                  placeholder="G-XXXXXXXXXX"
-                />
-                <small style="color: #6b7280">Ví dụ: G-ABC123XYZ</small>
-              </div>
+      <!-- Card 4: Traffic Blocking (Basic) -->
+      <div class="card">
+        <div class="card-header">
+          <h3>🚫 Traffic Blocking - Basic</h3>
+          <p>Chặn traffic từ quốc gia hoặc IP không mong muốn</p>
+        </div>
+        <div class="card-body">
+          <div class="grid-2">
+            <div class="form-group">
+              <label>Blocked Countries (mã code, cách nhau bằng dấu phẩy)</label>
+              <input type="text" id="blockedCountries"
+                placeholder="RU, CY, BY, IR, KP, AU, IL, BZ, SC, VU, KY, UA, NG, BD" />
+              <small>Ví dụ: RU, CY, BY, AU, IL</small>
+            </div>
+            <div class="form-group">
+              <label>Blocked IPs (mỗi IP một dòng)</label>
+              <textarea id="blockedIPs" rows="3" placeholder="185.220.101.45&#10;185.220.101.34"></textarea>
+            </div>
+            <div class="form-group">
+              <label>Hard Block Action</label>
+              <select id="blockAction">
+                <option value="redirect">Redirect (302)</option>
+                <option value="403">Block (403 Forbidden)</option>
+                <option value="drop">Drop (444 No Response)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Hard Block Redirect URL</label>
+              <input type="text" id="blockRedirectUrl" placeholder="https://google.com" />
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- Card 4: Traffic Blocking (Basic) -->
-        <div class="card">
-          <div class="card-header">
-            <h3>🚫 Traffic Blocking - Basic</h3>
-            <p>Chặn traffic từ quốc gia hoặc IP không mong muốn</p>
-          </div>
-          <div class="card-body">
-            <div class="grid-2">
-              <div class="form-group">
-                <label
-                  >Blocked Countries (mã code, cách nhau bằng dấu phẩy)</label
-                >
-                <input
-                  type="text"
-                  id="blockedCountries"
-                  placeholder="RU, CY, BY, IR, KP, AU, IL, BZ, SC, VU, KY, UA, NG, BD"
-                />
-                <small>Ví dụ: RU, CY, BY, AU, IL</small>
-              </div>
-              <div class="form-group">
-                <label>Blocked IPs (mỗi IP một dòng)</label>
-                <textarea
-                  id="blockedIPs"
-                  rows="3"
-                  placeholder="185.220.101.45&#10;185.220.101.34"
-                ></textarea>
-              </div>
-              <div class="form-group">
-                <label>Hard Block Action</label>
-                <select id="blockAction">
-                  <option value="redirect">Redirect (302)</option>
-                  <option value="403">Block (403 Forbidden)</option>
-                  <option value="drop">Drop (444 No Response)</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Hard Block Redirect URL</label>
-                <input
-                  type="text"
-                  id="blockRedirectUrl"
-                  placeholder="https://google.com"
-                />
-              </div>
+      <!-- Card 5: Advanced Block Lists (CIDR, ASN, Bad Referrers) - MỚI -->
+      <div class="card">
+        <div class="card-header">
+          <h3>🛡️ Advanced Block Lists - Dual Interface</h3>
+          <p>CIDR ranges, ASN, Bad Referrers - Phát hiện bot và competitor</p>
+        </div>
+        <div class="card-body">
+          <div class="grid-2">
+            <div class="form-group">
+              <label>Blocked CIDR Ranges (mỗi CIDR một dòng)</label>
+              <textarea id="blockedCIDR" rows="6"
+                placeholder="3.0.0.0/8&#10;52.0.0.0/8&#10;34.0.0.0/8&#10;20.0.0.0/8&#10;188.166.0.0/16&#10;185.220.100.0/22"></textarea>
+              <small>Block toàn bộ dải IP của AWS, GCP, Azure, DigitalOcean,
+                Tor...</small>
             </div>
+            <div class="form-group">
+              <label>Blocked ASNs (mỗi ASN một dòng)</label>
+              <textarea id="blockedASNs" rows="6"
+                placeholder="AS16509&#10;AS15169&#10;AS8075&#10;AS14061&#10;AS63949&#10;AS24940"></textarea>
+              <small>Block theo Autonomous System Number (AWS, Google, Azure,
+                DigitalOcean...)</small>
+            </div>
+            <div class="form-group">
+              <label>Bad Referrers (mỗi domain một dòng)</label>
+              <textarea id="badReferrers" rows="4"
+                placeholder="xm.com&#10;icmarkets.com&#10;pepperstone.com&#10;fbs.com&#10;roboforex.com"></textarea>
+              <small>Competitor domains - click từ đây sẽ thấy blog.html</small>
+            </div>
+            <div class="form-group">
+              <label>Suspicious Action (IP nghi ngờ)</label>
+              <select id="suspiciousAction">
+                <option value="blog">
+                  Serve blog.html (an toàn - không affiliate)
+                </option>
+                <option value="redirect">Redirect to URL</option>
+                <option value="403">Block (403 Forbidden)</option>
+              </select>
+              <small>Hành động khi IP bị đánh dấu suspicious (VPN, proxy,
+                competitor...)</small>
+            </div>
+            <div class="form-group">
+              <label>Suspicious Redirect URL</label>
+              <input type="text" id="suspiciousRedirectUrl" placeholder="https://google.com" />
+              <small>Nếu chọn Redirect cho suspicious</small>
+            </div>
+          </div>
+          <div class="info-box">
+            <small>
+              ⚠️ <strong>Dual Interface hoạt động như sau:</strong><br />
+              • <strong>Hard Block</strong> (Tor, datacenter, static IP) →
+              Redirect/403/Drop<br />
+              • <strong>Suspicious</strong> (VPN, proxy, competitor country,
+              repeat visit, bad referrer) → Serve blog.html (không có
+              affiliate link)<br />
+              • <strong>Clean</strong> (User thật) → Serve index.html (React
+              app có affiliate link)
+            </small>
           </div>
         </div>
+      </div>
 
-        <!-- Card 5: Advanced Block Lists (CIDR, ASN, Bad Referrers) - MỚI -->
-        <div class="card">
-          <div class="card-header">
-            <h3>🛡️ Advanced Block Lists - Dual Interface</h3>
-            <p>CIDR ranges, ASN, Bad Referrers - Phát hiện bot và competitor</p>
-          </div>
-          <div class="card-body">
-            <div class="grid-2">
-              <div class="form-group">
-                <label>Blocked CIDR Ranges (mỗi CIDR một dòng)</label>
-                <textarea
-                  id="blockedCIDR"
-                  rows="6"
-                  placeholder="3.0.0.0/8&#10;52.0.0.0/8&#10;34.0.0.0/8&#10;20.0.0.0/8&#10;188.166.0.0/16&#10;185.220.100.0/22"
-                ></textarea>
-                <small
-                  >Block toàn bộ dải IP của AWS, GCP, Azure, DigitalOcean,
-                  Tor...</small
-                >
-              </div>
-              <div class="form-group">
-                <label>Blocked ASNs (mỗi ASN một dòng)</label>
-                <textarea
-                  id="blockedASNs"
-                  rows="6"
-                  placeholder="AS16509&#10;AS15169&#10;AS8075&#10;AS14061&#10;AS63949&#10;AS24940"
-                ></textarea>
-                <small
-                  >Block theo Autonomous System Number (AWS, Google, Azure,
-                  DigitalOcean...)</small
-                >
-              </div>
-              <div class="form-group">
-                <label>Bad Referrers (mỗi domain một dòng)</label>
-                <textarea
-                  id="badReferrers"
-                  rows="4"
-                  placeholder="xm.com&#10;icmarkets.com&#10;pepperstone.com&#10;fbs.com&#10;roboforex.com"
-                ></textarea>
-                <small
-                  >Competitor domains - click từ đây sẽ thấy blog.html</small
-                >
-              </div>
-              <div class="form-group">
-                <label>Suspicious Action (IP nghi ngờ)</label>
-                <select id="suspiciousAction">
-                  <option value="blog">
-                    Serve blog.html (an toàn - không affiliate)
-                  </option>
-                  <option value="redirect">Redirect to URL</option>
-                  <option value="403">Block (403 Forbidden)</option>
-                </select>
-                <small
-                  >Hành động khi IP bị đánh dấu suspicious (VPN, proxy,
-                  competitor...)</small
-                >
-              </div>
-              <div class="form-group">
-                <label>Suspicious Redirect URL</label>
-                <input
-                  type="text"
-                  id="suspiciousRedirectUrl"
-                  placeholder="https://google.com"
-                />
-                <small>Nếu chọn Redirect cho suspicious</small>
-              </div>
-            </div>
-            <div class="info-box">
-              <small>
-                ⚠️ <strong>Dual Interface hoạt động như sau:</strong><br />
-                • <strong>Hard Block</strong> (Tor, datacenter, static IP) →
-                Redirect/403/Drop<br />
-                • <strong>Suspicious</strong> (VPN, proxy, competitor country,
-                repeat visit, bad referrer) → Serve blog.html (không có
-                affiliate link)<br />
-                • <strong>Clean</strong> (User thật) → Serve index.html (React
-                app có affiliate link)
-              </small>
-            </div>
-          </div>
+      <!-- Card 6: Sub-Paths Management -->
+      <div class="card">
+        <div class="card-header">
+          <h3>📁 Sub-Paths (Campaigns)</h3>
+          <p>Mỗi sub-path = 1 campaign Google Ads riêng</p>
         </div>
-
-        <!-- Card 6: Sub-Paths Management -->
-        <div class="card">
-          <div class="card-header">
-            <h3>📁 Sub-Paths (Campaigns)</h3>
-            <p>Mỗi sub-path = 1 campaign Google Ads riêng</p>
-          </div>
-          <div class="card-body">
-            <div style="display: flex; gap: 12px; margin-bottom: 20px">
-              <input
-                type="text"
-                id="newSubPath"
-                placeholder="Tên sub-path mới (vd: crypto)"
-                style="flex: 1"
-              />
-              <button class="btn-primary" onclick="addSubPath()">
-                + Add Sub-Path
-              </button>
-            </div>
-            <div id="subPathsList">
-              <div class="loading">Loading sub-paths...</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Card 7: Save All -->
-        <div class="card">
-          <div class="card-body" style="text-align: right">
-            <button
-              class="btn-success"
-              onclick="saveAllConfig()"
-              style="padding: 12px 32px"
-            >
-              💾 Save All Changes
+        <div class="card-body">
+          <div style="display: flex; gap: 12px; margin-bottom: 20px">
+            <input type="text" id="newSubPath" placeholder="Tên sub-path mới (vd: crypto)" style="flex: 1" />
+            <button class="btn-primary" onclick="addSubPath()">
+              + Add Sub-Path
             </button>
           </div>
-        </div>
-
-        <!-- Card 8: Analytics -->
-        <div class="card">
-          <div class="card-header">
-            <h3>📊 Analytics</h3>
-            <p>Thống kê click theo route</p>
+          <div id="subPathsList">
+            <div class="loading">Loading sub-paths...</div>
           </div>
-          <div class="card-body">
-            <div
-              style="
+        </div>
+      </div>
+
+      <!-- Card 7: Save All -->
+      <div class="card">
+        <div class="card-body" style="text-align: right">
+          <button class="btn-success" onclick="saveAllConfig()" style="padding: 12px 32px">
+            💾 Save All Changes
+          </button>
+        </div>
+      </div>
+
+      <!-- Card 8: Analytics -->
+      <div class="card">
+        <div class="card-header">
+          <h3>📊 Analytics</h3>
+          <p>Thống kê click theo route</p>
+        </div>
+        <div class="card-body">
+          <div style="
                 display: flex;
                 justify-content: flex-end;
                 margin-bottom: 16px;
-              "
-            >
-              <button class="btn-secondary" onclick="loadAnalytics()">
-                🔄 Refresh
-              </button>
-            </div>
-            <div id="analyticsTable">
-              <div class="loading">Loading analytics...</div>
-            </div>
+              ">
+            <button class="btn-secondary" onclick="loadAnalytics()">
+              🔄 Refresh
+            </button>
+          </div>
+          <div id="analyticsTable">
+            <div class="loading">Loading analytics...</div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <script>
-      // State
-      let token = localStorage.getItem("admin_token");
-      let currentDomain = window.location.hostname;
-      let subPathsData = [];
-
-      // ==================== Helper Functions ====================
-      function showNotification(message, type = "success") {
-        const notif = document.getElementById("notification");
-        notif.className = `alert alert-${type}`;
-        notif.innerHTML = message;
-        notif.classList.remove("hidden");
-        setTimeout(() => {
-          notif.classList.add("hidden");
-        }, 3000);
+  <script>
+    // State
+    let token = localStorage.getItem("admin_token");
+    let currentDomain = window.location.hostname;
+    let subPathsData = [];
+    // Thêm vào sau khi DOM loaded
+    document.getElementById('loginPassword').addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        handleLogin();
       }
+    });
 
-      function getAuthHeader() {
-        return { Authorization: `Bearer ${token}` };
+    document.getElementById('loginUsername').addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        handleLogin();
       }
+    });
+    // ==================== Helper Functions ====================
+    function showNotification(message, type = "success") {
+      const notif = document.getElementById("notification");
+      notif.className = `alert alert-${type}`;
+      notif.innerHTML = message;
+      notif.classList.remove("hidden");
+      setTimeout(() => {
+        notif.classList.add("hidden");
+      }, 3000);
+    }
 
-      // ==================== Login ====================
-      async function handleLogin() {
-        const username = document.getElementById("loginUsername").value;
-        const password = document.getElementById("loginPassword").value;
-        const errorDiv = document.getElementById("loginError");
+    function getAuthHeader() {
+      return { Authorization: `Bearer ${token}` };
+    }
 
-        try {
-          const res = await fetch("/api/admin/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username, password }),
-          });
-          const data = await res.json();
+    // ==================== Login ====================
+    async function handleLogin() {
+      const username = document.getElementById("loginUsername").value;
+      const password = document.getElementById("loginPassword").value;
+      const errorDiv = document.getElementById("loginError");
 
-          if (data.success) {
-            token = data.token;
-            localStorage.setItem("admin_token", token);
-            await checkAuth();
-          } else {
-            errorDiv.classList.remove("hidden");
-            errorDiv.innerText = data.error || "Invalid credentials";
-          }
-        } catch (err) {
+      try {
+        const res = await fetch("/api/admin/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password }),
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          token = data.token;
+          localStorage.setItem("admin_token", token);
+          await checkAuth();
+        } else {
           errorDiv.classList.remove("hidden");
-          errorDiv.innerText = "Network error: Cannot connect to server";
+          errorDiv.innerText = data.error || "Invalid credentials";
         }
+      } catch (err) {
+        errorDiv.classList.remove("hidden");
+        errorDiv.innerText = "Network error: Cannot connect to server";
+      }
+    }
+
+    async function checkAuth() {
+      if (!token) {
+        showLoginPage();
+        return;
       }
 
-      async function checkAuth() {
-        if (!token) {
+      try {
+        const res = await fetch("/api/admin/status", {
+          headers: getAuthHeader(),
+        });
+
+        if (res.ok) {
+          await loadDashboard();
+          showDashboardPage();
+        } else {
+          localStorage.removeItem("admin_token");
           showLoginPage();
-          return;
         }
-
-        try {
-          const res = await fetch("/api/admin/status", {
-            headers: getAuthHeader(),
-          });
-
-          if (res.ok) {
-            await loadDashboard();
-            showDashboardPage();
-          } else {
-            localStorage.removeItem("admin_token");
-            showLoginPage();
-          }
-        } catch (err) {
-          showLoginPage();
-        }
-      }
-
-      function showLoginPage() {
-        document.getElementById("loginPage").style.display = "flex";
-        document.getElementById("dashboardPage").style.display = "none";
-      }
-
-      function showDashboardPage() {
-        document.getElementById("loginPage").style.display = "none";
-        document.getElementById("dashboardPage").style.display = "block";
-      }
-
-      function handleLogout() {
-        localStorage.removeItem("admin_token");
-        token = null;
+      } catch (err) {
         showLoginPage();
       }
+    }
 
-      // ==================== Load Dashboard Data ====================
-      async function loadDashboard() {
-        document.getElementById("currentDomain").innerText = currentDomain;
-        await loadDomainConfig();
-        await loadSubPaths();
-        await loadAnalytics();
+    function showLoginPage() {
+      document.getElementById("loginPage").style.display = "flex";
+      document.getElementById("dashboardPage").style.display = "none";
+    }
+
+    function showDashboardPage() {
+      document.getElementById("loginPage").style.display = "none";
+      document.getElementById("dashboardPage").style.display = "block";
+    }
+
+    function handleLogout() {
+      localStorage.removeItem("admin_token");
+      token = null;
+      showLoginPage();
+    }
+
+    // ==================== Load Dashboard Data ====================
+    async function loadDashboard() {
+      document.getElementById("currentDomain").innerText = currentDomain;
+      await loadDomainConfig();
+      await loadSubPaths();
+      await loadAnalytics();
+    }
+
+    async function loadDomainConfig() {
+      try {
+        const res = await fetch("/api/admin/current-domain", {
+          headers: getAuthHeader(),
+        });
+        const data = await res.json();
+        const cfg = data.config || {};
+
+        // Domain Settings
+        document.getElementById("defaultLanguage").value =
+          cfg.defaultLanguage || "en";
+        document.getElementById("botCheckRedirectUrl").value =
+          cfg.botCheckRedirectUrl || "";
+
+        // Main links
+        document.getElementById("mainRegisterLink").value =
+          cfg.registerLink || "";
+        document.getElementById("appDownloadLink").value =
+          cfg.appDownloadLink || "";
+
+        // Advanced links
+        document.getElementById("signInLink").value = cfg.signInLink || "";
+        document.getElementById("tryDemoLink").value = cfg.tryDemoLink || "";
+        document.getElementById("liveChatLink").value =
+          cfg.liveChatLink || "";
+        document.getElementById("tradingLink").value = cfg.tradingLink || "";
+        document.getElementById("marketsLink").value = cfg.marketsLink || "";
+        document.getElementById("platformsLink").value =
+          cfg.platformsLink || "";
+        document.getElementById("toolsLink").value = cfg.toolsLink || "";
+        document.getElementById("companyLink").value = cfg.companyLink || "";
+        document.getElementById("partnersLink").value =
+          cfg.partnersLink || "";
+        document.getElementById("metatrader5Link").value =
+          cfg.metatrader5Link || "";
+        document.getElementById("exnessTerminalLink").value =
+          cfg.exnessTerminalLink || "";
+        document.getElementById("exnessTradeAppLink").value =
+          cfg.exnessTradeAppLink || "";
+        document.getElementById("clientProtectionLink").value =
+          cfg.clientProtectionLink || "";
+        document.getElementById("whyExnessLink").value =
+          cfg.whyExnessLink || "";
+
+        // GTM/GA4
+        document.getElementById("gtmContainerId").value =
+          cfg.gtmContainerId || "";
+        document.getElementById("ga4MeasurementId").value =
+          cfg.ga4MeasurementId || "";
+
+        // Basic Blocking
+        document.getElementById("blockedCountries").value = (
+          cfg.blockedCountries || []
+        ).join(", ");
+        document.getElementById("blockedIPs").value = (
+          cfg.blockedIPs || []
+        ).join("\n");
+        document.getElementById("blockAction").value =
+          cfg.blockAction || "redirect";
+        document.getElementById("blockRedirectUrl").value =
+          cfg.blockRedirectUrl || "";
+
+        // Advanced Block Lists (MỚI)
+        document.getElementById("blockedCIDR").value = (
+          cfg.blockedCIDR || []
+        ).join("\n");
+        document.getElementById("blockedASNs").value = (
+          cfg.blockedASNs || []
+        ).join("\n");
+        document.getElementById("badReferrers").value = (
+          cfg.badReferrers || []
+        ).join("\n");
+        document.getElementById("suspiciousAction").value =
+          cfg.suspiciousAction || "blog";
+        document.getElementById("suspiciousRedirectUrl").value =
+          cfg.suspiciousRedirectUrl || "";
+      } catch (err) {
+        console.error("Failed to load domain config:", err);
+      }
+    }
+
+    async function loadSubPaths() {
+      try {
+        const res = await fetch("/api/admin/sub-pages", {
+          headers: getAuthHeader(),
+        });
+        const data = await res.json();
+        subPathsData = data.subPathConfigs || {};
+        renderSubPaths();
+      } catch (err) {
+        console.error("Failed to load sub-paths:", err);
+        document.getElementById("subPathsList").innerHTML =
+          '<div class="alert alert-error">Failed to load sub-paths</div>';
+      }
+    }
+
+    function renderSubPaths() {
+      const container = document.getElementById("subPathsList");
+      const subPaths = Object.keys(subPathsData);
+
+      if (subPaths.length === 0) {
+        container.innerHTML =
+          '<div style="color: #6b7280; text-align: center; padding: 20px;">No sub-paths configured yet. Add one above!</div>';
+        return;
       }
 
-      async function loadDomainConfig() {
-        try {
-          const res = await fetch("/api/admin/current-domain", {
-            headers: getAuthHeader(),
-          });
-          const data = await res.json();
-          const cfg = data.config || {};
-
-          // Domain Settings
-          document.getElementById("defaultLanguage").value =
-            cfg.defaultLanguage || "en";
-          document.getElementById("botCheckRedirectUrl").value =
-            cfg.botCheckRedirectUrl || "";
-
-          // Main links
-          document.getElementById("mainRegisterLink").value =
-            cfg.registerLink || "";
-          document.getElementById("appDownloadLink").value =
-            cfg.appDownloadLink || "";
-
-          // Advanced links
-          document.getElementById("signInLink").value = cfg.signInLink || "";
-          document.getElementById("tryDemoLink").value = cfg.tryDemoLink || "";
-          document.getElementById("liveChatLink").value =
-            cfg.liveChatLink || "";
-          document.getElementById("tradingLink").value = cfg.tradingLink || "";
-          document.getElementById("marketsLink").value = cfg.marketsLink || "";
-          document.getElementById("platformsLink").value =
-            cfg.platformsLink || "";
-          document.getElementById("toolsLink").value = cfg.toolsLink || "";
-          document.getElementById("companyLink").value = cfg.companyLink || "";
-          document.getElementById("partnersLink").value =
-            cfg.partnersLink || "";
-          document.getElementById("metatrader5Link").value =
-            cfg.metatrader5Link || "";
-          document.getElementById("exnessTerminalLink").value =
-            cfg.exnessTerminalLink || "";
-          document.getElementById("exnessTradeAppLink").value =
-            cfg.exnessTradeAppLink || "";
-          document.getElementById("clientProtectionLink").value =
-            cfg.clientProtectionLink || "";
-          document.getElementById("whyExnessLink").value =
-            cfg.whyExnessLink || "";
-
-          // GTM/GA4
-          document.getElementById("gtmContainerId").value =
-            cfg.gtmContainerId || "";
-          document.getElementById("ga4MeasurementId").value =
-            cfg.ga4MeasurementId || "";
-
-          // Basic Blocking
-          document.getElementById("blockedCountries").value = (
-            cfg.blockedCountries || []
-          ).join(", ");
-          document.getElementById("blockedIPs").value = (
-            cfg.blockedIPs || []
-          ).join("\n");
-          document.getElementById("blockAction").value =
-            cfg.blockAction || "redirect";
-          document.getElementById("blockRedirectUrl").value =
-            cfg.blockRedirectUrl || "";
-
-          // Advanced Block Lists (MỚI)
-          document.getElementById("blockedCIDR").value = (
-            cfg.blockedCIDR || []
-          ).join("\n");
-          document.getElementById("blockedASNs").value = (
-            cfg.blockedASNs || []
-          ).join("\n");
-          document.getElementById("badReferrers").value = (
-            cfg.badReferrers || []
-          ).join("\n");
-          document.getElementById("suspiciousAction").value =
-            cfg.suspiciousAction || "blog";
-          document.getElementById("suspiciousRedirectUrl").value =
-            cfg.suspiciousRedirectUrl || "";
-        } catch (err) {
-          console.error("Failed to load domain config:", err);
-        }
-      }
-
-      async function loadSubPaths() {
-        try {
-          const res = await fetch("/api/admin/sub-pages", {
-            headers: getAuthHeader(),
-          });
-          const data = await res.json();
-          subPathsData = data.subPathConfigs || {};
-          renderSubPaths();
-        } catch (err) {
-          console.error("Failed to load sub-paths:", err);
-          document.getElementById("subPathsList").innerHTML =
-            '<div class="alert alert-error">Failed to load sub-paths</div>';
-        }
-      }
-
-      function renderSubPaths() {
-        const container = document.getElementById("subPathsList");
-        const subPaths = Object.keys(subPathsData);
-
-        if (subPaths.length === 0) {
-          container.innerHTML =
-            '<div style="color: #6b7280; text-align: center; padding: 20px;">No sub-paths configured yet. Add one above!</div>';
-          return;
-        }
-
-        container.innerHTML = subPaths
-          .map(
-            (path) => `
+      container.innerHTML = subPaths
+        .map(
+          (path) => `
                 <div class="subpath-item" data-path="${path}">
                     <div class="subpath-header" onclick="toggleSubPathConfig('${path}')">
                         <span class="subpath-path">/${path}</span>
@@ -1016,290 +946,289 @@
                     </div>
                 </div>
             `
-          )
-          .join("");
+        )
+        .join("");
 
-        for (const [path, cfg] of Object.entries(subPathsData)) {
-          const langSelect = document.getElementById(`lang-${path}`);
-          const linkInput = document.getElementById(`link-${path}`);
-          const appLinkInput = document.getElementById(`applink-${path}`);
-          if (langSelect) langSelect.value = cfg.defaultLanguage || "en";
-          if (linkInput) linkInput.value = cfg.registerLink || "";
-          if (appLinkInput) appLinkInput.value = cfg.appDownloadLink || "";
-        }
+      for (const [path, cfg] of Object.entries(subPathsData)) {
+        const langSelect = document.getElementById(`lang-${path}`);
+        const linkInput = document.getElementById(`link-${path}`);
+        const appLinkInput = document.getElementById(`applink-${path}`);
+        if (langSelect) langSelect.value = cfg.defaultLanguage || "en";
+        if (linkInput) linkInput.value = cfg.registerLink || "";
+        if (appLinkInput) appLinkInput.value = cfg.appDownloadLink || "";
+      }
+    }
+
+    function toggleSubPathConfig(path) {
+      const el = document.getElementById(`config-${path}`);
+      el.classList.toggle("show");
+    }
+
+    async function addSubPath() {
+      const newPath = document
+        .getElementById("newSubPath")
+        .value.trim()
+        .toLowerCase();
+      if (!newPath) {
+        showNotification("Please enter a sub-path name", "error");
+        return;
       }
 
-      function toggleSubPathConfig(path) {
-        const el = document.getElementById(`config-${path}`);
-        el.classList.toggle("show");
-      }
-
-      async function addSubPath() {
-        const newPath = document
-          .getElementById("newSubPath")
-          .value.trim()
-          .toLowerCase();
-        if (!newPath) {
-          showNotification("Please enter a sub-path name", "error");
-          return;
-        }
-
-        try {
-          const res = await fetch("/api/admin/sub-pages", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              ...getAuthHeader(),
-            },
-            body: JSON.stringify({ path: newPath, config: {} }),
-          });
-
-          if (res.ok) {
-            showNotification(
-              `Sub-path /${newPath} added successfully!`,
-              "success"
-            );
-            document.getElementById("newSubPath").value = "";
-            setTimeout(async () => {
-              await loadSubPaths();
-            }, 1000);
-          } else {
-            const err = await res.json();
-            showNotification(err.error || "Failed to add sub-path", "error");
-          }
-        } catch (err) {
-          showNotification("Network error", "error");
-        }
-      }
-
-      async function saveSubPathConfig(path) {
-        const config = {
-          defaultLanguage: document.getElementById(`lang-${path}`).value,
-          registerLink: document.getElementById(`link-${path}`).value,
-          appDownloadLink: document.getElementById(`applink-${path}`).value,
-        };
-
-        try {
-          const res = await fetch(`/api/admin/sub-pages/${path}`, {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-              ...getAuthHeader(),
-            },
-            body: JSON.stringify(config),
-          });
-
-          if (res.ok) {
-            showNotification(`Config for /${path} saved!`, "success");
-            setTimeout(async () => {
-              await loadSubPaths();
-            }, 1000);
-          } else {
-            showNotification("Failed to save config", "error");
-          }
-        } catch (err) {
-          showNotification("Network error", "error");
-        }
-      }
-
-      async function deleteSubPath(path) {
-        if (!confirm(`Delete sub-path /${path}? This action cannot be undone.`))
-          return;
-
-        try {
-          const res = await fetch(`/api/admin/sub-pages/${path}`, {
-            method: "DELETE",
-            headers: getAuthHeader(),
-          });
-
-          if (res.ok) {
-            showNotification(`Sub-path /${path} deleted!`, "success");
-            setTimeout(async () => {
-              await loadSubPaths();
-            }, 1000);
-          } else {
-            showNotification("Failed to delete sub-path", "error");
-          }
-        } catch (err) {
-          showNotification("Network error", "error");
-        }
-      }
-
-      function fillEmptyLinks() {
-        const mainLink = document.getElementById("mainRegisterLink").value;
-        const advancedFields = [
-          "signInLink",
-          "tryDemoLink",
-          "liveChatLink",
-          "tradingLink",
-          "marketsLink",
-          "platformsLink",
-          "toolsLink",
-          "companyLink",
-          "partnersLink",
-          "metatrader5Link",
-          "exnessTerminalLink",
-          "exnessTradeAppLink",
-          "clientProtectionLink",
-          "whyExnessLink",
-        ];
-
-        advancedFields.forEach((field) => {
-          const input = document.getElementById(field);
-          if (input && !input.value) {
-            input.value = mainLink;
-          }
+      try {
+        const res = await fetch("/api/admin/sub-pages", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            ...getAuthHeader(),
+          },
+          body: JSON.stringify({ path: newPath, config: {} }),
         });
-      }
 
-      async function saveAllConfig() {
-        const config = {
-          defaultLanguage: document.getElementById("defaultLanguage").value,
-          botCheckRedirectUrl: document.getElementById("botCheckRedirectUrl")
-            .value,
-          registerLink: document.getElementById("mainRegisterLink").value,
-          signInLink: document.getElementById("signInLink").value,
-          tryDemoLink: document.getElementById("tryDemoLink").value,
-          liveChatLink: document.getElementById("liveChatLink").value,
-          tradingLink: document.getElementById("tradingLink").value,
-          marketsLink: document.getElementById("marketsLink").value,
-          platformsLink: document.getElementById("platformsLink").value,
-          toolsLink: document.getElementById("toolsLink").value,
-          companyLink: document.getElementById("companyLink").value,
-          partnersLink: document.getElementById("partnersLink").value,
-          metatrader5Link: document.getElementById("metatrader5Link").value,
-          exnessTerminalLink:
-            document.getElementById("exnessTerminalLink").value,
-          exnessTradeAppLink:
-            document.getElementById("exnessTradeAppLink").value,
-          clientProtectionLink: document.getElementById("clientProtectionLink")
-            .value,
-          whyExnessLink: document.getElementById("whyExnessLink").value,
-          appDownloadLink: document.getElementById("appDownloadLink").value,
-          gtmContainerId: document.getElementById("gtmContainerId").value,
-          ga4MeasurementId: document.getElementById("ga4MeasurementId").value,
-
-          // Basic Blocking
-          blockedCountries: document
-            .getElementById("blockedCountries")
-            .value.split(",")
-            .map((c) => c.trim().toUpperCase())
-            .filter(Boolean),
-          blockedIPs: document
-            .getElementById("blockedIPs")
-            .value.split("\n")
-            .map((ip) => ip.trim())
-            .filter(Boolean),
-          blockAction: document.getElementById("blockAction").value,
-          blockRedirectUrl: document.getElementById("blockRedirectUrl").value,
-
-          // Advanced Block Lists (MỚI)
-          blockedCIDR: document
-            .getElementById("blockedCIDR")
-            .value.split("\n")
-            .map((c) => c.trim())
-            .filter(Boolean),
-          blockedASNs: document
-            .getElementById("blockedASNs")
-            .value.split("\n")
-            .map((a) => a.trim().toUpperCase())
-            .filter(Boolean),
-          badReferrers: document
-            .getElementById("badReferrers")
-            .value.split("\n")
-            .map((r) => r.trim().toLowerCase())
-            .filter(Boolean),
-          suspiciousAction: document.getElementById("suspiciousAction").value,
-          suspiciousRedirectUrl: document.getElementById(
-            "suspiciousRedirectUrl"
-          ).value,
-
-          subPaths: Object.keys(subPathsData),
-          subPathConfigs: subPathsData,
-        };
-
-        try {
-          const res = await fetch(`/api/admin/domains/${currentDomain}`, {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-              ...getAuthHeader(),
-            },
-            body: JSON.stringify(config),
-          });
-
-          if (res.ok) {
-            showNotification(
-              "All configurations saved successfully!",
-              "success"
-            );
-            setTimeout(async () => {
-              await loadDomainConfig();
-            }, 1000);
-          } else {
-            showNotification("Failed to save configuration", "error");
-          }
-        } catch (err) {
-          showNotification("Network error", "error");
+        if (res.ok) {
+          showNotification(
+            `Sub-path /${newPath} added successfully!`,
+            "success"
+          );
+          document.getElementById("newSubPath").value = "";
+          setTimeout(async () => {
+            await loadSubPaths();
+          }, 1000);
+        } else {
+          const err = await res.json();
+          showNotification(err.error || "Failed to add sub-path", "error");
         }
+      } catch (err) {
+        showNotification("Network error", "error");
       }
+    }
 
-      async function loadAnalytics() {
-        try {
-          const res = await fetch("/api/admin/analytics", {
-            headers: getAuthHeader(),
-          });
-          const data = await res.json();
-          const clicks = data.clicks || {};
-          const routes = Object.keys(clicks);
+    async function saveSubPathConfig(path) {
+      const config = {
+        defaultLanguage: document.getElementById(`lang-${path}`).value,
+        registerLink: document.getElementById(`link-${path}`).value,
+        appDownloadLink: document.getElementById(`applink-${path}`).value,
+      };
 
-          if (routes.length === 0) {
-            document.getElementById("analyticsTable").innerHTML =
-              '<div style="color: #6b7280; text-align: center; padding: 20px;">No click data yet</div>';
-            return;
-          }
+      try {
+        const res = await fetch(`/api/admin/sub-pages/${path}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            ...getAuthHeader(),
+          },
+          body: JSON.stringify(config),
+        });
 
-          const tableHtml = `
+        if (res.ok) {
+          showNotification(`Config for /${path} saved!`, "success");
+          setTimeout(async () => {
+            await loadSubPaths();
+          }, 1000);
+        } else {
+          showNotification("Failed to save config", "error");
+        }
+      } catch (err) {
+        showNotification("Network error", "error");
+      }
+    }
+
+    async function deleteSubPath(path) {
+      if (!confirm(`Delete sub-path /${path}? This action cannot be undone.`))
+        return;
+
+      try {
+        const res = await fetch(`/api/admin/sub-pages/${path}`, {
+          method: "DELETE",
+          headers: getAuthHeader(),
+        });
+
+        if (res.ok) {
+          showNotification(`Sub-path /${path} deleted!`, "success");
+          setTimeout(async () => {
+            await loadSubPaths();
+          }, 1000);
+        } else {
+          showNotification("Failed to delete sub-path", "error");
+        }
+      } catch (err) {
+        showNotification("Network error", "error");
+      }
+    }
+
+    function fillEmptyLinks() {
+      const mainLink = document.getElementById("mainRegisterLink").value;
+      const advancedFields = [
+        "signInLink",
+        "tryDemoLink",
+        "liveChatLink",
+        "tradingLink",
+        "marketsLink",
+        "platformsLink",
+        "toolsLink",
+        "companyLink",
+        "partnersLink",
+        "metatrader5Link",
+        "exnessTerminalLink",
+        "exnessTradeAppLink",
+        "clientProtectionLink",
+        "whyExnessLink",
+      ];
+
+      advancedFields.forEach((field) => {
+        const input = document.getElementById(field);
+        if (input && !input.value) {
+          input.value = mainLink;
+        }
+      });
+    }
+
+    async function saveAllConfig() {
+      const config = {
+        defaultLanguage: document.getElementById("defaultLanguage").value,
+        botCheckRedirectUrl: document.getElementById("botCheckRedirectUrl")
+          .value,
+        registerLink: document.getElementById("mainRegisterLink").value,
+        signInLink: document.getElementById("signInLink").value,
+        tryDemoLink: document.getElementById("tryDemoLink").value,
+        liveChatLink: document.getElementById("liveChatLink").value,
+        tradingLink: document.getElementById("tradingLink").value,
+        marketsLink: document.getElementById("marketsLink").value,
+        platformsLink: document.getElementById("platformsLink").value,
+        toolsLink: document.getElementById("toolsLink").value,
+        companyLink: document.getElementById("companyLink").value,
+        partnersLink: document.getElementById("partnersLink").value,
+        metatrader5Link: document.getElementById("metatrader5Link").value,
+        exnessTerminalLink:
+          document.getElementById("exnessTerminalLink").value,
+        exnessTradeAppLink:
+          document.getElementById("exnessTradeAppLink").value,
+        clientProtectionLink: document.getElementById("clientProtectionLink")
+          .value,
+        whyExnessLink: document.getElementById("whyExnessLink").value,
+        appDownloadLink: document.getElementById("appDownloadLink").value,
+        gtmContainerId: document.getElementById("gtmContainerId").value,
+        ga4MeasurementId: document.getElementById("ga4MeasurementId").value,
+
+        // Basic Blocking
+        blockedCountries: document
+          .getElementById("blockedCountries")
+          .value.split(",")
+          .map((c) => c.trim().toUpperCase())
+          .filter(Boolean),
+        blockedIPs: document
+          .getElementById("blockedIPs")
+          .value.split("\n")
+          .map((ip) => ip.trim())
+          .filter(Boolean),
+        blockAction: document.getElementById("blockAction").value,
+        blockRedirectUrl: document.getElementById("blockRedirectUrl").value,
+
+        // Advanced Block Lists (MỚI)
+        blockedCIDR: document
+          .getElementById("blockedCIDR")
+          .value.split("\n")
+          .map((c) => c.trim())
+          .filter(Boolean),
+        blockedASNs: document
+          .getElementById("blockedASNs")
+          .value.split("\n")
+          .map((a) => a.trim().toUpperCase())
+          .filter(Boolean),
+        badReferrers: document
+          .getElementById("badReferrers")
+          .value.split("\n")
+          .map((r) => r.trim().toLowerCase())
+          .filter(Boolean),
+        suspiciousAction: document.getElementById("suspiciousAction").value,
+        suspiciousRedirectUrl: document.getElementById(
+          "suspiciousRedirectUrl"
+        ).value,
+
+        subPaths: Object.keys(subPathsData),
+        subPathConfigs: subPathsData,
+      };
+
+      try {
+        const res = await fetch(`/api/admin/domains/${currentDomain}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            ...getAuthHeader(),
+          },
+          body: JSON.stringify(config),
+        });
+
+        if (res.ok) {
+          showNotification(
+            "All configurations saved successfully!",
+            "success"
+          );
+          setTimeout(async () => {
+            await loadDomainConfig();
+          }, 1000);
+        } else {
+          showNotification("Failed to save configuration", "error");
+        }
+      } catch (err) {
+        showNotification("Network error", "error");
+      }
+    }
+
+    async function loadAnalytics() {
+      try {
+        const res = await fetch("/api/admin/analytics", {
+          headers: getAuthHeader(),
+        });
+        const data = await res.json();
+        const clicks = data.clicks || {};
+        const routes = Object.keys(clicks);
+
+        if (routes.length === 0) {
+          document.getElementById("analyticsTable").innerHTML =
+            '<div style="color: #6b7280; text-align: center; padding: 20px;">No click data yet</div>';
+          return;
+        }
+
+        const tableHtml = `
                     <table class="analytics-table">
                         <thead>
                             <tr><th>Route</th><th>Today</th><th>Total</th></tr>
                         </thead>
                         <tbody>
                             ${routes
-                              .map(
-                                (route) => `
+            .map(
+              (route) => `
                                 <tr>
                                     <td><code>${route}</code></td>
-                                    <td class="click-count">${
-                                      clicks[route][
-                                        new Date().toISOString().slice(0, 10)
-                                      ] || 0
-                                    }</td>
-                                    <td class="click-count">${
-                                      clicks[route].total || 0
-                                    }</td>
+                                    <td class="click-count">${clicks[route][
+                new Date().toISOString().slice(0, 10)
+                ] || 0
+                }</td>
+                                    <td class="click-count">${clicks[route].total || 0
+                }</td>
                                 </tr>
                             `
-                              )
-                              .join("")}
+            )
+            .join("")}
                         </tbody>
                     </table>
                 `;
-          document.getElementById("analyticsTable").innerHTML = tableHtml;
-        } catch (err) {
-          console.error("Failed to load analytics:", err);
-          document.getElementById("analyticsTable").innerHTML =
-            '<div class="alert alert-error">Failed to load analytics</div>';
-        }
+        document.getElementById("analyticsTable").innerHTML = tableHtml;
+      } catch (err) {
+        console.error("Failed to load analytics:", err);
+        document.getElementById("analyticsTable").innerHTML =
+          '<div class="alert alert-error">Failed to load analytics</div>';
       }
+    }
 
-      function toggleAdvancedLinks() {
-        const content = document.getElementById("advancedLinks");
-        content.classList.toggle("show");
-      }
+    function toggleAdvancedLinks() {
+      const content = document.getElementById("advancedLinks");
+      content.classList.toggle("show");
+    }
 
-      // ==================== Initialization ====================
-      checkAuth();
-    </script>
-  </body>
+    // ==================== Initialization ====================
+    checkAuth();
+  </script>
+</body>
+
 </html>

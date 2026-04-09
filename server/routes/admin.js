@@ -154,15 +154,19 @@ export function createAdminRouter() {
     if (isRateLimited(ip)) {
       return res.status(429).json({ success: false, error: "Too many login attempts" });
     }
-
+  
     const { username, password } = req.body || {};
-    if (username !== getAdminUser() || !verifyPassword(password)) {
+    const domain = req.domainHost; // ⭐ THÊM DÒNG NÀY - lấy domain từ request
+  
+    // ⭐ SỬA DÒNG NÀY - truyền thêm domain vào hàm
+    if (username !== getAdminUser(domain) || !verifyPassword(password, domain)) {
       consumeAttempt(ip);
       return res.status(401).json({ success: false, error: "Invalid credentials" });
     }
-
+  
     loginAttempts.delete(ip);
-    const token = signAdminToken({ username, role: "admin" });
+    // ⭐ SỬA DÒNG NÀY - gắn domain vào token
+    const token = signAdminToken({ username, role: "admin", domain });
     return res.json({ success: true, token });
   });
 

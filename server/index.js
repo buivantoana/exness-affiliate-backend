@@ -249,7 +249,7 @@ app.use((req, res, next) => {
   const mappedFolder = req.domainFolder;
   const domain = req.domainHost;
 
-  const staticPrefixes = ['/assets/', '/static/', '/fonts/', '/images/', '/media/', '/locales/'];
+  const staticPrefixes = ['/assets/', '/static/', '/fonts/', '/images/', '/media/', '/locales/','/blog.html'];
   const isStaticAsset = staticPrefixes.some(prefix => pathname.startsWith(prefix));
 
   if (isStaticAsset) {
