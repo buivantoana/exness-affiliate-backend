@@ -113,6 +113,7 @@ async function blockMiddleware(req, res, config) {
     return false;
   }
 
+  // TIER 1: HARD BLOCK
   if ((config.blockedIPs || []).includes(ip)) {
     await doBlock(res, config);
     return 'handled';
@@ -125,6 +126,7 @@ async function blockMiddleware(req, res, config) {
     }
   }
 
+  // TIER 2: BAD REFERRER
   if (pathname !== "/verify") {
     const referer = req.headers.referer || "";
     if (isBadReferrer(referer, config.badReferrers)) {
@@ -133,21 +135,36 @@ async function blockMiddleware(req, res, config) {
     }
   }
 
+  // TIER 3: IP INFO (Country, ASN, Proxy) - BỎ COMMENT
+  try {
+    const info = await getIPInfo(ip);
+    if (info) {
+      if ((config.blockedCountries || []).includes(info.countryCode)) {
+        await logSuspicious(ip, "blocked_country", info.countryCode);
+        return 'suspicious';
+      }
+      if (isASNBlocked(info.as, config.blockedASNs)) {
+        await logSuspicious(ip, "blocked_asn", info.as);
+        return 'suspicious';
+      }
+      if (info.proxy || info.hosting) {
+        await logSuspicious(ip, info.proxy ? "vpn_proxy" : "hosting");
+        return 'suspicious';
+      }
+    }
+  } catch (error) {
+    console.error("IP info API error:", error.message);
+  }
+
+  // TIER 4: REPEAT VISIT
   if (!isLocalIP(ip)) {
     try {
       const redis = await getRedisClient();
-      const visitKey = `visit:${ip}`;
-      const visits = await redis.incr(visitKey);
-
+      const visits = await redis.incr(`visit:${ip}`);
       if (visits === 1) {
-        await redis.expire(visitKey, 86400);
+        await redis.expire(`visit:${ip}`, 86400);
       }
-
-      if (pathname === "/verify") {
-        return false;
-      }
-
-      if (visits > 20) {
+      if (pathname !== "/verify" && visits > 20) {
         await logSuspicious(ip, "repeat_visit", `visits: ${visits}`);
         return 'suspicious';
       }
@@ -158,7 +175,6 @@ async function blockMiddleware(req, res, config) {
 
   return false;
 }
-
 // ==================== SERVE PAGE ====================
 
 async function fileExists(filePath) {
